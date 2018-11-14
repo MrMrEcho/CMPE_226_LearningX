@@ -19,24 +19,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 public class ThymeleafConfiguration implements WebMvcConfigurer {
 
-//    @Bean
-//    public SpringTemplateEngine templateEngine() {
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(thymeleafTemplateResolver());
-//        return templateEngine;
-//    }
-//
-//    @Bean
-//    public SpringResourceTemplateResolver thymeleafTemplateResolver() {
-//        SpringResourceTemplateResolver templateResolver
-//                = new SpringResourceTemplateResolver();
-//        templateResolver.setPrefix("/WEB-INF/views/");
-//        templateResolver.setSuffix(".html");
-//        templateResolver.setTemplateMode("HTML5");
-//        return templateResolver;
-//    }
-
-
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",
             "classpath:/static/", "classpath:/public/" };
@@ -91,23 +73,6 @@ public class ThymeleafConfiguration implements WebMvcConfigurer {
 
         return viewResolver;
     }
-
-
-
-//    @Bean
-//    public ViewResolver getXSLTViewResolver(){
-//
-//        XsltViewResolver xsltViewResolver = new XsltViewResolver();
-//        xsltViewResolver.setOrder(1);
-//        xsltViewResolver.setSourceKey("xmlSource");
-//
-//        xsltViewResolver.setViewClass(XsltView.class);
-//        xsltViewResolver.setViewNames(new String[] {"show"});
-//        xsltViewResolver.setPrefix("templates/");
-//        xsltViewResolver.setSuffix(".xsl");
-//
-//        return xsltViewResolver;
-//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
