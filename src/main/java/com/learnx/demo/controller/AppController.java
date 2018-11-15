@@ -1,20 +1,16 @@
-package com.learnx.demo;
+package com.learnx.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.learnx.demo.model.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.learnx.demo.Model.*;
 
 @Controller
 @RequestMapping("/")
@@ -45,7 +41,7 @@ public class AppController {
 //	     User user = userService.validateUser(login);
 
 //	    if (null != user) {
-        if(login.getUsername().equals("user")) {
+        if (login.getUsername().equals("user")) {
             mav = new ModelAndView("welcome");
             mav.addObject("username", login.getUsername());
         } else {
@@ -61,7 +57,6 @@ public class AppController {
         ModelAndView mav = new ModelAndView("logout");
         return mav;
     }
-
 
 
     //  ======================
@@ -91,8 +86,8 @@ public class AppController {
     public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("search_result");
         List<Course> list = new ArrayList<>();
-        list.add(new Course(1232,"2019 Fall","HTML 5 for beginner", "good!"));
-        list.add(new Course(4543,"2019 Spring","Java Spring", "good!"));
+        list.add(new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!"));
+        list.add(new Course(4543, "2019 Spring", "Java Spring", "good!"));
         mav.addObject("courselist", list);
         return mav;
     }
@@ -105,11 +100,11 @@ public class AppController {
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
     public ModelAndView courses(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("single_course");
-        Course c = new Course(1232,"2019 Fall","HTML 5 for beginner", "good!");
+        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
         mav.addObject("course", c);
         List<Question> list = new ArrayList<>();
-        list.add(new Question("Hi!","HiHi", "2019-04-03"));
-        list.add(new Question("Yo!","YoYo", "2019-03-03"));
+        list.add(new Question("Hi!", "HiHi", "2019-04-03"));
+        list.add(new Question("Yo!", "YoYo", "2019-03-03"));
         mav.addObject("questionlist", list);
         return mav;
     }
@@ -122,9 +117,9 @@ public class AppController {
     public ModelAndView getreviews(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("course_review");
         List<Rate> list = new ArrayList<>();
-        list.add(new Rate((int)Math.round(3.4*20), 3.4,"2019-04-03", "Tom"));
-        list.add(new Rate((int)Math.round(4.5*20), 4.5,"2019-03-03", "Mary"));
-        Course c = new Course(1232,"2019 Fall","HTML 5 for beginner", "good!");
+        list.add(new Rate((int) Math.round(3.4 * 20), 3.4, "2019-04-03", "Tom"));
+        list.add(new Rate((int) Math.round(4.5 * 20), 4.5, "2019-03-03", "Mary"));
+        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
         mav.addObject("reviewlist", list);
         mav.addObject("course", c);
         return mav;
@@ -138,9 +133,9 @@ public class AppController {
     public ModelAndView gethomework(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("course_homework");
         List<Homework> list = new ArrayList<>();
-        list.add(new Homework("Project1","2019-04-03"));
-        list.add(new Homework("Project2","2019-03-03"));
-        Course c = new Course(1232,"2019 Fall","HTML 5 for beginner", "good!");
+        list.add(new Homework("Project1", "2019-04-03"));
+        list.add(new Homework("Project2", "2019-03-03"));
+        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
         mav.addObject("homeworklist", list);
         mav.addObject("course", c);
         return mav;
