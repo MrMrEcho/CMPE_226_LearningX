@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LearningX</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+
+<body>
+<!-- Header section -->
+  <header class="header-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3">
+          			<h2>Learning X</h2>
+				</div>
+				<div class="col-lg-9 col-md-9">
+					<a th:href="@{/login}" class="site-btn header-btn" id = "account">Login</a>
+					<nav class="main-menu">
+						<ul>
+							<li><a th:href="@{/}">Home</a></li>
+							<li><a th:href="@{/courses}">Courses</a></li>
+							<li><a href="#">About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+<!-- Header section end -->
+
+<p id="read" style="color:white;">C Paragraph</p>
+
+<script th:src="@{/js/myScript.js}"></script>
+<script  th:inline="javascript">
+    var cookieuser = getCookie("username");
+
+    document.getElementById("read").innerHTML = cookieuser;
+
+    var link = document.getElementById("account");
+    if(cookieuser != ""){
+        link.innerHTML = "Myaccount: " + cookieuser;
+        link.setAttribute('href', "logout");
+    } else {
+        link.innerHTML = "Login";
+        link.setAttribute('href', "login");
+    }
+</script>
+
+<!-- search section -->
+<section class="login-section">
+  <div class="container center">
+      <div class="row">
+        <div class="col-md-10  offset-md-1">
+          <!-- search form -->
+          <form id="searchform" action="search" method="post" >
+            <input type="text" name="name" placeholder="Enter course" required>
+            <select name="type">
+              <option value="title">title</option>
+              <option value="series">series</option>
+              <option value="category">category</option>
+            </select>
+            <button class="site-btn">Search Course</button>
+          </form>
+        </div>
+      </div>
+  </div>
+</section>
+<!-- search section end -->
+
+
+
+
+	<!-- single course section -->
+	<section class="single-course spad pb-0">
+		<div class="container">
+			<div class="course-meta-area">
+				<div class="row">
+					<div class="col-lg-10 offset-lg-1">
+						<div class="course-note">Featured Course</div>
+						<h3 th:text="${course.coursename}"></h3>
+						<div class="course-metas">
+<!-- 							<div class="course-meta">
+								<div class="course-author">
+									<h6>Teacher</h6>
+									<p>William Parker, <span>Developer</span></p>
+								</div>
+							</div>
+							<div class="course-meta">
+								<div class="cm-info">
+									<h6>Category</h6>
+									<p>Development</p>
+								</div>
+							</div> -->
+ 							<div class="course-meta">
+								<div class="cm-info">
+									<h6>ID</h6>
+									<p th:text="${course.ID}"></p>
+								</div>
+							</div> 
+							<div class="course-meta">
+								<div class="cm-info">
+									<h6>Session</h6>
+									<p th:text="${course.Session}"></p>
+								</div>
+							</div>
+						</div>	
+						<div class="course-meta">
+						<h5 align = "center" style="color:#878787;"> Homework</h5>
+							<table>
+								<tr th:if="${homeworklist.empty}">
+									<td colspan="2"> No Questions Available </td>
+								</tr>
+
+								<tr>
+									<th>Contents</th>
+									<th>Due date</th>
+								</tr>
+
+								<tr th:each="h : ${homeworklist}">
+									<td><span th:text="${h.contents}"> Course </span></td>
+									<td><span th:text="${h.due}"> Teacher </span></td>
+								</tr>
+							</table>
+						</div>				
+					</div>
+				</div>			
+			</div>
+		</div>
+	</section>
+</body>
+</html>

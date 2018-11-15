@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sign up</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<body>
+<!-- search section -->
+<section class="login-section">
+  <div class="container center">
+        <h2>Sign up</h2>
+        <br>
+        <form id="signupForm" action="#" th:object="${user}" th:action="@{/registerProcess}"  method="post">
+        <table align ="center">
+        <tr>
+            <td>
+                <label path="username">Username: </label>
+            </td>
+            <td>
+                <input path="username" name="username" id="username" th:value="*{username}" required = "required"/>
+            </td>
+		</tr>
+		<tr>
+			<td>
+                 <label path="password">Password: </label>
+            </td>
+             <td>
+                <input type="password"  path="password" name="password" id="password" th:value="*{password}"  required = "required"/>
+            </td>
+		</tr>
+		<tr>
+		 	<td>
+                <label path="email">Email: </label>
+            </td>
+            <td>
+                <input path="email" name="email" id="email" th:value="*{email}"   required = "required"/>
+            </td>
+		</tr>
+		<tr>
+		    <td>
+        		<label path= "type">Type: </label>
+            </td>
+            <td>
+                <input type="radio"  path= "type" name="student" th:field="*{type}" th:value="student"  checked = "checked"> student </input>
+                <input type="radio"  path= "type" name="instructor" th:field="*{type}" th:value="instructor" > instructor </input>
+                <input type="radio"  path= "type" name="institute" th:field="*{type}" th:value="institute" > institute </input>
+            </td>
+		</tr>
+        </table>
+        <br>
+        <button id="register" name="register" class="site-btn">Register</button>
+         <br><br>
+         <a th:href="@{/}">Home</a>
+         </form>
+  </div>
+</section>
+</body>
+</html>
