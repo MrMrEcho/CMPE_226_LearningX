@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Logout</title>
+  <title>Logout</title>
 </head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
@@ -9,11 +9,11 @@
 <!-- search section -->
 <section class="login-section">
   <div class="container center">
-        <h2>Logout</h2>
-        <form th:action="@{/}">
-        		<button class="site-btn" onclick= "eraseCookie('username')">Logout</button>
-        </form>
-        <script th:src="@{/js/myScript.js}"></script>
+    <h2>Logout</h2>
+    <form th:action="@{/}">
+      <button class="site-btn" onclick="eraseCookie('username')">Logout</button>
+    </form>
+    <script th:src="@{/js/myScript.js}"></script>
   </div>
 </section>
 
