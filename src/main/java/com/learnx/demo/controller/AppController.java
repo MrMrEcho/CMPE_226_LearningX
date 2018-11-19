@@ -75,7 +75,7 @@ public class AppController {
         return mav;
     }
 
-    @RequestMapping(value = "/signupProcess", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
     public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response,
                                 @ModelAttribute("user") User user) {
         User newUser = userService.create(user);
