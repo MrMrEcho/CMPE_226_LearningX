@@ -42,20 +42,16 @@ public class AppController {
     public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
                                      @ModelAttribute("login") Login login) {
         ModelAndView mav = null;
-
-//	     User user = userService.validateUser(login);
-
-//	    if (null != user) {
-        if (login.getUsername().equals("user")) {
-            mav = new ModelAndView("welcome");
-            mav.addObject("username", login.getUsername());
-        } else {
+        User user = userService.validate(login);
+        if(user == null){
             mav = new ModelAndView("login");
             mav.addObject("message", "Username or Password is wrong!!");
+        } else{
+            mav = new ModelAndView("welcome");
+            mav.addObject("username", login.getUsername());
         }
         return mav;
     }
-
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView showLogout(HttpServletRequest request, HttpServletResponse response) {
