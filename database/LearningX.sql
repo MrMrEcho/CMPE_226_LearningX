@@ -6,6 +6,8 @@ use LearningX;
     (
     User_name		char(10),
 	User_password	varchar(50),
+	User_type	varchar(10),
+	Email	varchar(50),
     primary key (User_name)
 
     );

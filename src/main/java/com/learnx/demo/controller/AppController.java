@@ -1,6 +1,8 @@
 package com.learnx.demo.controller;
 
 import com.learnx.demo.model.*;
+import com.learnx.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class AppController {
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView showIndex(HttpServletRequest request, HttpServletResponse response) {
@@ -73,8 +78,11 @@ public class AppController {
     @RequestMapping(value = "/signupProcess", method = RequestMethod.POST)
     public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response,
                                 @ModelAttribute("user") User user) {
-        //	  userService.register(user);
-        return new ModelAndView("welcome", "username", user.getUsername());
+        User newUser = userService.create(user);
+        if(newUser == null){
+            throw new RuntimeException("error when signup");
+        }
+        return new ModelAndView("welcome", "username", newUser.getUsername());
     }
 
 
