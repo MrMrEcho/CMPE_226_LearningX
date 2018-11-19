@@ -2,6 +2,13 @@ drop database if exists LearningX;
 create database LearningX;
 use LearningX;
 
+    create table AppUser
+    (
+    User_name		char(10),
+	User_password	varchar(50),
+    primary key (User_name)
+
+    );
 
     create table Institute
     (
