@@ -95,7 +95,6 @@ use LearningX;
         
     );
     
-    drop table homeworkexam;
     
 	create table HomeworkExam
     (
@@ -135,3 +134,46 @@ use LearningX;
         REFERENCES Instructor (Instructor_id)
         ON DELETE CASCADE
 );
+
+	create table Rate(
+    
+    Course_id		char(10),
+    Student_id		char(10),
+    Rate		int,
+    Date		date,
+    primary key(Course_id,Student_id),
+	foreign key(Course_id) references Course(Course_id) on delete cascade,
+    foreign key(Student_id) references Student(Student_id) on delete cascade
+    );
+    
+create table Enroll(
+    
+    Course_id		char(10),
+    Student_id		char(10),
+
+    primary key(Course_id,Student_id),
+	foreign key(Course_id) references Course(Course_id) on delete cascade,
+    foreign key(Student_id) references Student(Student_id) on delete cascade
+    );
+    
+    
+
+create table Question
+	(
+    
+    Question_id		char(10),
+    Course_id		char(10),
+    Student_id		char(10),
+    Instructor_id	char(10),
+    Title		varchar(50),
+	 Content		varchar(280),
+	 Post_date		date,
+     Reply		varchar(840),
+     Reply_date		date,
+	 primary key (Course_id,Question_id),
+	 foreign key(Course_id) references Course(Course_id) on delete cascade,
+	 foreign key(Student_id) references Student(Student_id),
+	 foreign key(Instructor_id) references Instructor(Instructor_id)
+
+
+	);
