@@ -5,10 +5,10 @@
 DROP TABLE IF EXISTS AppUser;
 CREATE TABLE AppUser
 (
-    User_name char(10),
-    User_password varchar(50),
-    User_type varchar(10),
-    Email varchar(50),
+    User_name VARCHAR(64) NOT NULL,
+    User_password VARCHAR(128) NOT NULL,
+    User_type VARCHAR(10) NOT NULL,
+    Email VARCHAR(256) NOT NULL,
     PRIMARY KEY (User_name)
 );
 
