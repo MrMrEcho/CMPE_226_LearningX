@@ -3,49 +3,73 @@ package com.learnx.demo.dao;
 import com.learnx.demo.model.Login;
 import com.learnx.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Component("userDAO")
+@Repository
+//@Component("userDAO")
 public class UserDAO {
 
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    private EntityManager entityManager;
+
+    @Transactional
     public User save(User user) {
         if(user == null) return null;
-        String sql = "INSERT INTO AppUser (User_name, User_password, User_type, Email) VALUES (?, ?, ?, ?)";
-        Connection conn = null;
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
-            ps.setString(3, user.getType());
-            ps.setString(4, user.getEmail());
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                }
-            }
+
+        String sql = "INSERT INTO AppUser (User_name, User_password, User_type, Email) " +
+                //"VALUES (?, ?, ?, ?)";
+                "VALUES (:User_name, :User_password, :User_type, :Email)";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("User_name", user.getUsername()).
+                setParameter("User_password", user.getPassword()).
+                setParameter("User_type", user.getType()).
+                setParameter("Email", user.getEmail());
+//        query.setParameter(1, user.getUsername()).
+//                setParameter(2, user.getPassword()).
+//                setParameter(3, user.getType()).
+//                setParameter(4, user.getEmail());
+        int nUpdate = query.executeUpdate();
+
+        if (nUpdate == 1) {
+            return user;
+        } else {
+            return null;
         }
-        return user;
+
+//        String sql = "INSERT INTO AppUser (User_name, User_password, User_type, Email) VALUES (?, ?, ?, ?)";
+//        Connection conn = null;
+//        try {
+//            conn = dataSource.getConnection();
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setString(1, user.getUsername());
+//            ps.setString(2, user.getPassword());
+//            ps.setString(3, user.getType());
+//            ps.setString(4, user.getEmail());
+//            ps.executeUpdate();
+//            ps.close();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            if (conn != null) {
+//                try {
+//                    conn.close();
+//                } catch (SQLException e) {
+//                }
+//            }
+//        }
+//        return user;
     }
 
     public User validate(Login login) {

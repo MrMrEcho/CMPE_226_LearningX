@@ -33,5 +33,5 @@ public class User {
     // FIXME: email length only 50?
     @Column(name = "Email", length = 256, nullable = false)
     private String email;
-    
+
 }
