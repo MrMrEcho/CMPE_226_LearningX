@@ -143,23 +143,18 @@ create table Enroll(
     foreign key(Student_id) references Student(Student_id) on delete cascade
     );
     
-drop table question;
-
+    
 create table Question
 	(
     
     Question_id		char(10),
     Course_id		char(10),
-	Student_id		char(10),
-	Instructor_id	char(10),
 
 	primary key (Course_id,Question_id),
-	foreign key(Course_id) references Course(Course_id) on delete cascade,
-	foreign key(Student_id) references Student(Student_id) on delete cascade,
-	foreign key(Instructor_id) references Instructor(Instructor_id) on delete cascade
-
+	foreign key(Course_id) references Course(Course_id) on delete cascade
 
 	);
+    
     
     create table Question_StudentAsk
     (
@@ -171,8 +166,8 @@ create table Question
 	 Content		varchar(280),
 	 Post_date		date,
      primary key (Course_id,Student_id,Question_id),
-	 foreign key(Course_id,Question_id) references Question(Course_id,Question_id) ,
-	 foreign key(Student_id) references Student(Student_id) 
+	 foreign key(Course_id,Question_id) references Question(Course_id,Question_id) on delete cascade,
+	 foreign key(Student_id) references Student(Student_id) on delete cascade
     );
     
 	create table Question_InstructorReply
@@ -184,6 +179,6 @@ create table Question
 	 Reply		varchar(840),
 	 Reply_date		date,
      primary key (Course_id,Instructor_id,Question_id),
-	 foreign key(Course_id,Question_id) references Question(Course_id,Question_id) ,
-	 foreign key(Instructor_id) references Instructor(Instructor_id)
+	 foreign key(Course_id,Question_id) references Question(Course_id,Question_id) on delete cascade,
+	 foreign key(Instructor_id) references Instructor(Instructor_id) on delete cascade
     );
