@@ -20,22 +20,6 @@ create table AppUser
     primary key (id)
 );
 
-create or replace view Student
-as
-select * from AppUser where appRole=0;
-
-create or replace view Instructor
-as
-select * from AppUser where appRole=1;
-
-create or replace view Institute
-as
-select * from AppUser where appRole=2;
-
-create or replace view AdminUser
-as
-select * from AppUser where appRole=3;
-
 create table Course
 (
     id              int auto_increment,
@@ -118,13 +102,6 @@ create table Rating
     on delete cascade
 );
 
-
-create or replace view AverageRating
-as
-select C.id as id, C.title as title, avg(R.rating) as rating, count(distinct R.studentId) as count
-from Course C natural join Rating R
-group by C.id;
-
 create table Material
 (
     id          int auto_increment,
@@ -154,31 +131,20 @@ create table Homework
 
 create table Submission
 (
-    userId      int,
+    studentId      int,
     homeworkId  int,
     answer      varchar(256) not null,
     grade       int,
     isGraded    boolean default false,
 
-    primary key (userId, homeworkId),
+    primary key (studentId, homeworkId),
 
-    foreign key (userId) references AppUser(id)
+    foreign key (studentId) references AppUser(id)
     on delete cascade,
 
     foreign key (homeworkId) references Homework(id)
     on delete cascade
 );
-
---delimiter $$
---create trigger AfterSubmissionGraded
---    after update on Submission
---    for each row
---begin
---    if NEW.isGraded and isExam(NEW.homeworkId) and NEW.grade >= 60 then
---        setCompleted(NEW.userId, getCourseIdByHomeworkId(NEW.homeworkId));
---    end if;
---end $$
---delimiter;
 
 create table Discussion
 (
@@ -195,3 +161,72 @@ create table Discussion
     foreign key (courseId) references Course(id)
     on delete cascade
 );
+
+-- Create Views
+create or replace view Student
+as
+select * from AppUser where appRole=0;
+
+create or replace view Instructor
+as
+select * from AppUser where appRole=1;
+
+create or replace view Institute
+as
+select * from AppUser where appRole=2;
+
+create or replace view AdminUser
+as
+select * from AppUser where appRole=3;
+
+create or replace view AverageRating
+as
+select C.id as id, C.title as title, avg(R.rating) as rating, count(distinct R.studentId) as count
+from Course C natural join Rating R
+group by C.id;
+
+-- Create stored procedures
+delimiter $$;
+create function `isExam` (homeworkId int)
+return boolean
+begin
+	set @homeworkType = (
+		select type from Homework H where H.homeworkId = homeworkId
+    );
+    if homeworkType = 1 then
+		return true;
+    else
+		return false;
+    end if;
+end $$ delimiter ;
+
+delimiter $$;
+create function `getCourseIdByHomeworkId` (homeworkId int)
+return int
+begin
+	set @courseId = (
+		select courseId from Homework where id = homeworkId
+    );
+    return courseId;
+end $$ delimiter ;
+
+delimiter $$
+create procedure `completeEnroll` (studentId int, courseId int)
+begin
+	update Enroll E join Course
+    set isComplete = true
+    where E.studentId = studentId and E.courseId = courseId;
+end $$ delimiter ;
+
+
+-- Create triggers
+delimiter $$
+create trigger `AfterSubmissionGraded`
+    after update on Submission
+    for each row
+begin
+    if NEW.isGraded and NEW.grade >= 60 and isExam(NEW.homeworkId) then
+        call completeEnroll(NEW.studentId, getCourseIdByHomeworkId(NEW.homeworkId));
+    end if;
+end $$ delimiter ;
+
