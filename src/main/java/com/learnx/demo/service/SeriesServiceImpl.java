@@ -2,10 +2,12 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.model.Course;
 import com.learnx.demo.model.Series;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class SeriesServiceImpl implements SeriesService {
+@Service
+public class SeriesServiceImpl<Service> implements SeriesService {
     @Override
     public List<Course> listCoursesBySeriesId(long seriedId) {
         return null;
