@@ -24,6 +24,11 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
+    public List<Series> listSeriesByStudentId(long studentId) {
+        return null;
+    }
+
+    @Override
     public Series create(Series newSeries) {
         return null;
     }
