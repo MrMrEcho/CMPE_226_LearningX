@@ -13,8 +13,9 @@ public class AppUser {
     private long id;
     private String username;
     private String password;
+    private Role role;
 
-    public static enum Role{
+    public enum Role {
         STUDENT, INSTRUCTOR, INSTITUTE, ADMIN
     }
 }
