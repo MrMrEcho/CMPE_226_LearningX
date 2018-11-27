@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SeriesServiceImpl<Service> implements SeriesService {
+public class SeriesServiceImpl implements SeriesService {
     @Override
     public List<Course> listCoursesBySeriesId(long seriedId) {
         return null;

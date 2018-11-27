@@ -1,6 +1,6 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Rate;
+import com.learnx.demo.model.Rating;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,22 +8,22 @@ import java.util.List;
 @Service
 public class RatingServiceImpl implements RatingService {
     @Override
-    public Rate create(Rate newRate) {
+    public Rating create(Rating newRate) {
         return null;
     }
 
     @Override
-    public Rate update(Rate rate) {
+    public Rating update(Rating rate) {
         return null;
     }
 
     @Override
-    public List<Rate> listRateByCourseId(long courseId) {
+    public List<Rating> listRatingsByCourseId(long courseId) {
         return null;
     }
 
     @Override
-    public int getAverageRateByCourseId(long courseId) {
+    public int getAverageRatingByCourseId(long courseId) {
         return 0;
     }
 }

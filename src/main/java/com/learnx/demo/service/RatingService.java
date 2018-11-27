@@ -1,13 +1,13 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Rate;
+import com.learnx.demo.model.Rating;
 
 import java.util.List;
 
 public interface RatingService {
 
-    Rate create(Rate newRate);
-    Rate update(Rate rate);
-    List<Rate> listRateByCourseId(long courseId);
-    int getAverageRateByCourseId(long courseId);
+    Rating create(Rating newRate);
+    Rating update(Rating rate);
+    List<Rating> listRatingsByCourseId(long courseId);
+    int getAverageRatingByCourseId(long courseId);
 }
