@@ -3,6 +3,8 @@ package com.learnx.demo.service;
 import com.learnx.demo.model.AppUser;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppUserServiceImpl implements AppUserService {
     @Override
@@ -17,6 +19,11 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser getUserById(long userId) {
+        return null;
+    }
+
+    @Override
+    public List<AppUser> listInstructorsByInstituteId(long instituteId) {
         return null;
     }
 }
