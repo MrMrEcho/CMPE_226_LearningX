@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS AppUser;
+drop table if exists Course;
+drop table if exists AppUser;
+
 CREATE TABLE AppUser
 (
     id          int auto_increment  primary key,
@@ -23,5 +25,14 @@ create or replace view AdminUser
 as
 select * from AppUser where appRole=3;
 
+create table Course
+(
+    id              int auto_increment  primary key,
+    title           varchar(128) NOT NULL,
+    instructorId    int ,
+
+    foreign key (instructorId) references AppUser(id)
+    on delete cascade
+);
 
 
