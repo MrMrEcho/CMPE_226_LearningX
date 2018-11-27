@@ -9,13 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser {
-    private long id;
-    private String username;
-    private String password;
-    private Role role;
-
-    public enum Role {
-        STUDENT, INSTRUCTOR, INSTITUTE, ADMIN
-    }
+public class Rating {
+    private Course course;
+    private AppUser student;
+    private int rating;
 }

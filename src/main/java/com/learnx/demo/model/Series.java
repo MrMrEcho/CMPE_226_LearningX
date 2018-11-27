@@ -11,6 +11,7 @@ import java.util.List;
 public class Series {
     private long id;
     private String title;
+    private String description;
     AppUser institute;
     List<Course> courses;
 

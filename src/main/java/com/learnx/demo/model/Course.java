@@ -16,6 +16,7 @@ public class Course {
     private long id;
     private String title;
     private AppUser instructor;
+    private String description;
     private List<Homework> homeworks;
     private List<Material> materials;
     private List<Discussion> discussions;
