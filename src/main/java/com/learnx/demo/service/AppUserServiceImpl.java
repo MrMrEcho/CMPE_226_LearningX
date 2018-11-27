@@ -14,4 +14,9 @@ public class AppUserServiceImpl implements AppUserService {
     public AppUser Create(String username, String password, AppUser.Role role) {
         return null;
     }
+
+    @Override
+    public AppUser getUserById(long userId) {
+        return null;
+    }
 }
