@@ -76,20 +76,8 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <div class="course-note">Featured Course</div>
-          <h3 th:text="${course.coursename}"></h3>
+          <h3 th:text="${course.title}"></h3>
           <div class="course-metas">
-            <!-- 							<div class="course-meta">
-                            <div class="course-author">
-                              <h6>Teacher</h6>
-                              <p>William Parker, <span>Developer</span></p>
-                            </div>
-                          </div>
-                          <div class="course-meta">
-                            <div class="cm-info">
-                              <h6>Category</h6>
-                              <p>Development</p>
-                            </div>
-                          </div> -->
             <div class="course-meta">
               <div class="cm-info">
                 <h6>ID</h6>
@@ -126,21 +114,12 @@
     </div>
     <br>
 
-
     <div class="row">
       <div class="col-lg-10 offset-lg-1 course-list">
         <div class="cl-item">
           <h4>Course Description</h4>
           <p th:text="${course.description}"></p>
         </div>
-        <!-- 					<div class="cl-item">
-                    <h4>Certification</h4>
-                    <p>Phasellus sollicitudin et nunc </p>
-                  </div>
-                  <div class="cl-item">
-                    <h4>The Instructor</h4>
-                    <p>Sed ligula nulla</p>
-                    </div> -->
       </div>
     </div>
   </div>

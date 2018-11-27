@@ -11,7 +11,7 @@
   <div class="container center">
     <h2>Sign up</h2>
     <br>
-    <form id="signupForm" action="#" th:object="${user}" th:action="@{/registerProcess}" method="post">
+    <form id="signupForm" action="#"  th:action="@{/registerProcess}" method="post">
       <table align="center">
         <tr>
           <td>
@@ -32,14 +32,6 @@
         </tr>
         <tr>
           <td>
-            <label path="email">Email: </label>
-          </td>
-          <td>
-            <input path="email" name="email" id="email" th:value="*{email}" required="required"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
             <label path="type">Type: </label>
           </td>
           <td>
@@ -56,7 +48,10 @@
       <br><br>
       <a th:href="@{/}">Home</a>
     </form>
+    <br>
+    <h4 style="color:tomato" th:text="${message}"></h4>
   </div>
+
 </section>
 </body>
 </html>
