@@ -11,6 +11,7 @@ public interface SeriesService {
     List<Course> listCoursesBySeriesId(long seriedId);
     List<Series> listSeries();
     List<Series> listSeriesByInstituteId(long instituteId);
+    List<Series> listSeriesByStudentId(long studentId);
 
     // CRUD
     Series create(Series newSeries);
