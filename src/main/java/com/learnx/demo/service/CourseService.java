@@ -12,6 +12,7 @@ public interface CourseService {
     List<Course> listCoursesSortedByRating(boolean ascending);
     List<Course> listCoursesByUserId(long userId, Boolean complete);
     List<Course> listCoursesByInstructorId(long instructorId);
+    List<Course> listCoursesByInstituteId(long instructorId);
 
     Course getCourseById(long courseId);
 
