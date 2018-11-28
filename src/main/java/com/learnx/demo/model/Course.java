@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
-    private long id;
+    private int id;
     private String title;
     private AppUserDto instructor;
     private String description;

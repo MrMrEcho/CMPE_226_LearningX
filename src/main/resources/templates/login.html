@@ -11,7 +11,7 @@
   <div class="container center">
     <h2>Login</h2>
 
-    <form id="loginForm" action="#" th:object="${login}" th:action="@{/loginProcess}" method="post">
+    <form id="loginForm" action="#" th:action="@{/login}" method="post">
       <br>
       <input type="text" placeholder="Enter Username" id="username" name="username" th:value="*{username}" required>
       <br>

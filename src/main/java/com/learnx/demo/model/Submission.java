@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Submission {
-    private long id;
+    private int id;
     private AppUserDto student;
     private Homework homework;
     private String answer;

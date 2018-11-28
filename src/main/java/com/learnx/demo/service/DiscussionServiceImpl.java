@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
     @Override
-    public List<Discussion> listDiscussionsByCourseId(long courseId) {
+    public List<Discussion> listDiscussionsByCourseId(int courseId) {
         return null;
     }
 

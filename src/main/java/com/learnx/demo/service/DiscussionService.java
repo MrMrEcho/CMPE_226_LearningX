@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DiscussionService {
 
-    List<Discussion> listDiscussionsByCourseId(long courseId);
+    List<Discussion> listDiscussionsByCourseId(int courseId);
 
     Discussion create(Discussion newDiscussion);
 }

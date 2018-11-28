@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class MaterialServiceImpl implements MaterialService {
     @Override
-    public List<Material> listMaterialsByCourseId(long courseId) {
+    public List<Material> listMaterialsByCourseId(int courseId) {
         return null;
     }
 

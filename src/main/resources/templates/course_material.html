@@ -28,6 +28,7 @@
 </header>
 <!-- Header section end -->
 
+
 <input id="sessionUsername" type="hidden" th:value="${session.username}" />
 <p id="read" th:text="${session.username}" style="color:white">Session</p>
 
@@ -45,6 +46,7 @@
         link.setAttribute('href', "login");
     }
 </script>
+
 
 <!-- single course section -->
 <section class="single-course spad pb-0">
@@ -69,21 +71,20 @@
             </div>
           </div>
           <div class="course-meta">
-            <h5 align="center" style="color:#878787;"> Homework</h5>
+            <h5 align="center" style="color:#878787;"> Material</h5>
 
             <div th:if="${homeworkList == null}">
-              <h4 align="center" style="color:tomato">No Homework Available</h4>
+              <h4 align="center" style="color:tomato">No Material Available</h4>
             </div>
 
             <table>
               <tr>
                 <th>Title</th>
-                <th>Content</th>
+                <th>Url</th>
               </tr>
-
-              <tr th:each="h : ${homeworkList}">
-                <td><span th:text="${h.title}"> Course </span></td>
-                <td><span th:text="${h.content}"> Teacher </span></td>
+              <tr th:each="m : ${materialList}">
+                <td><span th:text="${m.title}"> Course </span></td>
+                <td><a href="${m.content}" th:text="${m.content}"> Teacher </a></td>
               </tr>
             </table>
           </div>

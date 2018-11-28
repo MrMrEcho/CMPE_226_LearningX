@@ -1,7 +1,8 @@
 package com.learnx.demo.controller;
 
+import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.*;
-import com.learnx.demo.service.UserService;
+import com.learnx.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -19,11 +19,30 @@ import java.util.List;
 public class AppController {
 
     @Autowired
-    UserService userService;
+    AppUserService appuserService;
+
+    @Autowired
+    SeriesService seriesService;
+
+    @Autowired
+    CourseService courseService;
+
+    @Autowired
+    RatingService rateService;
+
+    @Autowired
+    DiscussionService discussionService;
+
+    @Autowired
+    MaterialService materialService;
+
+    @Autowired
+    HomeworkService homeworkService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView showIndex(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showIndex() {
         ModelAndView mav = new ModelAndView("index");
+        mav.addObject("seriesList", seriesService.listSeries());
         return mav;
     }
 
@@ -32,30 +51,37 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showLogin() {
         ModelAndView mav = new ModelAndView("login");
-        mav.addObject("login", new User());
+        mav.addObject("login");
         return mav;
     }
 
-    @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-    public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
-                                     @ModelAttribute("login") Login login) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView loginProcess(HttpServletRequest request, HttpSession session) {
         ModelAndView mav = null;
-        User user = userService.validate(login);
-        if(user == null){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        try{
+            AppUserDto user = appuserService.authenticate(username, password);
+            mav = new ModelAndView("index");
+            mav.addObject("seriesList", seriesService.listSeries());
+            mav.addObject("user", user);
+            // === add session ===
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("userid", user.getId());
+        } catch(Exception e){
+            mav.addObject("message", e.getMessage());
             mav = new ModelAndView("login");
-            mav.addObject("message", "Username or Password is wrong!!");
-        } else{
-            mav = new ModelAndView("welcome");
-            mav.addObject("username", login.getUsername());
         }
         return mav;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView showLogout(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("logout");
+    public ModelAndView showLogout(HttpServletRequest request , HttpSession session) {
+        ModelAndView mav = new ModelAndView("index");
+        session.invalidate();
+        mav.addObject("seriesList", seriesService.listSeries());
         return mav;
     }
 
@@ -65,20 +91,23 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showRegister() {
         ModelAndView mav = new ModelAndView("register");
-        mav.addObject("user", new User());
+        mav.addObject("user", new AppUser());
         return mav;
     }
 
-    @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response,
-                                @ModelAttribute("user") User user) {
-        User newUser = userService.create(user);
-        if(newUser == null){
-            throw new RuntimeException("error when signup");
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ModelAndView addUser(HttpServletRequest request, @ModelAttribute("user") AppUserDto newUser) {
+        ModelAndView mav = null;
+        try {
+            AppUserDto user = appuserService.create(newUser.getUsername(), newUser.getPassword(), newUser.getRole());
+            mav = new ModelAndView("login");
+        } catch (Exception e) {
+            mav.addObject("message", e.getMessage());
+            mav = new ModelAndView("register");
         }
-        return new ModelAndView("welcome", "username", newUser.getUsername());
+        return mav;
     }
 
 
@@ -87,45 +116,79 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView search(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("search_result");
-        List<Course> list = new ArrayList<>();
-        //list.add(new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!"));
-        //list.add(new Course(4543, "2019 Spring", "Java Spring", "good!"));
-        mav.addObject("courselist", list);
+        List<Course> courseList = courseService.searchCourses(request.getParameter("keyword"));
+        mav.addObject("courseList", courseList);
+        return mav;
+    }
+
+    //  ======================
+    //      single series
+    //  ======================
+
+    @RequestMapping(value = "/singleSeries", method = RequestMethod.POST)
+    public ModelAndView singleSeries(HttpServletRequest request) {
+        int seriesId = Integer.valueOf(request.getParameter("id"));
+        ModelAndView mav = new ModelAndView("search_result");
+        List<Course> courseList = seriesService.listCoursesBySeriesId(seriesId);
+        mav.addObject("courseList", courseList);
         return mav;
     }
 
 
     //  ======================
-    //        courses
+    //      single courses
+    //  ======================
+
+    @RequestMapping(value = "/singleCourse", method = RequestMethod.POST)
+    public ModelAndView singleCourses(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("single_course");
+        int courseId = Integer.valueOf(request.getParameter("id"));
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+            mav.addObject("enroll", courseService.isEnrolled(courseId, userid));
+            mav.addObject("complete", courseService.isComplete(courseId, userid));
+        }
+
+        Course course = courseService.getCourseById(courseId);
+        List<Discussion> discussionList = course.getDiscussions();
+        mav.addObject("course", course);
+        mav.addObject("discussionList", discussionList);
+        mav.addObject("discussion", new Discussion());
+        mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
+        return mav;
+    }
+
+    //  ======================
+    //      all courses
     //  ======================
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public ModelAndView courses(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("single_course");
-        //Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        //mav.addObject("course", c);
-        List<Question> list = new ArrayList<>();
-        list.add(new Question("Hi!", "HiHi", "2019-04-03"));
-        list.add(new Question("Yo!", "YoYo", "2019-03-03"));
-        mav.addObject("questionlist", list);
+    public ModelAndView allCourses(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("courses");
+        List<Course> courseList = courseService.listCourses();
+        List<Course> mostPopList = courseService.listCoursesSortedByRating(false);
+        List<Course> leastPopList = courseService.listCoursesSortedByRating(true);
+        mav.addObject("courseList", courseList);
+        mav.addObject("mostPopList", mostPopList);
+        mav.addObject("leastPopList", leastPopList);
         return mav;
     }
 
     //  ======================
-    //        reviews
+    //        Ratings
     //  ======================
 
-    @RequestMapping(value = "/reviews", method = RequestMethod.GET)
-    public ModelAndView getreviews(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/getRatingByCourseId", method = RequestMethod.POST)
+    public ModelAndView getreviews(HttpServletRequest request) {
+        int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_review");
-        List<Rate> list = new ArrayList<>();
-        list.add(new Rate((int) Math.round(3.4 * 20), 3.4, "2019-04-03", "Tom"));
-        list.add(new Rate((int) Math.round(4.5 * 20), 4.5, "2019-03-03", "Mary"));
-        //Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        mav.addObject("reviewlist", list);
-        //mav.addObject("course", c);
+        Course course = courseService.getCourseById(courseId);
+        List<Rating> rateList =  rateService.listRatingsByCourseId(courseId);
+        mav.addObject("rateList", rateList);
+        mav.addObject("course", course);
         return mav;
     }
 
@@ -133,15 +196,71 @@ public class AppController {
     //        homework
     //  ======================
 
-    @RequestMapping(value = "/homework", method = RequestMethod.GET)
-    public ModelAndView gethomework(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/getHomeworkByCourseId", method = RequestMethod.POST)
+    public ModelAndView gethomework(HttpServletRequest request) {
+        int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_homework");
-        List<Homework> list = new ArrayList<>();
-        //list.add(new Homework("Project1", "2019-04-03"));
-        //list.add(new Homework("Project2", "2019-03-03"));
-        //Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        mav.addObject("homeworklist", list);
-        //mav.addObject("course", c);
+        Course course = courseService.getCourseById(courseId);
+        List<Homework> homeworkList = homeworkService.listHomeworkdsByCourseId(courseId);
+        mav.addObject("homeworkList", homeworkList);
+        mav.addObject("course", course);
+        return mav;
+    }
+
+    //  ======================
+    //        Material
+    //  ======================
+
+    @RequestMapping(value = "/getMaterialByCourseId", method = RequestMethod.POST)
+    public ModelAndView getMaterial(HttpServletRequest request) {
+        int courseId = Integer.valueOf(request.getParameter("courseid"));
+        ModelAndView mav = new ModelAndView("course_material");
+        Course course = courseService.getCourseById(courseId);
+        List<Material> materialList = materialService.listMaterialsByCourseId(courseId);
+        mav.addObject("materialList", materialList);
+        mav.addObject("course", course);
+        return mav;
+    }
+
+    //  ======================
+    //       discusssion
+    //  ======================
+
+    @RequestMapping(value = "/discussion", method = RequestMethod.POST)
+    public ModelAndView postDiscussion(HttpServletRequest request, @ModelAttribute("discussion") Discussion newDiscussion) {
+        int userid = Integer.valueOf(request.getParameter("userid"));
+        int courseid = Integer.valueOf(request.getParameter("courseid"));
+        ModelAndView mav = new ModelAndView("course_homework");
+        Course course = courseService.getCourseById(courseid);
+        AppUserDto user = appuserService.getUserById(userid);
+        newDiscussion.setAppUserDto(user);
+        newDiscussion.setCourse(course);
+
+        discussionService.create(newDiscussion);
+        List<Discussion> discussionList = discussionService.listDiscussionsByCourseId(courseid);
+        mav.addObject("course", course);
+        mav.addObject("discussionList", discussionList);
+        return mav;
+    }
+
+    //  ======================
+    //      enroll courses
+    //  ======================
+
+    @RequestMapping(value = "/enrollCourse", method = RequestMethod.POST)
+    public ModelAndView enrollCourse(HttpServletRequest request) {
+        int userId = Integer.valueOf(request.getParameter("userid"));
+        int courseId = Integer.valueOf(request.getParameter("courseid"));
+        ModelAndView mav = new ModelAndView("single_course");
+        courseService.enroll(appuserService.getUserById(userId), courseService.getCourseById(courseId));
+        Course course = courseService.getCourseById(courseId);
+        List<Discussion> discussionList = course.getDiscussions();
+        mav.addObject("enroll", courseService.isEnrolled(courseId, userId));
+        mav.addObject("complete", courseService.isComplete(courseId, userId));
+        mav.addObject("course", course);
+        mav.addObject("discussionList", discussionList);
+        mav.addObject("discussion", new Discussion());
+        mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
         return mav;
     }
 }

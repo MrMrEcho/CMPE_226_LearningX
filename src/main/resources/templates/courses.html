@@ -2,26 +2,6 @@
 <html>
 <head>
   <title>LearningX</title>
-  <style>
-    .link-button {
-      background: none !important;
-      color: dodgerblue;
-      border: none;
-      padding: 0 !important;
-      font: inherit;
-    }
-    .link-button:hover {
-      color: dodgerblue;
-      border-bottom: 1px solid #444;
-      cursor: pointer;
-    }
-
-    .link-button:hover,
-    .link-button:focus {
-      text-decoration: none;
-      outline: none;
-    }
-  </style>
 </head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
@@ -67,6 +47,7 @@
     }
 </script>
 
+<!-- search section -->
 <section class="login-section">
   <div class="container center">
     <h4 style="color:#878787;">Search course</h4>
@@ -74,7 +55,7 @@
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
         <form id="searchform"  th:action="@{/search}" method="post">
-          <input id = "keyword" type="text" name="name" placeholder="Enter course" required/>
+          <input id = "keyword" type="text" name="name" placeholder="Enter course" required>
           <button class="site-btn">Search Course</button>
         </form>
       </div>
@@ -83,13 +64,12 @@
 </section>
 <!-- search section end -->
 
+
+<!-- all course section -->
 <section class="categories-section spad">
   <div class="container">
     <div class="section-title">
-      <h3>Search Result</h3>
-    </div>
-    <div th:if="${seriesList == null}">
-      <h3 style="color:tomato">No result </h3>
+      <h4  style="color:#878787;">All Courses</h4>
     </div>
     <div class="row" th:each="course: ${courseList}">
       <div class="col-lg-4 col-md-6">
@@ -98,11 +78,6 @@
             <h5 th:text="${course.title}"></h5>
             <p th:text="${course.description}"></p>
             <span th:text="${course.instructor.username}"></span>
-            <br>
-            <form role="form" th:action="@{/singleCourse}" th:method="post">
-              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
-              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
-            </form>
           </div>
         </div>
       </div>
@@ -110,6 +85,45 @@
   </div>
 </section>
 
+<!-- Most Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h4  style="color:#878787;">Most Popular Courses</h4>
+    </div>
+    <div class="row" th:each="most: ${mostPopList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${most.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Least Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h4  style="color:#878787;">Least Popular Courses</h4>
+    </div>
+    <div class="row" th:each="least: ${leastPopList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${least.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>

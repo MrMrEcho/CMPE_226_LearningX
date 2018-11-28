@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Series {
-    private long id;
+    private int id;
     private String title;
     private String description;
     AppUserDto institute;

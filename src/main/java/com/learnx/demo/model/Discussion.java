@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Discussion {
-    private long id;
+    private int id;
     private Course course;
     private AppUserDto appUserDto;
     private String title;

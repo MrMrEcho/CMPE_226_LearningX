@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Material {
-    private long id;
+    private int id;
     private Course course;
     String title;
     String url;

@@ -8,13 +8,13 @@ import java.util.List;
 // TODO: Rename to CourseSeriesService ?
 public interface SeriesService {
 
-    List<Course> listCoursesBySeriesId(long seriedId);
+    List<Course> listCoursesBySeriesId(int seriedId);
     List<Series> listSeries();
-    List<Series> listSeriesByInstituteId(long instituteId);
-    List<Series> listSeriesByStudentId(long studentId);
+    List<Series> listSeriesByInstituteId(int instituteId);
+    List<Series> listSeriesByStudentId(int studentId);
 
     // CRUD
     Series create(Series newSeries);
 
-    Series addCourseBySeriesId(Course course, long seriesId);
+    Series addCourseBySeriesId(Course course, int seriesId);
 }

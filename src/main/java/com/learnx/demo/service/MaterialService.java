@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MaterialService {
 
-    List<Material> listMaterialsByCourseId(long courseId);
+    List<Material> listMaterialsByCourseId(int courseId);
 
     // Material CRUD
     Material create(Material material);

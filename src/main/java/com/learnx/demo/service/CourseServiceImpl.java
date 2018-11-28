@@ -24,22 +24,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> listCoursesByUserId(long userId, Boolean complete) {
+    public List<Course> listCoursesByUserId(int userId, Boolean complete) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesByInstructorId(long instructorId) {
+    public List<Course> listCoursesByInstructorId(int instructorId) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesByInstituteId(long instructorId) {
+    public List<Course> listCoursesByInstituteId(int instructorId) {
         return null;
     }
 
     @Override
-    public Course getCourseById(long courseId) {
+    public Course getCourseById(int courseId) {
         return null;
     }
 
@@ -54,12 +54,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean isEnrolled(long courseId, long userId) {
+    public boolean isEnrolled(int courseId, int userId) {
         return false;
     }
 
     @Override
-    public boolean isComplete(long courseId, long userId) {
+    public boolean isComplete(int courseId, int userId) {
         return false;
     }
 

@@ -47,7 +47,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public List<AppUserDto> listInstructorsByInstituteId(long instituteId) {
+    public List<AppUserDto> listInstructorsByInstituteId(int instituteId) {
         return null;
     }
 

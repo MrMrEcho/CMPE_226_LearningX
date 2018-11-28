@@ -8,6 +8,6 @@ public interface RatingService {
 
     Rating create(Rating newRate);
     Rating update(Rating rate);
-    List<Rating> listRatingsByCourseId(long courseId);
-    int getAverageRatingByCourseId(long courseId);
+    List<Rating> listRatingsByCourseId(int courseId);
+    int getAverageRatingByCourseId(int courseId);
 }

@@ -10,11 +10,11 @@ public interface CourseService {
     List<Course> searchCourses(String keyword);
     List<Course> listCourses();
     List<Course> listCoursesSortedByRating(boolean ascending);
-    List<Course> listCoursesByUserId(long userId, Boolean complete);
-    List<Course> listCoursesByInstructorId(long instructorId);
-    List<Course> listCoursesByInstituteId(long instructorId);
+    List<Course> listCoursesByUserId(int userId, Boolean complete);
+    List<Course> listCoursesByInstructorId(int instructorId);
+    List<Course> listCoursesByInstituteId(int instructorId);
 
-    Course getCourseById(long courseId);
+    Course getCourseById(int courseId);
 
     // CRUD
     Course create(Course newCourse);
@@ -22,8 +22,8 @@ public interface CourseService {
 
     // User Course Operation
     // TODO: Rename or move to UserService, UserCourseService
-    boolean isEnrolled(long courseId, long userId);
-    boolean isComplete(long courseId, long userId);
+    boolean isEnrolled(int courseId, int userId);
+    boolean isComplete(int courseId, int userId);
 
     // TODO: change parameter order for naming rule consistency
     Course enroll(AppUserDto user, Course course);

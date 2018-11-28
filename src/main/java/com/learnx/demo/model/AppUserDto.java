@@ -37,7 +37,7 @@ public class AppUserDto {
         }
     }
 
-    private long id;
+    private int id;
     private String username;
     private String password;
     private Role role;

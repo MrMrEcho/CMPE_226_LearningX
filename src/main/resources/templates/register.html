@@ -11,43 +11,35 @@
   <div class="container center">
     <h2>Sign up</h2>
     <br>
-    <form id="signupForm" action="#" th:object="${user}" th:action="@{/registerProcess}" method="post">
+    <form id="signupForm" action="#" th:object="${user}"  th:action="@{/signup}" method="post">
       <table align="center">
         <tr>
           <td>
-            <label path="username">Username: </label>
+            <label >Username: </label>
           </td>
           <td>
-            <input path="username" name="username" id="username" th:value="*{username}" required="required"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label path="password">Password: </label>
-          </td>
-          <td>
-            <input type="password" path="password" name="password" id="password" th:value="*{password}"
-                   required="required"/>
+            <input type="text" name="username" id="username" th:value="*{username}" required/>
           </td>
         </tr>
         <tr>
           <td>
-            <label path="email">Email: </label>
+            <label>Password: </label>
           </td>
           <td>
-            <input path="email" name="email" id="email" th:value="*{email}" required="required"/>
+            <input type="password" name="password" id="password" th:value="*{password}" required/>
           </td>
         </tr>
         <tr>
           <td>
-            <label path="type">Type: </label>
+            <label>Type: </label>
           </td>
           <td>
-            <input type="radio" path="type" name="student" th:field="*{type}" th:value="student" checked="checked">
-            student </input>
-            <input type="radio" path="type" name="instructor" th:field="*{type}" th:value="instructor">
-            instructor </input>
-            <input type="radio" path="type" name="institute" th:field="*{type}" th:value="institute"> institute </input>
+            <select class="form-control" name="size" th:field="*{role}">
+              <option th:each="role : ${T(com.learnx.demo.model.AppUser.Role).values()}"
+                      th:value="${role}"
+                      th:text="${role}">
+              </option>
+            </select>
           </td>
         </tr>
       </table>
@@ -56,7 +48,10 @@
       <br><br>
       <a th:href="@{/}">Home</a>
     </form>
+    <br>
+    <h4 style="color:tomato" th:text="${message}"></h4>
   </div>
+
 </section>
 </body>
 </html>

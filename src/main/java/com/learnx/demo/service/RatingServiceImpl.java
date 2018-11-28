@@ -18,12 +18,12 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public List<Rating> listRatingsByCourseId(long courseId) {
+    public List<Rating> listRatingsByCourseId(int courseId) {
         return null;
     }
 
     @Override
-    public int getAverageRatingByCourseId(long courseId) {
+    public int getAverageRatingByCourseId(int courseId) {
         return 0;
     }
 }

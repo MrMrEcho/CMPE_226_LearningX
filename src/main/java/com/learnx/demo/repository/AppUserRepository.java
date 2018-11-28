@@ -22,7 +22,7 @@ public class AppUserRepository {
     public AppUser save(AppUser appUser) {
 
         String sql = "insert into AppUser (username, password, approle) " +
-                "values (:username, :password, :role);";
+                "values (:username, :password, :role)";
         Query query = em.createNativeQuery(sql).
                 setParameter("username", appUser.getUsername()).
                 setParameter("password", appUser.getPassword()).
@@ -38,7 +38,7 @@ public class AppUserRepository {
 
     public AppUser findByName(String username) {
         String sql = "select id, username, password, approle FROM AppUser " +
-                "where username=:name;";
+                "where username=:name";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("name", username);
         return (AppUser) query.getSingleResult();
@@ -46,7 +46,7 @@ public class AppUserRepository {
 
     public AppUser findById(int id) {
         String sql = "SELECT id, username, password, approle FROM AppUser " +
-                "WHERE id=:id;";
+                "WHERE id=:id";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("id", id);
 

@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class SeriesServiceImpl implements SeriesService {
     @Override
-    public List<Course> listCoursesBySeriesId(long seriedId) {
+    public List<Course> listCoursesBySeriesId(int seriedId) {
         return null;
     }
 
@@ -19,12 +19,12 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public List<Series> listSeriesByInstituteId(long instituteId) {
+    public List<Series> listSeriesByInstituteId(int instituteId) {
         return null;
     }
 
     @Override
-    public List<Series> listSeriesByStudentId(long studentId) {
+    public List<Series> listSeriesByStudentId(int studentId) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public Series addCourseBySeriesId(Course course, long seriesId) {
+    public Series addCourseBySeriesId(Course course, int seriesId) {
         return null;
     }
 }

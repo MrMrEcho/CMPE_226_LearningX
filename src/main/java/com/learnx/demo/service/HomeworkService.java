@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface HomeworkService {
 
-    List<Homework> listHomeworkdsByCourseId(long courseId);
+    List<Homework> listHomeworkdsByCourseId(int courseId);
 
     Homework create(Homework newHomework);
 }

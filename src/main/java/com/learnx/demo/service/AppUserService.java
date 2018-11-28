@@ -12,5 +12,5 @@ public interface AppUserService {
 
     AppUserDto getUserById(int userId);
 
-    List<AppUserDto> listInstructorsByInstituteId(long instituteId);
+    List<AppUserDto> listInstructorsByInstituteId(int instituteId);
 }

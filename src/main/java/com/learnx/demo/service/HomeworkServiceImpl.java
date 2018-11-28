@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
     @Override
-    public List<Homework> listHomeworkdsByCourseId(long courseId) {
+    public List<Homework> listHomeworkdsByCourseId(int courseId) {
         return null;
     }
 
