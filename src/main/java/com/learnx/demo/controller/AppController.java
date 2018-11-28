@@ -93,7 +93,7 @@ public class AppController {
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView showRegister() {
         ModelAndView mav = new ModelAndView("register");
-        mav.addObject("user", new AppUser());
+        mav.addObject("user", new AppUserDto());
         return mav;
     }
 
@@ -101,7 +101,7 @@ public class AppController {
     public ModelAndView addUser(HttpServletRequest request, @ModelAttribute("user") AppUserDto newUser) {
         ModelAndView mav = null;
         try {
-            AppUserDto user = appuserService.create(newUser.getUsername(), newUser.getPassword(), newUser.getRole());
+            AppUserDto user = appuserService.create(newUser.getUsername(), newUser.getPassword(), AppUserDto.Role.STUDENT);
             mav = new ModelAndView("login");
         } catch (Exception e) {
             mav.addObject("message", e.getMessage());

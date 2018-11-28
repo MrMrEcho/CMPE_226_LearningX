@@ -29,19 +29,21 @@
             <input type="password" name="password" id="password" th:value="*{password}" required/>
           </td>
         </tr>
-        <tr>
-          <td>
-            <label>Type: </label>
-          </td>
-          <td>
-            <select class="form-control" name="size" th:field="*{role}">
-              <option th:each="role : ${T(com.learnx.demo.model.AppUser.Role).values()}"
-                      th:value="${role}"
-                      th:text="${role}">
-              </option>
-            </select>
-          </td>
-        </tr>
+        <!--<tr>-->
+          <!--<td>-->
+            <!--<label>Type: </label>-->
+          <!--</td>-->
+          <!--<td>-->
+            <!--<select class="form-control" name="size" th:field="*{role}">-->
+              <!--<option th:each="${T(com.learnx.demo.model.AppUserDto.Role).STUDENT}"-->
+                      <!--th:text= "${T(com.learnx.demo.model.AppUserDto.Role).STUDENT}">-->
+              <!--<option th:each="role : ${T(com.learnx.demo.model.AppUserDto.Role).values()}"-->
+                      <!--th:value="${role}"-->
+                      <!--th:text="${role}">-->
+              <!--</option>-->
+            <!--</select>-->
+          <!--</td>-->
+        <!--</tr>-->
       </table>
       <br>
       <button id="register" name="register" class="site-btn">Register</button>
