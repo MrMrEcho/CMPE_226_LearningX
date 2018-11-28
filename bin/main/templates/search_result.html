@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LearningX</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+
+<body>
+<!-- Header section -->
+<header class="header-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <h2>Learning X</h2>
+      </div>
+      <div class="col-lg-9 col-md-9">
+        <a th:href="@{/login}" class="site-btn header-btn" id="account">Login</a>
+        <nav class="main-menu">
+          <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a href="#">About us</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Header section end -->
+
+<p id="read" style="color:white;">C Paragraph</p>
+
+<script th:src="@{/js/myScript.js}"></script>
+<script th:inline="javascript">
+    var cookieuser = getCookie("username");
+
+    document.getElementById("read").innerHTML = cookieuser;
+
+    var link = document.getElementById("account");
+    if (cookieuser != "") {
+        link.innerHTML = "Myaccount: " + cookieuser;
+        link.setAttribute('href', "logout");
+    } else {
+        link.innerHTML = "Login";
+        link.setAttribute('href', "login");
+    }
+</script>
+
+<!-- search section -->
+<section class="login-section">
+  <div class="container center">
+    <div class="row">
+      <div class="col-md-10  offset-md-1">
+        <!-- search form -->
+        <form id="searchform" action="search" method="post">
+          <input type="text" name="name" placeholder="Enter course" required>
+          <select name="type">
+            <option value="title">title</option>
+            <option value="series">series</option>
+            <option value="category">category</option>
+          </select>
+          <button class="site-btn">Search Course</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- search section end -->
+
+<section class="single-course spad pb-0">
+  <div class="container">
+
+    <div class="course-meta-area">
+      <div class="course-meta offset-lg-2">
+        <h4>Search Result</h4>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+          <div class="course-metas">
+            <table>
+              <tr th:if="${courselist.empty}">
+                <td colspan="2"> No Courses Available</td>
+              </tr>
+
+              <tr>
+                <th>Course name</th>
+                <th>Course ID</th>
+                <th>Session</th>
+                <th>Description</th>
+              </tr>
+
+              <tr th:each="course : ${courselist}">
+                <td><span th:text="${course.coursename}"> Course </span></td>
+                <td><span th:text="${course.ID}"> Teacher </span></td>
+                <td><span th:text="${course.session}"> Teacher </span></td>
+                <td><span th:text="${course.description}"> Teacher </span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>

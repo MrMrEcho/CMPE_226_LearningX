@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearningX</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<body>
+<header>
+    <h1>Placeholder for header</h1>
+</header>
+<section>
+    <div class="container center">
+        <form method="post" action="#" th:object="${institute}" th:action="@{/me/addInstitute}">
+            <h3>Add a new institute</h3>
+            <table align="center">
+
+            </table>
+            <label for="username">Username: </label>
+            <input type="text" th:field="*{username}"/>
+            <br/>
+            <label for="password">Password: </label>
+            <input type="text" th:field="*{password}" />
+            <br/>
+            <input type="submit" value="Add">
+        </form>
+    </div>
+</section>
+</body>
+</html>
