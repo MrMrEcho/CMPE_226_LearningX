@@ -2,9 +2,15 @@
 <html>
 <head>
   <title>LearningX</title>
+  <style>
+     .checked {
+      color: orange;
+    }
+  </style>
 </head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
 <!-- Header section -->
@@ -28,8 +34,9 @@
 </header>
 <!-- Header section end -->
 
-<input id="sessionUsername" type="hidden" th:value="${session.username}" />
 
+<input id="sessionUsername" type="hidden" th:value="${session.username}" />
+<p id="read" th:text="${session.username}" style="color:white">Session</p>
 
 <script th:inline="javascript">
     var cookieuser = document.getElementById("sessionUsername").value;
@@ -46,23 +53,6 @@
     }
 </script>
 
-<!-- search section -->
-<section class="login-section">
-  <div class="container center">
-    <div class="row">
-      <div class="col-md-10  offset-md-1">
-        <!-- search form -->
-        <form id="searchform"  th:action="@{/search}" method="post">
-          <input id = "keyword" type="text" name="name" placeholder="Enter course" required>
-          <button class="site-btn">Search Course</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- search section end -->
-
-
 <!-- single course section -->
 <section class="single-course spad pb-0">
   <div class="container">
@@ -75,7 +65,7 @@
             <div class="course-meta">
               <div class="cm-info">
                 <h6>Instructor</h6>
-                <p th:text="${course.instructor}"></p>
+                <p th:text="${course.instructor.username}"></p>
               </div>
             </div>
             <div class="course-meta">
@@ -85,33 +75,68 @@
               </div>
             </div>
           </div>
-          <div class="course-meta">
+
             <h5 align="center" style="color:#878787;">Rating</h5>
 
-            <table>
-              <tr th:if="${reviewlist.empty}">
-                <td colspan="2"> No Reviews Available</td>
-              </tr>
+          <div th:if="${rateList == null}">
+            <h4 align="center" style="color:tomato">No Rating Available</h4>
+          </div>
 
+            <table>
               <tr>
                 <th>Rating(star)</th>
-                <th>Rating(number)</th>
-                <th>Date</th>
                 <th>Name</th>
               </tr>
 
-              <tr th:each="r : ${reviewlist}">
+              <tr th:each="r : ${rateList}">
                 <td>
-                  <div class="star-ratings-sprite">
-                    <span th:style=" 'width:'+ ${r.rate} + '%'" class="star-ratings-sprite-rating"></span>
-                  </div>
+                    <div th:if="${r.rating == 0}">
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rating == 1}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rating == 2}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rating == 3}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rating == 4}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rating == 5}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </div>
                 </td>
-                <td><span th:text="${r.number}"> Course </span></td>
-                <td><span th:text="${r.date}"> Teacher </span></td>
-                <td><span th:text="${r.username}"> Teacher </span></td>
+                <td><span th:text="${r.student.username}"> Student </span></td>
               </tr>
             </table>
-          </div>
+          <br><br>
         </div>
       </div>
     </div>

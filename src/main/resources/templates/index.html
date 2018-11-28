@@ -5,13 +5,13 @@
   <style>
     .link-button {
       background: none !important;
-      color: blue;
+      color: dodgerblue;
       border: none;
       padding: 0 !important;
       font: inherit;
     }
     .link-button:hover {
-      color: blue;
+      color: dodgerblue;
       border-bottom: 1px solid #444;
       cursor: pointer;
     }
@@ -101,23 +101,27 @@
       <h2>Our Series</h2>
       <p>There will be always a series that is suitable for you</p>
     </div>
-    <div class="row" th:each="s: ${seriesList}">
 
-        <div class="col-lg-4 col-md-6">
-          <div class="categorie-item">
-            <div class="ci-text">
-              <h5 th:text="${s.title}"></h5>
-              <p th:text="${s.description}"></p>
-              <span th:text="${s.institute.username}"></span>
-              <br>
-              <form role="form" th:action="@{/singleSeries}" th:method="post">
-                <input type="hidden" name="id" id="id" th:value="${s.id}"/>
-                <button id="submit"  type="submit" class="link-button">Go to the course list</button>
-              </form>
+    <div th:if="${seriesList == null}">
+      <h3 style="color:tomato">Coming Soon </h3>
+    </div>
+
+      <div class="row" th:each="s: ${seriesList}">
+          <div class="col-lg-4 col-md-6">
+            <div class="categorie-item">
+              <div class="ci-text">
+                <h5 th:text="${s.title}"></h5>
+                <p th:text="${s.description}"></p>
+                <span th:text="${s.institute.username}"></span>
+                <br>
+                <form role="form" th:action="@{/singleSeries}" th:method="post">
+                  <input type="hidden" name="id" id="id" th:value="${s.id}"/>
+                  <button id="submit"  type="submit" class="link-button">Click here to the course list</button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-    </div>
+      </div>
     </div>
   </div>
 </section>

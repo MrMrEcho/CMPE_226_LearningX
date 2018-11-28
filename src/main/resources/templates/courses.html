@@ -28,8 +28,9 @@
 </header>
 <!-- Header section end -->
 
-<input id="sessionUsername" type="hidden" th:value="${session.username}" />
 
+<input id="sessionUsername" type="hidden" th:value="${session.username}" />
+<p id="read" th:text="${session.username}" style="color:white">Session</p>
 
 <script th:inline="javascript">
     var cookieuser = document.getElementById("sessionUsername").value;
@@ -49,6 +50,7 @@
 <!-- search section -->
 <section class="login-section">
   <div class="container center">
+    <h4 style="color:#878787;">Search course</h4>
     <div class="row">
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
@@ -67,7 +69,7 @@
 <section class="categories-section spad">
   <div class="container">
     <div class="section-title">
-      <h3>All Courses</h3>
+      <h4  style="color:#878787;">All Courses</h4>
     </div>
     <div class="row" th:each="course: ${courseList}">
       <div class="col-lg-4 col-md-6">
@@ -87,7 +89,7 @@
 <section class="categories-section spad">
   <div class="container">
     <div class="section-title">
-      <h3>Most Popular Courses</h3>
+      <h4  style="color:#878787;">Most Popular Courses</h4>
     </div>
     <div class="row" th:each="most: ${mostPopList}">
       <div class="col-lg-4 col-md-6">
@@ -107,7 +109,7 @@
 <section class="categories-section spad">
   <div class="container">
     <div class="section-title">
-      <h3>Least Popular Courses</h3>
+      <h4  style="color:#878787;">Least Popular Courses</h4>
     </div>
     <div class="row" th:each="least: ${leastPopList}">
       <div class="col-lg-4 col-md-6">
