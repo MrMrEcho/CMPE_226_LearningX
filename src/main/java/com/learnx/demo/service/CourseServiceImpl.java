@@ -1,6 +1,6 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.AppUser;
+import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.model.Course;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +59,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course enroll(AppUser user, Course course) {
+    public Course enroll(AppUserDto user, Course course) {
         return null;
     }
 
     @Override
-    public Course drop(AppUser user, Course course) {
+    public Course drop(AppUserDto user, Course course) {
         return null;
     }
 }

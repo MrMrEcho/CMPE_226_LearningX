@@ -1,6 +1,6 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.AppUser;
+import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.model.Course;
 
 import java.util.List;
@@ -25,6 +25,6 @@ public interface CourseService {
     boolean isComplete(long courseId, long userId);
 
     // TODO: change parameter order for naming rule consistency
-    Course enroll(AppUser user, Course course);
-    Course drop(AppUser user, Course course);
+    Course enroll(AppUserDto user, Course course);
+    Course drop(AppUserDto user, Course course);
 }

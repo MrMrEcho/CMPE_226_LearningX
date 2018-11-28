@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Discussion {
     private long id;
     private Course course;
-    private AppUser appUser;
+    private AppUserDto appUserDto;
     private String title;
     private String content;
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Submission {
     private long id;
-    private AppUser student;
+    private AppUserDto student;
     private Homework homework;
     private String answer;
     private int grade;

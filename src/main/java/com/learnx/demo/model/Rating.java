@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Rating {
     private Course course;
-    private AppUser student;
+    private AppUserDto student;
     private int rating;
 }

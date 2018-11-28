@@ -1,16 +1,16 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.AppUser;
+import com.learnx.demo.model.AppUserDto;
 
 import java.util.List;
 
 public interface AppUserService {
 
-    AppUser authenticate(String username, String password) throws Exception;
+    AppUserDto authenticate(String username, String password);
 
-    AppUser Create(String username, String password, AppUser.Role role);
+    AppUserDto create(String username, String password, AppUserDto.Role role);
 
-    AppUser getUserById(long userId);
+    AppUserDto getUserById(int userId);
 
-    List<AppUser> listInstructorsByInstituteId(long instituteId);
+    List<AppUserDto> listInstructorsByInstituteId(long instituteId);
 }

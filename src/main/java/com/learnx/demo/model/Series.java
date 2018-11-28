@@ -12,7 +12,7 @@ public class Series {
     private long id;
     private String title;
     private String description;
-    AppUser institute;
+    AppUserDto institute;
     List<Course> courses;
 
 }

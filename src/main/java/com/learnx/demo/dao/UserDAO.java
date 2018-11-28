@@ -48,7 +48,7 @@ public class UserDAO {
             return null;
         }
 
-//        String sql = "INSERT INTO AppUser (User_name, User_password, User_type, Email) VALUES (?, ?, ?, ?)";
+//        String sql = "INSERT INTO AppUserDto (User_name, User_password, User_type, Email) VALUES (?, ?, ?, ?)";
 //        Connection conn = null;
 //        try {
 //            conn = dataSource.getConnection();

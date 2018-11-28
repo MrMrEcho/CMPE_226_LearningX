@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,7 +14,7 @@ import java.util.List;
 public class Course {
     private long id;
     private String title;
-    private AppUser instructor;
+    private AppUserDto instructor;
     private String description;
     private List<Homework> homeworks;
     private List<Material> materials;
