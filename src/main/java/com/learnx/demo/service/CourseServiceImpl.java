@@ -4,6 +4,7 @@ import com.learnx.demo.model.AppUser;
 import com.learnx.demo.model.Course;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> listCoursesByInstituteId(long instructorId) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
