@@ -15,12 +15,11 @@
         <h2>Learning X</h2>
       </div>
       <div class="col-lg-9 col-md-9">
-        <a th:href="@{/login}" class="site-btn header-btn" id="account">Login</a>
+        <a th:href="@{/login}" class="site-btn header-btn" id="loginout">Login</a>
         <nav class="main-menu">
           <ul>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/courses}">Courses</a></li>
-            <li><a href="#">About us</a></li>
           </ul>
         </nav>
       </div>
@@ -29,17 +28,17 @@
 </header>
 <!-- Header section end -->
 
-<p id="read" style="color:white;">C Paragraph</p>
+<input id="sessionUsername" type="hidden" th:value="${session.username}" />
 
-<script th:src="@{/js/myScript.js}"></script>
+
 <script th:inline="javascript">
-    var cookieuser = getCookie("username");
+    var cookieuser = document.getElementById("sessionUsername").value;
 
     document.getElementById("read").innerHTML = cookieuser;
 
-    var link = document.getElementById("account");
+    var link = document.getElementById("loginout");
     if (cookieuser != "") {
-        link.innerHTML = "Myaccount: " + cookieuser;
+        link.innerHTML = "Logout";
         link.setAttribute('href', "logout");
     } else {
         link.innerHTML = "Login";
@@ -53,13 +52,8 @@
     <div class="row">
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
-        <form id="searchform" action="search" method="post">
-          <input type="text" name="name" placeholder="Enter course" required>
-          <select name="type">
-            <option value="title">title</option>
-            <option value="series">series</option>
-            <option value="category">category</option>
-          </select>
+        <form id="searchform"  th:action="@{/search}" method="post">
+          <input id = "keyword" type="text" name="name" placeholder="Enter course" required>
           <button class="site-btn">Search Course</button>
         </form>
       </div>
@@ -76,30 +70,18 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <div class="course-note">Featured Course</div>
-          <h3 th:text="${course.coursename}"></h3>
+          <h3 th:text="${course.title}"></h3>
           <div class="course-metas">
-            <!-- 							<div class="course-meta">
-                            <div class="course-author">
-                              <h6>Teacher</h6>
-                              <p>William Parker, <span>Developer</span></p>
-                            </div>
-                          </div>
-                          <div class="course-meta">
-                            <div class="cm-info">
-                              <h6>Category</h6>
-                              <p>Development</p>
-                            </div>
-                          </div> -->
             <div class="course-meta">
               <div class="cm-info">
-                <h6>ID</h6>
-                <p th:text="${course.ID}"></p>
+                <h6>Instructor</h6>
+                <p th:text="${course.instructor}"></p>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <h6>Session</h6>
-                <p th:text="${course.Session}"></p>
+                <h6>Description</h6>
+                <p th:text="${course.description}"></p>
               </div>
             </div>
           </div>

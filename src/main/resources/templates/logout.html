@@ -12,7 +12,7 @@
     <h2>Are you sure to log out?</h2>
     <br>
     <form th:action="@{/}">
-      <button class="site-btn" onclick="eraseCookie('username')">Logout</button>
+      <button class="site-btn" onclick="eraseCookie('username'); eraseCookie('userid'); ">Logout</button>
     </form>
     <script th:src="@{/js/myScript.js}"></script>
   </div>

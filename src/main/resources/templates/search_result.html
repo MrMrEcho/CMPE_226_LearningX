@@ -2,6 +2,26 @@
 <html>
 <head>
   <title>LearningX</title>
+  <style>
+    .link-button {
+      background: none !important;
+      color: blue;
+      border: none;
+      padding: 0 !important;
+      font: inherit;
+    }
+    .link-button:hover {
+      color: blue;
+      border-bottom: 1px solid #444;
+      cursor: pointer;
+    }
+
+    .link-button:hover,
+    .link-button:focus {
+      text-decoration: none;
+      outline: none;
+    }
+  </style>
 </head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
@@ -15,12 +35,11 @@
         <h2>Learning X</h2>
       </div>
       <div class="col-lg-9 col-md-9">
-        <a th:href="@{/login}" class="site-btn header-btn" id="account">Login</a>
+        <a th:href="@{/login}" class="site-btn header-btn" id="loginout">Login</a>
         <nav class="main-menu">
           <ul>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/courses}">Courses</a></li>
-            <li><a href="#">About us</a></li>
           </ul>
         </nav>
       </div>
@@ -29,22 +48,23 @@
 </header>
 <!-- Header section end -->
 
-<p id="read" style="color:white;">C Paragraph</p>
+<input id="sessionUsername" type="hidden" th:value="${session.username}" />
+<p id="read" th:text="${session.username}" style="color:white">Session</p>
 
-<script th:src="@{/js/myScript.js}"></script>
 <script th:inline="javascript">
-    var cookieuser = getCookie("username");
+    var cookieuser = document.getElementById("sessionUsername").value;
 
     document.getElementById("read").innerHTML = cookieuser;
 
-    var link = document.getElementById("account");
+    var link = document.getElementById("loginout");
     if (cookieuser != "") {
-        link.innerHTML = "Myaccount: " + cookieuser;
+        link.innerHTML = "Logout";
         link.setAttribute('href', "logout");
     } else {
         link.innerHTML = "Login";
         link.setAttribute('href', "login");
     }
+</script>
 </script>
 
 <!-- search section -->
@@ -53,13 +73,8 @@
     <div class="row">
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
-        <form id="searchform" action="search" method="post">
-          <input type="text" name="name" placeholder="Enter course" required>
-          <select name="type">
-            <option value="title">title</option>
-            <option value="series">series</option>
-            <option value="category">category</option>
-          </select>
+        <form id="searchform"  th:action="@{/search}" method="post">
+          <input id = "keyword" type="text" name="name" placeholder="Enter course" required>
           <button class="site-btn">Search Course</button>
         </form>
       </div>
@@ -68,36 +83,23 @@
 </section>
 <!-- search section end -->
 
-<section class="single-course spad pb-0">
+<section class="categories-section spad">
   <div class="container">
-
-    <div class="course-meta-area">
-      <div class="course-meta offset-lg-2">
-        <h4>Search Result</h4>
-      </div>
-      <br><br>
-      <div class="row">
-        <div class="col-lg-10 offset-lg-1">
-          <div class="course-metas">
-            <table>
-              <tr th:if="${courselist.empty}">
-                <td colspan="2"> No Courses Available</td>
-              </tr>
-
-              <tr>
-                <th>Course name</th>
-                <th>Course ID</th>
-                <th>Session</th>
-                <th>Description</th>
-              </tr>
-
-              <tr th:each="course : ${courselist}">
-                <td><span th:text="${course.coursename}"> Course </span></td>
-                <td><span th:text="${course.ID}"> Teacher </span></td>
-                <td><span th:text="${course.session}"> Teacher </span></td>
-                <td><span th:text="${course.description}"> Teacher </span></td>
-              </tr>
-            </table>
+    <div class="section-title">
+      <h3>Search Result</h3>
+    </div>
+    <div class="row" th:each="course: ${courseList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${course.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
+            <br>
+            <form role="form" th:action="@{/singleCourse}" th:method="post">
+              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
+              <button id="submit"  type="submit" class="link-button">Go to this course details</button>
+            </form>
           </div>
         </div>
       </div>

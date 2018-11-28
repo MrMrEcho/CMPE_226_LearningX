@@ -77,10 +77,9 @@ ol {
 
 table {
   margin: 0 auto;
-  text-align: center;
   border-collapse: collapse;
   border: 1px solid #d4d4d4;
-  font-size: 20px;
+  font-size: 18px;
   background: #fff;
 }
  
@@ -112,6 +111,10 @@ table th {
     float: left;
     height: 21px;
     display:block;
+}
+.right {
+  text-align: right;
+  float: right;
 }
 /*---------------------
   Helper CSS
@@ -249,7 +252,7 @@ table th {
 }
 
 .categorie-item:hover {
-  background: #d82a4e;
+  background: #D7BBBB;
 }
 
 .categorie-item:hover .ci-text h5,

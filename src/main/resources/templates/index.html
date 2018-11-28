@@ -2,6 +2,26 @@
 <html>
 <head>
   <title>LearningX</title>
+  <style>
+    .link-button {
+      background: none !important;
+      color: blue;
+      border: none;
+      padding: 0 !important;
+      font: inherit;
+    }
+    .link-button:hover {
+      color: blue;
+      border-bottom: 1px solid #444;
+      cursor: pointer;
+    }
+
+    .link-button:hover,
+    .link-button:focus {
+      text-decoration: none;
+      outline: none;
+    }
+  </style>
 </head>
 
 
@@ -22,7 +42,6 @@
           <ul>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/courses}">Courses</a></li>
-            <li><a href="#">About us</a></li>
           </ul>
         </nav>
       </div>
@@ -38,12 +57,12 @@
   </div>
 </section>
 
+<p id="read" th:text="${session.username}" style="color:white">Session</p>
+<input id="sessionUsername" type="hidden" th:value="${session.username}" />
 
-<p id="read" style="color:white;">C Paragraph</p>
 
-<script th:src="@{/js/myScript.js}"></script>
 <script th:inline="javascript">
-    var cookieuser = getCookie("username");
+    var cookieuser = document.getElementById("sessionUsername").value;
 
     document.getElementById("read").innerHTML = cookieuser;
 
@@ -82,15 +101,23 @@
       <h2>Our Series</h2>
       <p>There will be always a series that is suitable for you</p>
     </div>
+    <div class="row" th:each="s: ${seriesList}">
 
-    <div class="row" th:each="s: ${series}">
-      <div class="col-lg-4 col-md-6">
-        <div class="categorie-item">
-          <div class="ci-text">
-            <h5 th:text="${s.name}"></h5>
+        <div class="col-lg-4 col-md-6">
+          <div class="categorie-item">
+            <div class="ci-text">
+              <h5 th:text="${s.title}"></h5>
+              <p th:text="${s.description}"></p>
+              <span th:text="${s.institute.username}"></span>
+              <br>
+              <form role="form" th:action="@{/singleSeries}" th:method="post">
+                <input type="hidden" name="id" id="id" th:value="${s.id}"/>
+                <button id="submit"  type="submit" class="link-button">Go to the course list</button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+    </div>
     </div>
   </div>
 </section>

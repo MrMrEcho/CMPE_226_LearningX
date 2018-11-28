@@ -63,59 +63,65 @@
 <!-- search section end -->
 
 
-<!-- single course section -->
-<section class="single-course spad pb-0">
+<!-- all course section -->
+<section class="categories-section spad">
   <div class="container">
-    <div class="course-meta-area">
-      <div class="row">
-        <div class="col-lg-10 offset-lg-1">
-          <div class="course-note">Featured Course</div>
-          <h3 th:text="${course.title}"></h3>
-          <div class="course-metas">
-            <div class="course-meta">
-              <div class="cm-info">
-                <h6>Instructor</h6>
-                <p th:text="${course.instructor}"></p>
-              </div>
-            </div>
-            <div class="course-meta">
-              <div class="cm-info">
-                <h6>Description</h6>
-                <p th:text="${course.description}"></p>
-              </div>
-            </div>
-          </div>
-          <div class="course-meta">
-            <h5 align="center" style="color:#878787;">Rating</h5>
-
-            <table>
-              <tr th:if="${reviewlist.empty}">
-                <td colspan="2"> No Reviews Available</td>
-              </tr>
-
-              <tr>
-                <th>Rating(star)</th>
-                <th>Rating(number)</th>
-                <th>Date</th>
-                <th>Name</th>
-              </tr>
-
-              <tr th:each="r : ${reviewlist}">
-                <td>
-                  <div class="star-ratings-sprite">
-                    <span th:style=" 'width:'+ ${r.rate} + '%'" class="star-ratings-sprite-rating"></span>
-                  </div>
-                </td>
-                <td><span th:text="${r.number}"> Course </span></td>
-                <td><span th:text="${r.date}"> Teacher </span></td>
-                <td><span th:text="${r.username}"> Teacher </span></td>
-              </tr>
-            </table>
+    <div class="section-title">
+      <h3>All Courses</h3>
+    </div>
+    <div class="row" th:each="course: ${courseList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${course.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Most Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h3>Most Popular Courses</h3>
+    </div>
+    <div class="row" th:each="most: ${mostPopList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${most.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Least Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h3>Least Popular Courses</h3>
+    </div>
+    <div class="row" th:each="least: ${leastPopList}">
+      <div class="col-lg-4 col-md-6">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${least.title}"></h5>
+            <p th:text="${course.description}"></p>
+            <span th:text="${course.instructor.username}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </body>
 </html>
