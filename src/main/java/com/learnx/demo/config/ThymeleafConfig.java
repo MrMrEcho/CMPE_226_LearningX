@@ -13,7 +13,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @EnableWebMvc
 @Configuration
-public class ThymeleafConfiguration implements WebMvcConfigurer {
+public class ThymeleafConfig implements WebMvcConfigurer {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",
