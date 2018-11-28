@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public class AppUserRepository {
@@ -22,14 +21,13 @@ public class AppUserRepository {
     @Transactional
     public AppUser save(AppUser appUser) {
 
-        String sql = "INSERT INTO AppUser (username, password, approle) " +
-                "VALUES (:username, :password, :role)";
+        String sql = "insert into AppUser (username, password, approle) " +
+                "values (:username, :password, :role);";
         Query query = em.createNativeQuery(sql).
                 setParameter("username", appUser.getUsername()).
                 setParameter("password", appUser.getPassword()).
                 setParameter("role", appUser.getAppRole());
         int n = query.executeUpdate();
-
         AppUser newAppUser = null;
         if (n == 1) {
             newAppUser = findByName(appUser.getUsername());
@@ -39,28 +37,20 @@ public class AppUserRepository {
     }
 
     public AppUser findByName(String username) {
-        String sql = "SELECT id, username, password, approle FROM AppUser " +
-                "WHERE username=:name";
+        String sql = "select id, username, password, approle FROM AppUser " +
+                "where username=:name;";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("name", username);
-
-        List results = query.getResultList();
-        if (results.size() == 1) {
-            return (AppUser) results.get(0);
-        }
-        return null;
+        return (AppUser) query.getSingleResult();
     }
 
     public AppUser findById(int id) {
         String sql = "SELECT id, username, password, approle FROM AppUser " +
-                "WHERE id=:id";
+                "WHERE id=:id;";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("id", id);
 
-        List results = query.getResultList();
-        if (results.size() == 1) {
-            return (AppUser) results.get(0);
-        }
-        return null;
+        return (AppUser) query.getSingleResult();
     }
+
 }

@@ -34,6 +34,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> listCoursesByInstituteId(long instructorId) {
+        return null;
+    }
+
+    @Override
     public Course getCourseById(long courseId) {
         return null;
     }

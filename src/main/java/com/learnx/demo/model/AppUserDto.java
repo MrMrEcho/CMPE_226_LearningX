@@ -12,14 +12,15 @@ import lombok.Setter;
 public class AppUserDto {
 
     public enum Role {
-        NONE(0),
-        STUDENT(1),
-        INSTRUCTOR(2),
-        INSTITUTE(3),
-        ADMIN(4);
+        NONE(-1),
+        STUDENT(0),
+        INSTRUCTOR(1),
+        INSTITUTE(2),
+        ADMIN(3);
 
         private final int value;
-        private Role(int value) {
+
+        Role(int value) {
             this.value = value;
         }
 
@@ -27,9 +28,9 @@ public class AppUserDto {
             return value;
         }
 
-        public static Role getEnum(int value){
-            for (Role e:Role.values()) {
-                if(e.getValue() == value)
+        public static Role getEnum(int value) {
+            for (Role e : Role.values()) {
+                if (e.getValue() == value)
                     return e;
             }
             return Role.NONE;//For values out of enum scope
