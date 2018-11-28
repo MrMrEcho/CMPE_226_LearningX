@@ -1,3 +1,4 @@
+
 drop table if exists Discussion;
 drop table if exists Submission;
 drop table if exists Homework;
@@ -182,51 +183,59 @@ select * from AppUser where appRole=3;
 create or replace view AverageRating
 as
 select C.id as id, C.title as title, avg(R.rating) as rating, count(distinct R.studentId) as count
-from Course C natural join Rating R
+from Course C join Rating R on C.id = R.courseId
 group by C.id;
 
 -- Create stored procedures
-delimiter $$;
+delimiter $$
+drop function if exists isExam $$
 create function `isExam` (homeworkId int)
-return boolean
+returns boolean
 begin
-	set @homeworkType = (
-		select type from Homework H where H.homeworkId = homeworkId
-    );
-    if homeworkType = 1 then
+	declare htype int;
+	select type into htype from Homework where id = homeworkId;
+    if htype = 1 then
 		return true;
     else
 		return false;
     end if;
-end $$ delimiter ;
+end $$
 
-delimiter $$;
-create function `getCourseIdByHomeworkId` (homeworkId int)
-return int
-begin
-	set @courseId = (
-		select courseId from Homework where id = homeworkId
-    );
-    return courseId;
-end $$ delimiter ;
 
 delimiter $$
-create procedure `completeEnroll` (studentId int, courseId int)
+drop function if exists getCourseIdByHomeworkId $$
+create function `getCourseIdByHomeworkId` (homeworkId int)
+returns int
 begin
-	update Enroll E join Course
-    set isComplete = true
-    where E.studentId = studentId and E.courseId = courseId;
-end $$ delimiter ;
+	declare cid int;
+    select courseId into cid from Homework where id = homeworkId;
+    return cid;
+end $$
 
+
+delimiter $$
+drop procedure if exists completeEnroll $$
+create procedure `completeEnroll` (studentId int, cid int)
+begin
+	update Enroll E
+    set isCompleted = true
+    where E.studentId = studentId and E.courseId = cid;
+end $$
 
 -- Create triggers
+
 delimiter $$
+drop trigger if exists AfterSubmissionGraded $$
 create trigger `AfterSubmissionGraded`
     after update on Submission
     for each row
 begin
+	declare cid int;
     if NEW.isGraded and NEW.grade >= 60 and isExam(NEW.homeworkId) then
-        call completeEnroll(NEW.studentId, getCourseIdByHomeworkId(NEW.homeworkId));
+		set cid = getCourseIdByHomeworkId(NEW.homeworkId);
+        call completeEnroll(NEW.studentId, cid);
     end if;
-end $$ delimiter ;
+end $$
+
+delimiter ;
 
