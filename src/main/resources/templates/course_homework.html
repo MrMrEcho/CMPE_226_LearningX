@@ -15,7 +15,12 @@
         <h2>Learning X</h2>
       </div>
       <div class="col-lg-9 col-md-9">
-        <a th:href="@{/login}" class="site-btn header-btn" id="loginout">Login</a>
+        <div th:if="${session.userid == null}">
+          <a th:href="@{/login}" class="site-btn header-btn" >Login</a>
+        </div>
+        <div th:if="${session.userid != null}">
+          <a th:href="@{/logout}" class="site-btn header-btn" >Logout</a>
+        </div>
         <nav class="main-menu">
           <ul>
             <li><a th:href="@{/}">Home</a></li>
@@ -28,24 +33,6 @@
   </div>
 </header>
 <!-- Header section end -->
-
-<input id="sessionUsername" type="hidden" th:value="${session.username}" />
-<p id="read" th:text="${session.username}" style="color:white">Session</p>
-
-<script th:inline="javascript">
-    var cookieuser = document.getElementById("sessionUsername").value;
-
-    document.getElementById("read").innerHTML = cookieuser;
-
-    var link = document.getElementById("loginout");
-    if (cookieuser != "") {
-        link.innerHTML = "Logout";
-        link.setAttribute('href', "logout");
-    } else {
-        link.innerHTML = "Login";
-        link.setAttribute('href', "login");
-    }
-</script>
 
 <!-- single course section -->
 <section class="single-course spad pb-0">
