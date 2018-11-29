@@ -42,7 +42,7 @@ public class AppUserServiceImpl implements AppUserService {
         System.out.println("encodedPassword = " + encodedPassword);
         AppUser userToSave = new AppUser(userDto.getUsername(), encodedPassword, AppUserDto.Role.STUDENT.getValue());
         AppUser newUser = userRepository.save(userToSave);
-        return convertToDto(userRepository.save(newUser));
+        return convertToDto(newUser);
     }
 
     @Override
