@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface AppUserService {
 
-    AppUserDto create(String username, String password, AppUserDto.Role role);
-
     AppUserDto getUserById(int userId);
 
     List<AppUserDto> listInstructorsByInstituteId(int instituteId);
@@ -19,4 +17,6 @@ public interface AppUserService {
      * @throws IllegalArgumentException
      */
     AppUserDto authenticate(AppUserDto userDto);
+
+    AppUserDto create(AppUserDto userDto);
 }

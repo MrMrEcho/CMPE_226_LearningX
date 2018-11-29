@@ -33,9 +33,16 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUserDto create(String username, String password, AppUserDto.Role role) {
-        AppUser user = new AppUser(username, password, role.getValue());
-        return convertToDto(userRepository.save(user));
+    public AppUserDto create(AppUserDto userDto) {
+        AppUser user = userRepository.findByName(userDto.getUsername());
+        if(user != null){
+            throw new IllegalArgumentException("username already exists!");
+        }
+        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        System.out.println("encodedPassword = " + encodedPassword);
+        AppUser userToSave = new AppUser(userDto.getUsername(), encodedPassword, AppUserDto.Role.STUDENT.getValue());
+        AppUser newUser = userRepository.save(userToSave);
+        return convertToDto(userRepository.save(newUser));
     }
 
     @Override

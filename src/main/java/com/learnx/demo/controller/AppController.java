@@ -62,7 +62,7 @@ public class AppController {
         AppUserDto authUser = null;
         try {
             authUser = userService.authenticate(userDto);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             userDto.setPassword("");
             modelMap.put("user", userDto);
             modelMap.put("message", e.getMessage());
@@ -89,23 +89,21 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView showRegister() {
-        ModelAndView mav = new ModelAndView("register");
-        mav.addObject("user", new AppUserDto());
-        return mav;
+    public ModelAndView showRegister(ModelMap modelMap) {
+        modelMap.put("user", new AppUserDto());
+        return new ModelAndView("register", modelMap);
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, @ModelAttribute("user") AppUserDto newUser) {
-        ModelAndView mav = null;
-        try {
-            AppUserDto user = userService.create(newUser.getUsername(), newUser.getPassword(), AppUserDto.Role.STUDENT);
-            mav = new ModelAndView("login");
-        } catch (Exception e) {
-            mav.addObject("message", e.getMessage());
-            mav = new ModelAndView("register");
+    public ModelAndView addUser(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap) {
+        AppUserDto newUser = null;
+        try{
+            newUser = userService.create(userDto);
+        } catch (IllegalArgumentException e) {
+            modelMap.put("message", e.getMessage());
+            return new ModelAndView("register", modelMap);
         }
-        return mav;
+        return new ModelAndView("login");
     }
 
 
