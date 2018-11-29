@@ -5,6 +5,7 @@ import com.learnx.demo.model.*;
 import com.learnx.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import java.util.List;
 public class AppController {
 
     @Autowired
-    AppUserService appuserService;
+    AppUserService userService;
 
     @Autowired
     SeriesService seriesService;
@@ -51,34 +52,31 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView showLogin() {
-        ModelAndView mav = new ModelAndView("login");
-        mav.addObject("login");
-        return mav;
+    public ModelAndView showLogin(ModelMap modelMap) {
+        modelMap.put("user", new AppUserDto());
+        return new ModelAndView("login", modelMap);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView loginProcess(HttpServletRequest request, HttpSession session) {
-        ModelAndView mav = null;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        try{
-            AppUserDto user = appuserService.authenticate(username, password);
-            mav = new ModelAndView("index");
-            mav.addObject("seriesList", seriesService.listSeries());
-            mav.addObject("user", user);
-            // === add session ===
-            session.setAttribute("username", user.getUsername());
-            session.setAttribute("userid", user.getId());
-        } catch(Exception e){
-            mav.addObject("message", e.getMessage());
-            mav = new ModelAndView("login");
+    public ModelAndView loginProcess(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap, HttpSession session) {
+        AppUserDto authUser = null;
+        try {
+            authUser = userService.authenticate(userDto);
+        } catch (IllegalArgumentException e) {
+            userDto.setPassword("");
+            modelMap.put("user", userDto);
+            modelMap.put("message", e.getMessage());
+            return new ModelAndView("login", modelMap);
         }
-        return mav;
+        if(authUser != null){
+            session.setAttribute("username", userDto.getUsername());
+            session.setAttribute("userid", userDto.getId());
+        }
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView showLogout(HttpServletRequest request , HttpSession session) {
+    public ModelAndView showLogout(HttpServletRequest request, HttpSession session) {
         ModelAndView mav = new ModelAndView("index");
         session.invalidate();
         mav.addObject("seriesList", seriesService.listSeries());
@@ -91,23 +89,21 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView showRegister() {
-        ModelAndView mav = new ModelAndView("register");
-        mav.addObject("user", new AppUserDto());
-        return mav;
+    public ModelAndView showRegister(ModelMap modelMap) {
+        modelMap.put("user", new AppUserDto());
+        return new ModelAndView("register", modelMap);
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, @ModelAttribute("user") AppUserDto newUser) {
-        ModelAndView mav = null;
-        try {
-            AppUserDto user = appuserService.create(newUser.getUsername(), newUser.getPassword(), AppUserDto.Role.STUDENT);
-            mav = new ModelAndView("login");
-        } catch (Exception e) {
-            mav.addObject("message", e.getMessage());
-            mav = new ModelAndView("register");
+    public ModelAndView addUser(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap) {
+        AppUserDto newUser = null;
+        try{
+            newUser = userService.create(userDto);
+        } catch (IllegalArgumentException e) {
+            modelMap.put("message", e.getMessage());
+            return new ModelAndView("register", modelMap);
         }
-        return mav;
+        return new ModelAndView("login");
     }
 
 
@@ -146,7 +142,7 @@ public class AppController {
         ModelAndView mav = new ModelAndView("single_course");
         int courseId = Integer.valueOf(request.getParameter("id"));
         HttpSession session = request.getSession(false);
-        if(session != null) {
+        if (session != null) {
             int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
             mav.addObject("enroll", courseService.isEnrolled(courseId, userid));
             mav.addObject("complete", courseService.isComplete(courseId, userid));
@@ -186,7 +182,7 @@ public class AppController {
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_review");
         Course course = courseService.getCourseById(courseId);
-        List<Rating> rateList =  rateService.listRatingsByCourseId(courseId);
+        List<Rating> rateList = rateService.listRatingsByCourseId(courseId);
         mav.addObject("rateList", rateList);
         mav.addObject("course", course);
         return mav;
@@ -232,7 +228,7 @@ public class AppController {
         int courseid = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_homework");
         Course course = courseService.getCourseById(courseid);
-        AppUserDto user = appuserService.getUserById(userid);
+        AppUserDto user = userService.getUserById(userid);
         newDiscussion.setAppUserDto(user);
         newDiscussion.setCourse(course);
 
@@ -252,7 +248,7 @@ public class AppController {
         int userId = Integer.valueOf(request.getParameter("userid"));
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("single_course");
-        courseService.enroll(appuserService.getUserById(userId), courseService.getCourseById(courseId));
+        courseService.enroll(userService.getUserById(userId), courseService.getCourseById(courseId));
         Course course = courseService.getCourseById(courseId);
         List<Discussion> discussionList = course.getDiscussions();
         mav.addObject("enroll", courseService.isEnrolled(courseId, userId));

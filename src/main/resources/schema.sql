@@ -16,7 +16,7 @@ create table AppUser
 (
     id          int auto_increment,
     username    varchar(32) NOT NULL,
-    password    varchar(32) NOT NULL,
+    password    varchar(512) NOT NULL,
     appRole     int,
     
     primary key (id)

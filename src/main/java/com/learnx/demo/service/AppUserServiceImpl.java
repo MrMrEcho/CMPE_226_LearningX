@@ -4,6 +4,7 @@ import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
@@ -12,44 +13,49 @@ import java.util.List;
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
-    private final AppUserRepository appUserRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final AppUserRepository userRepository;
 
     @Autowired
-    public AppUserServiceImpl(AppUserRepository appUserRepository) {
-        this.appUserRepository = appUserRepository;
+    public AppUserServiceImpl(AppUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public AppUserDto authenticate(String username, String password) {
-
-        AppUser user = appUserRepository.findByName(username);
-
-        if(user == null) {
-            throw new NoResultException("username not exist");
+    public AppUserDto authenticate(AppUserDto userDto) {
+        AppUser user = userRepository.findByName(userDto.getUsername());
+        if(user == null || !passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Incorrect username or password!");
         }
-
-        if (!user.getPassword().equals(password)) {
-            throw new NoResultException("password not match");
-        }
-
         return convertToDto(user);
     }
 
     @Override
-    public AppUserDto create(String username, String password, AppUserDto.Role role) {
-        AppUser user = new AppUser(username, password, role.getValue());
-        return convertToDto(appUserRepository.save(user));
+    public AppUserDto create(AppUserDto userDto) {
+        AppUser user = userRepository.findByName(userDto.getUsername());
+        if(user != null){
+            throw new IllegalArgumentException("username already exists!");
+        }
+        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        System.out.println("encodedPassword = " + encodedPassword);
+        AppUser userToSave = new AppUser(userDto.getUsername(), encodedPassword, AppUserDto.Role.STUDENT.getValue());
+        AppUser newUser = userRepository.save(userToSave);
+        return convertToDto(newUser);
     }
 
     @Override
     public AppUserDto getUserById(int userId) {
-        return convertToDto(appUserRepository.findById(userId));
+        return convertToDto(userRepository.findById(userId));
     }
 
     @Override
     public List<AppUserDto> listInstructorsByInstituteId(int instituteId) {
         return null;
     }
+
+
 
     private static AppUser convertToEntity(AppUserDto dto) {
         AppUser entity = new AppUser();

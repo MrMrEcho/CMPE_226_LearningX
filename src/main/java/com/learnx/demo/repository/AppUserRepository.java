@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class AppUserRepository {
@@ -41,7 +42,12 @@ public class AppUserRepository {
                 "where username=:name";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("name", username);
-        return (AppUser) query.getSingleResult();
+        List<AppUser> users = query.getResultList();
+        if(users.isEmpty()){
+            return null;
+        } else{
+            return users.get(0);
+        }
     }
 
     public AppUser findById(int id) {
@@ -49,8 +55,12 @@ public class AppUserRepository {
                 "WHERE id=:id";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("id", id);
-
-        return (AppUser) query.getSingleResult();
+        List<AppUser> users = query.getResultList();
+        if(users.isEmpty()){
+            return null;
+        } else{
+            return users.get(0);
+        }
     }
 
 }
