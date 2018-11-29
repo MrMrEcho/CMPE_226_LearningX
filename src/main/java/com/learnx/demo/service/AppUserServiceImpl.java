@@ -58,13 +58,13 @@ public class AppUserServiceImpl implements AppUserService {
         }
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
         //System.out.println("encodedPassword = " + encodedPassword);
-        AppUser userToSave = new AppUser(userDto.getUsername(), encodedPassword, AppUserDto.Role.STUDENT.getValue());
-        AppUser newUser = repository.save(userToSave);
-        return toDto(newUser);
+        AppUser newEntity = new AppUser(userDto.getUsername(), encodedPassword, AppUserDto.Role.STUDENT.getValue());
+        AppUser saveEntity = repository.save(newEntity);
+        return toDto(saveEntity);
     }
 
     @Override
-    public AppUserDto update(AppUserDto newUserDto) {
+    public AppUserDto update(AppUserDto newDto) {
         return null;
     }
 

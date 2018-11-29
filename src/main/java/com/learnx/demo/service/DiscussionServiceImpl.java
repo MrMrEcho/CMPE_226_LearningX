@@ -49,7 +49,10 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public DiscussionDto create(DiscussionDto newDiscussion) {
-        return null;
+    public DiscussionDto create(DiscussionDto newDto) {
+
+        Discussion newEntity = toEntity(newDto);
+        Discussion saveEntity = repository.save(newEntity);
+        return toDto(saveEntity);
     }
 }

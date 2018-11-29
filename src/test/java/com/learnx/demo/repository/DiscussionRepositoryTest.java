@@ -9,6 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DiscussionRepositoryTest {
@@ -21,5 +23,17 @@ public class DiscussionRepositoryTest {
         List<Discussion> results = repository.findByCourseId(1);
 
         results.forEach(System.out::println);
+    }
+
+    @Test
+    public void save() {
+        Discussion entity = new Discussion();
+        entity.setUserId(4);
+        entity.setCourseId(1);
+        entity.setTitle("dummy title");
+
+        Discussion result = repository.save(entity);
+
+        assertEquals(result, entity);
     }
 }

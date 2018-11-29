@@ -25,35 +25,35 @@ public class AppUserRepositoryTest {
 
     @Test
     public void testSave() {
-        AppUser user = new AppUser("admin2", "admin2",
+        AppUser entity = new AppUser("admin2", "admin2",
                 AppUserDto.Role.ADMIN.getValue());
 
-        AppUser result = repository.save(user);
-        assertEquals(result.getUsername(), user.getUsername());
-        assertEquals(result.getPassword(), user.getPassword());
-        assertEquals(result.getAppRole(), user.getAppRole());
+        AppUser result = repository.save(entity);
+        assertEquals(result.getUsername(), entity.getUsername());
+        assertEquals(result.getPassword(), entity.getPassword());
+        assertEquals(result.getAppRole(), entity.getAppRole());
     }
 
     // TODO: Refactory test code
 
     @Test
     public void testFindByName() {
-        AppUser user = new AppUser("admin2", "admin2",
+        AppUser entity = new AppUser("admin2", "admin2",
                 AppUserDto.Role.ADMIN.getValue());
-        user = repository.save(user);
+        entity = repository.save(entity);
 
-        AppUser result = repository.findByName(user.getUsername());
-        assertEquals(result, user);
+        AppUser result = repository.findByName(entity.getUsername());
+        assertEquals(result, entity);
     }
 
     @Test
     public void testFindById() {
-        AppUser user = new AppUser("admin2", "admin2",
+        AppUser entity = new AppUser("admin2", "admin2",
                 AppUserDto.Role.ADMIN.getValue());
-        user = repository.save(user);
+        entity = repository.save(entity);
 
-        AppUser result = repository.findById(user.getId());
-        assertEquals(result, user);
+        AppUser result = repository.findById(entity.getId());
+        assertEquals(result, entity);
     }
 
     @Test

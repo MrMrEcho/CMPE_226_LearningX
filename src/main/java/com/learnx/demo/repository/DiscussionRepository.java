@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -27,5 +28,23 @@ public class DiscussionRepository {
                 setParameter("courseId", courseId);
 
         return RepositoryUtil.castAll(query.getResultList(), Discussion.class);
+    }
+
+    @Transactional
+    public Discussion save(Discussion entity) {
+        String sql = "INSERT INTO Discussion (userId, courseId, title, content) " +
+                "VALUES (:userId, :courseId, :title, :content)";
+        Query query = em.createNativeQuery(sql, Discussion.class).
+                setParameter("userId", entity.getUserId()).
+                setParameter("courseId", entity.getCourseId()).
+                setParameter("title", entity.getTitle()).
+                setParameter("content", entity.getContent());
+
+        if(query.executeUpdate() == 0) {
+            return null;
+        }
+        entity.setId(RepositoryUtil.getLastInsertId(em));
+
+        return entity;
     }
 }

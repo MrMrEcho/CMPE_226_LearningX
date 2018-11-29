@@ -19,21 +19,20 @@ public class AppUserRepository {
     }
 
     @Transactional
-    public AppUser save(AppUser appUser) {
+    public AppUser save(AppUser entity) {
         String sql = "INSERT INTO AppUser (username, password, approle) " +
                 "VALUES (:username, :password, :role)";
         Query query = em.createNativeQuery(sql).
-                setParameter("username", appUser.getUsername()).
-                setParameter("password", appUser.getPassword()).
-                setParameter("role", appUser.getAppRole());
-        int n = query.executeUpdate();
+                setParameter("username", entity.getUsername()).
+                setParameter("password", entity.getPassword()).
+                setParameter("role", entity.getAppRole());
 
-        if (n == 0) {
+        if (query.executeUpdate() == 0) {
             return null;
         }
-        appUser.setId(RepositoryUtil.getLastInsertId(em));
+        entity.setId(RepositoryUtil.getLastInsertId(em));
 
-        return appUser;
+        return entity;
     }
 
     public AppUser findByName(String username) {
