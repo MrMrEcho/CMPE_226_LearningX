@@ -1,55 +1,64 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.AppUserDto;
-import com.learnx.demo.model.Course;
+import com.learnx.demo.entity.Course;
+import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.repository.CourseRepository;
+import com.learnx.demo.repository.RepositoryUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
+
+    private final CourseRepository courseRepository;
+
+    public CourseServiceImpl(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
     @Override
-    public List<Course> searchCourses(String keyword) {
+    public List<CourseDto> searchCourses(String keyword) {
         return null;
     }
 
     @Override
-    public List<Course> listCourses() {
+    public List<CourseDto> listCourses() {
+        return RepositoryUtil.convertToDto(courseRepository.findAll(), CourseServiceImpl::convertToDto);
+    }
+
+    @Override
+    public List<CourseDto> listCoursesSortedByRating(boolean ascending) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesSortedByRating(boolean ascending) {
+    public List<CourseDto> listCoursesByUserId(int userId, Boolean complete) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesByUserId(int userId, Boolean complete) {
+    public List<CourseDto> listCoursesByInstructorId(int instructorId) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesByInstructorId(int instructorId) {
+    public List<CourseDto> listCoursesByInstituteId(int instructorId) {
         return null;
     }
 
     @Override
-    public List<Course> listCoursesByInstituteId(int instructorId) {
+    public CourseDto getCourseById(int courseId) {
         return null;
     }
 
     @Override
-    public Course getCourseById(int courseId) {
+    public CourseDto create(CourseDto course) {
         return null;
     }
 
     @Override
-    public Course create(Course newCourse) {
-        return null;
-    }
-
-    @Override
-    public Course update(Course course) {
+    public CourseDto update(CourseDto newCourse) {
         return null;
     }
 
@@ -64,12 +73,32 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course enroll(AppUserDto user, Course course) {
+    public CourseDto enroll(int studentId, int courseId) {
         return null;
     }
 
     @Override
-    public Course drop(AppUserDto user, Course course) {
+    public CourseDto drop(int studentId, int courseId) {
         return null;
+    }
+
+    private static CourseDto convertToDto(Course entity) {
+        CourseDto dto = new CourseDto();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setInstructorId(entity.getInstructorId());
+
+        return dto;
+    }
+
+    private static Course converToEntity(CourseDto dto) {
+        Course entity = new Course();
+        entity.setId(dto.getId());
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setInstructorId(dto.getInstructorId());
+
+        return entity;
     }
 }

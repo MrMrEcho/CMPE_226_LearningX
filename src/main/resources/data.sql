@@ -39,11 +39,11 @@ values(6, 8);$
 -- Course (id, title, instructorId)
 -- SJSU DS track include 255, 256, 257
 -- Need trigger or function to check instructorId existinstructor
-insert into Course (title, instructorId, info)
+insert into Course (title, instructorId, description)
 values ("255", 3, "Data Mining");$
-insert into Course (title, instructorId, info)
+insert into Course (title, instructorId, description)
 values ("256", 3, "Large Scale");$
-insert into Course (title, instructorId, info)
+insert into Course (title, instructorId, description)
 values ("257", 4, "ML");$
 
 insert into Series (instituteId, title)
