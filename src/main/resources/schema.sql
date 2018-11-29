@@ -197,6 +197,8 @@ group by C.id;$
 drop function if exists isExam ;$
 create function `isExam` (homeworkId int)
     returns boolean
+    READS SQL DATA
+    DETERMINISTIC
 begin
     declare htype int;
     select type into htype from Homework where id = homeworkId;
@@ -211,6 +213,8 @@ end ;$
 drop function if exists getCourseIdByHomeworkId ;$
 create function `getCourseIdByHomeworkId` (homeworkId int)
     returns int
+    READS SQL DATA
+    DETERMINISTIC
 begin
     declare cid int;
     select courseId into cid from Homework where id = homeworkId;
