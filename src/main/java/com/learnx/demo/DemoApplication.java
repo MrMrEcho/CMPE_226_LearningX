@@ -30,11 +30,11 @@ public class DemoApplication {
             System.out.println("starting spring");
             AppUser admin = new AppUser("admin", "admin", AppUserDto.Role.ADMIN.getValue());
             userRepository.save(admin);
-            AppUser institute = new AppUser("admin", "admin", AppUserDto.Role.INSTITUTE.getValue());
+            AppUser institute = new AppUser("institute", "institute", AppUserDto.Role.INSTITUTE.getValue());
             userRepository.save(institute);
-            AppUser instructor = new AppUser("admin", "admin", AppUserDto.Role.INSTRUCTOR.getValue());
+            AppUser instructor = new AppUser("instructor", "instructor", AppUserDto.Role.INSTRUCTOR.getValue());
             userRepository.save(instructor);
-            AppUser student = new AppUser("admin", "admin", AppUserDto.Role.STUDENT.getValue());
+            AppUser student = new AppUser("student", "student", AppUserDto.Role.STUDENT.getValue());
             userRepository.save(student);
         };
     }
