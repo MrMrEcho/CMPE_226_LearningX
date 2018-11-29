@@ -1,35 +1,25 @@
 package com.learnx.demo.repository;
 
-import com.learnx.demo.entity.Course;
+import com.learnx.demo.entity.Material;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CourseRepositoryTest {
+public class MaterialRepositoryTest {
 
     @Autowired
-    private EntityManager em;
-
-    @Autowired
-    private CourseRepository repository;
-
-    @Test()
-    public void testFindAll() {
-        List<Course> results = repository.findAll();
-
-        results.forEach(System.out::println);
-    }
+    private MaterialRepository repository;
 
     @Test
-    @Transactional
-    public void findById() {
+    public void findByCourseId() {
+        List<Material> results = repository.findByCourseId(1);
+
+        results.forEach(System.out::println);
     }
 }

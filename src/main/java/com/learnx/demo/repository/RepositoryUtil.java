@@ -28,9 +28,9 @@ public class RepositoryUtil {
     }
 
     public static Integer getLastInsertId(EntityManager em) {
-        String sql = "select last_insert_id()";
+        String sql = "SELECT last_insert_id()";
         Query query = em.createNativeQuery(sql);
-        BigInteger bi = (BigInteger)query.getSingleResult();
+        BigInteger bi = (BigInteger) query.getSingleResult();
 
         return bi.intValue();
     }

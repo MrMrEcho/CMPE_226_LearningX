@@ -23,9 +23,14 @@ public class Homework {
 
     private Integer courseId;
 
-    public Homework(String title, String content, int type) {
-        this.title = title;
-        this.content = content;
-        this.type = type;
-    }
+//    public Homework(String title, String content, int type) {
+//        this.title = title;
+//        this.content = content;
+//        this.type = type;
+//    }
+//
+//    public Homework(String title, String content, int type, Integer courseId) {
+//        this(title, content, type);
+//        this.courseId = courseId;
+//    }
 }

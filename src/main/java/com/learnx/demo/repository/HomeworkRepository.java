@@ -24,7 +24,7 @@ public class HomeworkRepository {
     public List<Homework> findByCourseId(int courseId) {
         String sql = "SELECT H.* " +
                 "FROM Homework H INNER JOIN Course C ON H.courseId = C.id " +
-                "WHERE C.Id = :courseId";
+                "WHERE C.id = :courseId";
         Query query = em.createNativeQuery(sql, Homework.class)
                 .setParameter("courseId", courseId);
 

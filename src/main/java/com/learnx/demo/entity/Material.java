@@ -10,24 +10,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Course")
-public class Course {
+@Table(name = "Material")
+public class Material {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private String description;
+    private String url;
 
-    private Integer instructorId;
+    private Integer courseId;
 
-//    public Course(String title, String description) {
+//    public Material(String title, String url) {
 //        this.title = title;
-//        this.description = description;
+//        this.url = url;
 //    }
 //
-//    public Course(String title, String description, Integer instructorId) {
-//        this(title, description);
-//        this.instructorId = instructorId;
+//    public Material(String title, String url, Integer courseId) {
+//        this(title, url);
+//        this.courseId = courseId;
 //    }
 }

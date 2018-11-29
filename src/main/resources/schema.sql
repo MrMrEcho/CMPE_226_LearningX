@@ -108,7 +108,7 @@ create table Rating
 create table Material
 (
     id          int auto_increment,
-    courseId    int,
+    courseId    int not null,
     title       varchar(256) not null,
     url         varchar(256),
     

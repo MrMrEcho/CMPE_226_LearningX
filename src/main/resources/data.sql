@@ -46,12 +46,26 @@ values ("256", 3, "Large Scale");$
 insert into Course (title, instructorId, description)
 values ("257", 4, "ML");$
 
+-- Homework for 255
 insert into Homework(courseId, title, content, type)
 values (1, "Data Mining HW1", "asdfasdfsad", 0);$
 insert into Homework(courseId, title, content, type)
 values (1, "Data Mining HW2", "agdsafds", 0);$
 insert into Homework(courseId, title, content, type)
 values (1, "Data Mining EXAM", "asdfasdfdsf", 1);$
+
+-- Material for 255
+insert into Material(courseId, title, url)
+values (1, "255 week1", "asdfasdfasdf");$
+insert into Material(courseId, title, url)
+values (1, "255 week2", "vdvdvdvd");$
+insert into Material(courseId, title, url)
+values (1, "255 week3", "adsfasdfsd");$
+
+-- Material for 256
+insert into Material(courseId, title, url)
+values (2, "256 week3", "adsfasdfsd");$
+
 
 insert into Series (instituteId, title)
 values(7, "DS");$

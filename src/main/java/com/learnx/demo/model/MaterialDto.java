@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaterialDto {
+    //@Setter(AccessLevel.NONE)
     private Integer id;
     private String title;
     private String url;

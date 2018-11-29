@@ -8,10 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppUserDto {
+
     private Integer id;
     private String username;
     private String password;
     private Role role;
+
     public enum Role {
         NONE(-1),
         STUDENT(0),
