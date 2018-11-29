@@ -6,6 +6,7 @@ import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -28,7 +29,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> searchCourses(String keyword) {
-        return null;
+        List<Course> results = repository.search(keyword);
+        return RepositoryUtil.mapAll(results, CourseServiceImpl::toDto);
     }
 
     @Override
