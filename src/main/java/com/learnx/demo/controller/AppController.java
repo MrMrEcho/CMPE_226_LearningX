@@ -109,12 +109,20 @@ public class AppController {
     //        search
     //  ======================
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("search_result");
-        List<CourseDto> courseList = courseService.searchCourses(request.getParameter("keyword"));
-        mav.addObject("courseList", courseList);
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView searchGET(HttpServletRequest request, ModelMap modelMap) {
+        ModelAndView mav = new ModelAndView("search", modelMap);
         return mav;
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView search(HttpServletRequest request, ModelMap modelMap) {
+        ModelAndView mav = new ModelAndView("redirect:/search_result");
+        String keyword = request.getParameter("keyword");
+        List<CourseDto> courseList = courseService.searchCourses(keyword);
+        modelMap.put("courseList", courseList);
+        modelMap.put("keyword", keyword);
+        return new ModelAndView("redirect:/search");
     }
 
     //  ======================
@@ -136,10 +144,9 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/singleCourse", method = RequestMethod.POST)
-    public ModelAndView singleCourses(HttpServletRequest request) {
+    public ModelAndView singleCourses(HttpServletRequest request, HttpSession session) {
         ModelAndView mav = new ModelAndView("single_course");
         int courseId = Integer.valueOf(request.getParameter("id"));
-        HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("userid") != null) {
             int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
             mav.addObject("enroll", userService.isEnrollByCourseId(userid, courseId));

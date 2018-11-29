@@ -13,7 +13,7 @@
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
         <form id="searchform"  th:action="@{/search}" method="post">
-          <input id = "keyword" type="text" name="name" placeholder="Enter course" required/>
+          <input id = "keyword" type="text" name="name" placeholder="Enter course" th:text="${keyword}?${keyword}"required/>
           <button class="site-btn">Search Course</button>
         </form>
       </div>
