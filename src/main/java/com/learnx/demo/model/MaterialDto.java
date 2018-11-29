@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaterialDto {
-    private int id;
+    private Integer id;
     private String title;
     private String url;
 
-    private int courseId;
+    private Integer courseId;
 }

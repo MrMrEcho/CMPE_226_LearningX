@@ -16,12 +16,12 @@ public class Homework {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String title;
     private String content;
     private int type;
 
-    private int courseId;
+    private Integer courseId;
 
     public Homework(String title, String content, int type) {
         this.title = title;

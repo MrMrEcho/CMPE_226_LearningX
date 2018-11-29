@@ -2,20 +2,23 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.entity.Homework;
 import com.learnx.demo.model.HomeworkDto;
+import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.HomeworkRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.learnx.demo.repository.RepositoryUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
 
-    private HomeworkRepository repository;
+    private final CourseRepository courseRepository;
+    private final HomeworkRepository homeworkRepository;
 
-    @Autowired
-    public HomeworkServiceImpl(HomeworkRepository repository) {
-        this.repository = repository;
+    public HomeworkServiceImpl(CourseRepository courseRepository, HomeworkRepository homeworkRepository) {
+        this.courseRepository = courseRepository;
+        this.homeworkRepository = homeworkRepository;
     }
 
     private static HomeworkDto toDto(Homework entity) {
@@ -42,11 +45,29 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public List<HomeworkDto> listHomeworksByCourseId(int courseId) {
-        return null;
+        // TODO: Check courseId exist
+        return RepositoryUtil.mapAll(homeworkRepository.findByCourseId(courseId), HomeworkServiceImpl::toDto);
+    }
+
+    @Override
+    public List<HomeworkDto> listHomeworksByCourseIdByType(int courseId, HomeworkDto.Type type) {
+        return listHomeworksByCourseId(courseId).stream().
+                filter(e -> e.getType() == type).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<HomeworkDto> listExamsByCourseId(int courseId) {
+        return listHomeworksByCourseIdByType(courseId, HomeworkDto.Type.EXAM);
+    }
+
+    @Override
+    public List<HomeworkDto> listPracticesByCourseId(int courseId) {
+        return listHomeworksByCourseIdByType(courseId, HomeworkDto.Type.PRACTICE);
     }
 
     @Override
     public HomeworkDto create(HomeworkDto newHomework) {
+
         return null;
     }
 

@@ -8,12 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HomeworkDto {
-
-    private int id;
+    private Integer id;
     private String title;
     private String content;
     private Type type;
-    private int courseId;
+    private Integer courseId;
 
     public enum Type {
         NONE(-1),

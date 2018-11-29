@@ -46,6 +46,13 @@ values ("256", 3, "Large Scale");$
 insert into Course (title, instructorId, description)
 values ("257", 4, "ML");$
 
+insert into Homework(courseId, title, content, type)
+values (1, "Data Mining HW1", "asdfasdfsad", 0);$
+insert into Homework(courseId, title, content, type)
+values (1, "Data Mining HW2", "agdsafds", 0);$
+insert into Homework(courseId, title, content, type)
+values (1, "Data Mining EXAM", "asdfasdfdsf", 1);$
+
 insert into Series (instituteId, title)
 values(7, "DS");$
 
@@ -55,7 +62,6 @@ insert into CourseSeries (courseId, seriesId)
 values(2, 1);$
 insert into CourseSeries (courseId, seriesId)
 values(3, 1);$
-
 
 -- -- Enroll (studentId, courseId, isCompleted, isDropped)
 -- insert into Enroll (studentId, courseId)

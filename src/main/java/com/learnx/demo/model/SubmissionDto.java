@@ -8,11 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmissionDto {
-    private int id;
+    private Integer id;
     private String answer;
     private int grade;
     private boolean isGraded;
 
-    private int instructorId;
-    private int homeworkId;
+    private Integer instructorId;
+    private Integer homeworkId;
 }

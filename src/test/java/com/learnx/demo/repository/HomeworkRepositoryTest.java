@@ -1,6 +1,6 @@
-package com.learnx.demo.service;
+package com.learnx.demo.repository;
 
-import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.entity.Homework;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +11,14 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CourseServiceImplTest {
+public class HomeworkRepositoryTest {
 
     @Autowired
-    private CourseService service;
+    private HomeworkRepository repository;
 
     @Test
-    public void listCourses() {
-        List<CourseDto> results = service.listCourses();
+    public void findByCourseId() {
+        List<Homework> results = repository.findByCourseId(1);
 
         results.forEach(System.out::println);
     }

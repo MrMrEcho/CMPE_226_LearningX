@@ -15,11 +15,11 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String title;
     private String description;
 
-    private int instructorId;
+    private Integer instructorId;
 
     public Course(String title, String description) {
         this.title = title;

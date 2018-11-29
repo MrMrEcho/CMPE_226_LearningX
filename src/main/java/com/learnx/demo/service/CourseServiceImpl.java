@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCourses() {
-        return RepositoryUtil.convertToDto(repository.findAll(), CourseServiceImpl::convertToDto);
+        return RepositoryUtil.mapAll(repository.findAll(), CourseServiceImpl::convertToDto);
     }
 
     @Override

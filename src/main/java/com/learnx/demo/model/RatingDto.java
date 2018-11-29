@@ -10,6 +10,6 @@ import lombok.*;
 public class RatingDto {
     private int rating;
 
-    private int studentId;
-    private int courseId;
+    private Integer studentId;
+    private Integer courseId;
 }

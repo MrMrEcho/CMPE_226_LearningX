@@ -10,9 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SeriesDto {
-    int instituteId;
-    List<Integer> courseIds;
-    private int id;
+    private Integer id;
     private String title;
     private String description;
+
+    private Integer instituteId;
+    private List<Integer> courseIds;
 }

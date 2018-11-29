@@ -121,7 +121,7 @@ create table Material
 create table Homework
 (
     id          int auto_increment,
-    courseId    int,
+    courseId    int not null,
     title       varchar(256) not null,
     content     varchar(256),
     type        int not null,

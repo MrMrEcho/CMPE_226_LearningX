@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseDto {
-    private int id;
+    private Integer id;
     private String title;
     private String description;
 
-    private int instructorId;
+    private Integer instructorId;
 }

@@ -8,10 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscussionDto {
-    private int id;
+    private Integer id;
     private String title;
     private String content;
 
-    private int appuserId;
-    private int courseId;
+    private Integer appuserId;
+    private Integer courseId;
 }
