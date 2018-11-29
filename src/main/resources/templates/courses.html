@@ -29,13 +29,20 @@
     <div class="section-title">
       <h4  style="color:#878787;">All Courses</h4>
     </div>
-    <div class="row" th:each="course: ${courseList}">
-      <div class="col-lg-4 col-md-6">
-        <div class="categorie-item">
-          <div class="ci-text">
-            <h5 th:text="${course.title}"></h5>
-            <p th:text="${course.description}"></p>
-            <span th:text="${course.instructor.username}"></span>
+    <div class="row" >
+      <div th:each="course: ${courseList}">
+        <div class="col-lg-auto col-md-auto">
+          <div class="categorie-item">
+            <div class="ci-text">
+              <h5 th:text="${course.title}"></h5>
+              <p th:text="${course.description}"></p>
+              <!--<span th:text="${course.instructor.username}"></span>-->
+              <br>
+              <form role="form" th:action="@{/singleCourse}" th:method="post">
+                <input type="hidden" name="id" id="id" th:value="${course.id}"/>
+                <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -50,12 +57,17 @@
       <h4  style="color:#878787;">Most Popular Courses</h4>
     </div>
     <div class="row" th:each="most: ${mostPopList}">
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-auto col-md-auto">
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${most.title}"></h5>
             <p th:text="${course.description}"></p>
-            <span th:text="${course.instructor.username}"></span>
+            <!--<span th:text="${course.instructor.username}"></span>-->
+            <br>
+            <form role="form" th:action="@{/singleCourse}" th:method="post">
+              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
+              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
+            </form>
           </div>
         </div>
       </div>
@@ -70,12 +82,17 @@
       <h4  style="color:#878787;">Least Popular Courses</h4>
     </div>
     <div class="row" th:each="least: ${leastPopList}">
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-auto col-md-auto">
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${least.title}"></h5>
             <p th:text="${course.description}"></p>
-            <span th:text="${course.instructor.username}"></span>
+            <!--<span th:text="${course.instructor.username}"></span>-->
+            <br>
+            <form role="form" th:action="@{/singleCourse}" th:method="post">
+              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
+              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
+            </form>
           </div>
         </div>
       </div>

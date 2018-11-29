@@ -140,7 +140,7 @@ public class AppController {
         ModelAndView mav = new ModelAndView("single_course");
         int courseId = Integer.valueOf(request.getParameter("id"));
         HttpSession session = request.getSession(false);
-        if (session != null) {
+        if (session != null && session.getAttribute("userid") != null) {
             int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
             mav.addObject("enroll", userService.isEnrollByCourseId(userid, courseId));
             mav.addObject("complete", userService.isCompleteByCourseId(userid, courseId));
@@ -149,8 +149,9 @@ public class AppController {
         CourseDto course = courseService.getCourseById(courseId);
         List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(courseId);
         mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()));
         mav.addObject("discussionList", discussionList);
-        mav.addObject("discussion", new DiscussionDto());
+        mav.addObject("question", new DiscussionDto());
         mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
         return mav;
     }

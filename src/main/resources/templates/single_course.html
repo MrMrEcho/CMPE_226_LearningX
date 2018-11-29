@@ -17,7 +17,7 @@
             <div class="course-meta">
               <div class="cm-info">
                 <h6>Instructor</h6>
-                <p th:text="${course.instructor.username}"></p>
+                <p th:text="${instructor}"></p>
               </div>
             </div>
             <div class="course-meta">
@@ -97,7 +97,7 @@
           <div class="course-metas">
             <h5>Post discussion:</h5>
             <p th:text="${session.username != null} ? ${session.username} : 'You have to login first!'" style="color:tomato"></p>
-              <form action="#" th:action="@{/discussion}" method="post">
+              <form action="#" th:object="${question}" th:action="@{/discussion}" method="post">
                 <label> Title </label><br>
                 <textarea name="title" rows="1" cols="80" th:value="*{title}" required></textarea><br>
                 <label> Content </label><br>
