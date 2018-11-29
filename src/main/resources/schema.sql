@@ -26,7 +26,7 @@ create table Course
 (
     id              int auto_increment,
     title           varchar(128) not null,
-    info            varchar(256),
+    description     varchar(256),
     instructorId    int,
     
     primary key (id),

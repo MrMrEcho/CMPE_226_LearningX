@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 
 @Service
@@ -59,6 +58,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     private static AppUser convertToEntity(AppUserDto dto) {
         AppUser entity = new AppUser();
+        entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
         entity.setAppRole(dto.getRole().getValue());
@@ -68,10 +68,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     private static AppUserDto convertToDto(AppUser entity) {
         AppUserDto dto = new AppUserDto();
+        dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setPassword(entity.getPassword());
         dto.setRole(AppUserDto.Role.getEnum(entity.getAppRole()));
-        dto.setId(entity.getId());
 
         return dto;
     }

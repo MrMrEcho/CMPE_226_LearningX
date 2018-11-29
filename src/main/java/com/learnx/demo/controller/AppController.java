@@ -1,6 +1,5 @@
 package com.learnx.demo.controller;
 
-import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.*;
 import com.learnx.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,8 +113,8 @@ public class AppController {
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView search(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("search_result");
-        List<Course> courseList = courseService.searchCourses(request.getParameter("keyword"));
-        mav.addObject("courseList", courseList);
+        //List<Course> courseList = courseService.searchCourses(request.getParameter("keyword"));
+        //mav.addObject("courseList", courseList);
         return mav;
     }
 
@@ -148,10 +147,10 @@ public class AppController {
             mav.addObject("complete", courseService.isComplete(courseId, userid));
         }
 
-        Course course = courseService.getCourseById(courseId);
-        List<Discussion> discussionList = course.getDiscussions();
+        CourseDto course = courseService.getCourseById(courseId);
+        //List<Discussion> discussionList = course.getDiscussions();
         mav.addObject("course", course);
-        mav.addObject("discussionList", discussionList);
+        //mav.addObject("discussionList", discussionList);
         mav.addObject("discussion", new Discussion());
         mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
         return mav;
@@ -164,12 +163,12 @@ public class AppController {
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
     public ModelAndView allCourses(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("courses");
-        List<Course> courseList = courseService.listCourses();
-        List<Course> mostPopList = courseService.listCoursesSortedByRating(false);
-        List<Course> leastPopList = courseService.listCoursesSortedByRating(true);
-        mav.addObject("courseList", courseList);
-        mav.addObject("mostPopList", mostPopList);
-        mav.addObject("leastPopList", leastPopList);
+        //List<Course> courseList = courseService.listCourses();
+        //List<Course> mostPopList = courseService.listCoursesSortedByRating(false);
+        //List<Course> leastPopList = courseService.listCoursesSortedByRating(true);
+        //mav.addObject("courseList", courseList);
+        //mav.addObject("mostPopList", mostPopList);
+        //mav.addObject("leastPopList", leastPopList);
         return mav;
     }
 
@@ -181,10 +180,10 @@ public class AppController {
     public ModelAndView getreviews(HttpServletRequest request) {
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_review");
-        Course course = courseService.getCourseById(courseId);
+        //Course course = courseService.getCourseById(courseId);
         List<Rating> rateList = rateService.listRatingsByCourseId(courseId);
         mav.addObject("rateList", rateList);
-        mav.addObject("course", course);
+        //mav.addObject("course", course);
         return mav;
     }
 
@@ -196,7 +195,7 @@ public class AppController {
     public ModelAndView gethomework(HttpServletRequest request) {
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_homework");
-        Course course = courseService.getCourseById(courseId);
+        CourseDto course = courseService.getCourseById(courseId);
         List<Homework> homeworkList = homeworkService.listHomeworkdsByCourseId(courseId);
         mav.addObject("homeworkList", homeworkList);
         mav.addObject("course", course);
@@ -211,7 +210,7 @@ public class AppController {
     public ModelAndView getMaterial(HttpServletRequest request) {
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_material");
-        Course course = courseService.getCourseById(courseId);
+        CourseDto course = courseService.getCourseById(courseId);
         List<Material> materialList = materialService.listMaterialsByCourseId(courseId);
         mav.addObject("materialList", materialList);
         mav.addObject("course", course);
@@ -227,10 +226,10 @@ public class AppController {
         int userid = Integer.valueOf(request.getParameter("userid"));
         int courseid = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("course_homework");
-        Course course = courseService.getCourseById(courseid);
+        CourseDto course = courseService.getCourseById(courseid);
         AppUserDto user = userService.getUserById(userid);
         newDiscussion.setAppUserDto(user);
-        newDiscussion.setCourse(course);
+        //newDiscussion.setCourse(course);
 
         discussionService.create(newDiscussion);
         List<Discussion> discussionList = discussionService.listDiscussionsByCourseId(courseid);
@@ -248,13 +247,13 @@ public class AppController {
         int userId = Integer.valueOf(request.getParameter("userid"));
         int courseId = Integer.valueOf(request.getParameter("courseid"));
         ModelAndView mav = new ModelAndView("single_course");
-        courseService.enroll(userService.getUserById(userId), courseService.getCourseById(courseId));
-        Course course = courseService.getCourseById(courseId);
-        List<Discussion> discussionList = course.getDiscussions();
+        //courseService.enroll(userService.getUserById(userId), courseService.getCourseById(courseId));
+        CourseDto course = courseService.getCourseById(courseId);
+        //List<Discussion> discussionList = course.getDiscussions();
         mav.addObject("enroll", courseService.isEnrolled(courseId, userId));
         mav.addObject("complete", courseService.isComplete(courseId, userId));
         mav.addObject("course", course);
-        mav.addObject("discussionList", discussionList);
+        //mav.addObject("discussionList", discussionList);
         mav.addObject("discussion", new Discussion());
         mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
         return mav;

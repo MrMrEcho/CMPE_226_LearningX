@@ -1,31 +1,28 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.AppUserDto;
-import com.learnx.demo.model.Course;
+import com.learnx.demo.model.CourseDto;
 
 import java.util.List;
 
 public interface CourseService {
 
-    List<Course> searchCourses(String keyword);
-    List<Course> listCourses();
-    List<Course> listCoursesSortedByRating(boolean ascending);
-    List<Course> listCoursesByUserId(int userId, Boolean complete);
-    List<Course> listCoursesByInstructorId(int instructorId);
-    List<Course> listCoursesByInstituteId(int instructorId);
+    List<CourseDto> searchCourses(String keyword);
+    List<CourseDto> listCourses();
+    List<CourseDto> listCoursesSortedByRating(boolean ascending);
+    List<CourseDto> listCoursesByUserId(int userId, Boolean complete);
+    List<CourseDto> listCoursesByInstructorId(int instructorId);
+    List<CourseDto> listCoursesByInstituteId(int instructorId);
 
-    Course getCourseById(int courseId);
+    CourseDto getCourseById(int courseId);
 
-    // CRUD
-    Course create(Course newCourse);
-    Course update(Course course);
+    CourseDto create(CourseDto course);
+    CourseDto update(CourseDto newCourse);
 
-    // User Course Operation
     // TODO: Rename or move to UserService, UserCourseService
     boolean isEnrolled(int courseId, int userId);
     boolean isComplete(int courseId, int userId);
 
     // TODO: change parameter order for naming rule consistency
-    Course enroll(AppUserDto user, Course course);
-    Course drop(AppUserDto user, Course course);
+    CourseDto enroll(int studentId, int courseId);
+    CourseDto drop(int studentId, int courseId);
 }
