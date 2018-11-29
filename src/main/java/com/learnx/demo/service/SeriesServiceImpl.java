@@ -34,7 +34,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public Series addCourseBySeriesId(Course course, int seriesId) {
+    public Series addCourseBySeriesId(int courseId, int seriesId) {
         return null;
     }
 }

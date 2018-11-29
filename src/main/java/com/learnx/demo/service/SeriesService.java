@@ -16,5 +16,5 @@ public interface SeriesService {
     // CRUD
     Series create(Series newSeries);
 
-    Series addCourseBySeriesId(Course course, int seriesId);
+    Series addCourseBySeriesId(int courseId, int seriesId);
 }

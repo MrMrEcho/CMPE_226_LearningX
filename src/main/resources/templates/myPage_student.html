@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearningX</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<body>
+<header>
+    <h1>Placeholder for header</h1>
+</header>
+<section class="course-list spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(courses_ongoing)}">
+        <h3>The courses you are taking now:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses_ongoing}">
+                <td th:text="${course.getTitle()}">Text..</td>
+                <td th:text="${course.getDescription()}">Text..</td>
+                <td><a th:href="@{/course_temp}">Go to course</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="course-list spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(courses_past)}">
+        <h3>The courses you have completed</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses_ongoing}">
+                <td th:text="${course.getTitle()}">Text..</td>
+                <td th:text="${course.getDescription()}">Text..</td>
+                <td><a th:href="@{/course_temp}">Go to course</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="series-list spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(certificates)}">
+        <h3>The certificates you have earned</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="series : ${certificates}">
+                <td th:text="${series.getTitle()}">Text..</td>
+                <td th:text="${series.getDescription()}">Text..</td>
+                <td><a th:href="@{/course_temp}">Find more info at courses</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

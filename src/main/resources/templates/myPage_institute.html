@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LearningX</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<header>
+    <h1>Placeholder for header</h1>
+</header>
+<body>
+<!--For Course adding -->
+<section class="container">
+    <form method="post" th:action="@{/me/addCourse}" th:object="${course}">
+        <h3>Add a new course</h3>
+        <label for="title">Title:</label>
+        <input type="text" th:field="*{title}" />
+        <br/>
+        <label for="description">Description:</label>
+        <input type="text" th:field="*{description}" />
+        <br/>
+        <input type="submit" value="Add Course">
+    </form>
+</section>
+<!--For Assigning instructor to Course -->
+<section class="container">
+    <form method="post" th:action="@{me/updateCourseInstructor}" th:object="${newCourse}">
+        <h3>Assign/Change a instructor to existing course</h3>
+        <div>
+            <label for="title">Select Course by title</label>
+            <select th:field="*{title}">
+                <option value=""> -- </option>
+                <option th:each="singleCourse : ${coursesByInstitute}"
+                        th:value="${singleCourse.getId()}"
+                        th:text="${singleCourse.getTitle()}">Text..</option>
+            </select>
+            <br/>
+        </div>
+        <div>
+            <label for="instructor">Select Instructor</label>
+            <select th:field="*{description}">
+                <option value=""> -- </option>
+                <option th:each="singleInstructor : ${instructorsByInstitute}"
+                        th:value="${singleInstructor.getId()}"
+                        th:text="${singleInstructor.getUsername()}">Text..</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Assign Instructor">
+        </div>
+    </form>
+</section>
+<!--For Course update -->
+<!--DO-->
+<section class="container">
+    <form method="post" th:action="@{/me/updateCourse}" th:object="${newCourse}">
+        <h3>Update current course description</h3>
+        <div>
+            <label for="title">Course title:</label>
+            <select th:field="*{title}">
+                <option value=""> -- </option>
+                <option th:each="singleCourse : ${coursesByInstitute}"
+                        th:value="${singleCourse.getId()}"
+                        th:text="${singleCourse.getTitle()}">Text..</option>
+            </select>
+            <br/>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <input type="text" th:field="*{description}">
+            <br/>
+        </div>
+        <div>
+            <input type="submit" value="Update description">
+        </div>
+
+    </form>
+</section>
+<!--For Series adding -->
+<section class="container">
+    <form method="post" th:action="@{/me/addSeries}" th:object="${series}">
+        <h3>Add a new series</h3>
+        <label for="title">Title:</label>
+        <input type="text" th:field="*{title}" />
+        <br/>
+        <label for="description">Description</label>
+        <input type="text" th:field="*{description}" />
+        <br/>
+        <input type="submit" value="Add Series">
+    </form>
+</section>
+<!--For Adding course to series adding -->
+<!--Now working on this-->
+<section class="container">
+    <form method="post" th:action="@{/me/addCourseToSeries}" th:object="${newSeries}">
+        <h3>Adding course to a series</h3>
+        <label for="series'title">The series' title</label>
+        <select th:field="*{title}">
+            <option value=""> -- </option>
+            <option th:each="singleSeries : ${seriesByInstitute}"
+                    th:value="${singleSeries.getId()}"
+                    th:text="${singleSeries.getTitle()}">Text..</option>
+        </select>
+        <br/>
+        <label for="course'title">The course's title</label>
+        <select th:field="*{description}">
+            <option value=""> -- </option>
+            <option th:each="singleCourse : ${coursesByInstitute}"
+                    th:value="${singleCourse.getId()}"
+                    th:text="${singleCourse.getTitle()}">Text..</option>
+        </select>
+        <br/>
+        <input type="submit" value="Add">
+    </form>
+</section>
+<!--For instructor adding -->
+<section class="container">
+    <form method="post" action="#" th:object="${instructor}" th:action="@{/me/addInstructor}">
+        <h3>Add a new instructor user</h3>
+
+        <label for="username">Username</label>
+        <input type="text" th:field="*{username}"/>
+        <br/>
+        <label for="password">Password</label>
+        <input type="text" th:field="*{password}" />
+        <br/>
+        <input type="submit" value="Add">
+    </form>
+</section>
+</body>
+</html>
