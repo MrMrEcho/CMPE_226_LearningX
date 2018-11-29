@@ -82,8 +82,8 @@ insert into CourseSeries (courseId, seriesId)
 values(3, 1);$
 
 -- -- Enroll (studentId, courseId, isCompleted, isDropped)
--- insert into Enroll (studentId, courseId)
--- values(1, 1);$
+insert into Enroll (studentId, courseId)
+values(1, 1);$
 -- insert into Enroll (studentId, courseId)
 -- values(1, 2);$
 -- insert into Enroll (studentId, courseId)

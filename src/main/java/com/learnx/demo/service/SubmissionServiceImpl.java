@@ -1,12 +1,12 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.model.SubmissionDto;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
+
     @Override
     public List<SubmissionDto> listSubmissionByHomeworkId(SubmissionDto newSubmission) {
         return null;

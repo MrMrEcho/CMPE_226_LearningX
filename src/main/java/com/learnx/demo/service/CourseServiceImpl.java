@@ -4,9 +4,8 @@ import com.learnx.demo.entity.Course;
 import com.learnx.demo.model.CourseDto;
 import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.RepositoryUtil;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -17,17 +16,7 @@ public class CourseServiceImpl implements CourseService {
         this.repository = repository;
     }
 
-    private static CourseDto convertToDto(Course entity) {
-        CourseDto dto = new CourseDto();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setDescription(entity.getDescription());
-        dto.setInstructorId(entity.getInstructorId());
-
-        return dto;
-    }
-
-    private static Course converToEntity(CourseDto dto) {
+    private static Course toEntity(CourseDto dto) {
         Course entity = new Course();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -44,7 +33,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCourses() {
-        return RepositoryUtil.mapAll(repository.findAll(), CourseServiceImpl::convertToDto);
+        return RepositoryUtil.mapAll(repository.findAll(), CourseServiceImpl::toDto);
+    }
+
+    private static CourseDto toDto(Course entity) {
+        CourseDto dto = new CourseDto();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setInstructorId(entity.getInstructorId());
+
+        return dto;
     }
 
     @Override
@@ -79,7 +78,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDto getCourseById(int courseId) {
-        return null;
+
+        Course result = repository.findById(courseId);
+        if (result == null) {
+            return null;
+        }
+
+        return toDto(result);
     }
 
     @Override

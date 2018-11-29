@@ -1,7 +1,6 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.model.CourseDto;
-
 import java.util.List;
 
 public interface CourseService {
@@ -26,9 +25,6 @@ public interface CourseService {
 
     /**
      * Create a course record from
-     *
-     * @param course
-     * @return
      */
     CourseDto create(CourseDto course);
 

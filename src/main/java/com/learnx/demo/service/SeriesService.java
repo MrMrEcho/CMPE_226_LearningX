@@ -2,7 +2,6 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.model.CourseDto;
 import com.learnx.demo.model.SeriesDto;
-
 import java.util.List;
 
 public interface SeriesService {

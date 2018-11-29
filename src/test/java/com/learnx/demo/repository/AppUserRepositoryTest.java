@@ -1,16 +1,15 @@
 package com.learnx.demo.repository;
 
+import static org.junit.Assert.assertEquals;
+
 import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.AppUserDto;
+import javax.persistence.EntityManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.persistence.EntityManager;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,7 +20,6 @@ public class AppUserRepositoryTest {
 
     @Autowired
     private AppUserRepository repository;
-
 
     @Test
     public void testSave() {
@@ -66,5 +64,15 @@ public class AppUserRepositoryTest {
 
     @Test
     public void findInstituteById() {
+    }
+
+    @Test
+    public void isEnrollByCourseId() {
+
+        assertEquals(true, repository.isEnrollByCourseId(1, 1));
+
+        assertEquals(false, repository.isEnrollByCourseId(1, 2));
+
+        assertEquals(false, repository.isEnrollByCourseId(4, 1));
     }
 }

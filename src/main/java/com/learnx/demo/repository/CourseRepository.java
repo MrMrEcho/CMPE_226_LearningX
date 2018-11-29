@@ -1,12 +1,11 @@
 package com.learnx.demo.repository;
 
 import com.learnx.demo.entity.Course;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class CourseRepository {
@@ -19,9 +18,6 @@ public class CourseRepository {
 
     /**
      * Save course
-     *
-     * @param course
-     * @return
      */
     public Course save(Course course) {
         int n = 0;
@@ -37,27 +33,28 @@ public class CourseRepository {
         course.setId(RepositoryUtil.getLastInsertId(em));
 
         return course;
-
     }
 
     @Transactional
     protected int save(String title, String description, int instructorId) {
-        String sql = "INSERT INTO Course (title, description, instructorId) " +
-                "VALUES (:title, :description, :instructorId)";
-        Query query = em.createNativeQuery(sql, Course.class).
-                setParameter("title", title).
-                setParameter("description", description).
-                setParameter("instructorId", instructorId);
+        String sql =
+                "INSERT INTO Course (title, description, instructorId) "
+                        + "VALUES (:title, :description, :instructorId)";
+        Query query =
+                em.createNativeQuery(sql, Course.class)
+                        .setParameter("title", title)
+                        .setParameter("description", description)
+                        .setParameter("instructorId", instructorId);
         return query.executeUpdate();
     }
 
     @Transactional
     protected int save(String title, String description) {
-        String sql = "INSERT INTO Course (title, description) " +
-                "VALUES (:title, :description)";
-        Query query = em.createNativeQuery(sql, Course.class).
-                setParameter("title", title).
-                setParameter("description", description);
+        String sql = "INSERT INTO Course (title, description) " + "VALUES (:title, :description)";
+        Query query =
+                em.createNativeQuery(sql, Course.class)
+                        .setParameter("title", title)
+                        .setParameter("description", description);
         return query.executeUpdate();
     }
 
@@ -69,10 +66,10 @@ public class CourseRepository {
     }
 
     public Course findById(int courseId) {
-        String sql = "SELECT * FROM course " +
-                "WHERE id = :courseId";
+        String sql = "SELECT * FROM course " + "WHERE id = :courseId";
 
-        Query query = em.createNativeQuery(sql, Course.class);
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("courseId", courseId);
 
         return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
     }

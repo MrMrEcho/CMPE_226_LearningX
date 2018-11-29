@@ -2,12 +2,12 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.model.CourseDto;
 import com.learnx.demo.model.SeriesDto;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class SeriesServiceImpl implements SeriesService {
+
     @Override
     public List<CourseDto> listCoursesBySeriesId(int seriesId) {
         return null;

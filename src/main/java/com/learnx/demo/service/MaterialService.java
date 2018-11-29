@@ -1,7 +1,6 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.model.MaterialDto;
-
 import java.util.List;
 
 public interface MaterialService {

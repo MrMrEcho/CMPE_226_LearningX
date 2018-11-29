@@ -5,10 +5,9 @@ import com.learnx.demo.model.HomeworkDto;
 import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.HomeworkRepository;
 import com.learnx.demo.repository.RepositoryUtil;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
@@ -16,20 +15,10 @@ public class HomeworkServiceImpl implements HomeworkService {
     private final CourseRepository courseRepository;
     private final HomeworkRepository homeworkRepository;
 
-    public HomeworkServiceImpl(CourseRepository courseRepository, HomeworkRepository homeworkRepository) {
+    public HomeworkServiceImpl(CourseRepository courseRepository,
+            HomeworkRepository homeworkRepository) {
         this.courseRepository = courseRepository;
         this.homeworkRepository = homeworkRepository;
-    }
-
-    private static HomeworkDto toDto(Homework entity) {
-        HomeworkDto dto = new HomeworkDto();
-        dto.setId(entity.getId());
-        dto.setCourseId(entity.getCourseId());
-        dto.setTitle(entity.getTitle());
-        dto.setContent(entity.getContent());
-        dto.setType(HomeworkDto.Type.getEnum(entity.getType()));
-
-        return dto;
     }
 
     private static Homework toEntity(HomeworkDto dto) {
@@ -41,12 +30,24 @@ public class HomeworkServiceImpl implements HomeworkService {
         entity.setType(dto.getType().getValue());
 
         return entity;
+    }    private static HomeworkDto toDto(Homework entity) {
+        HomeworkDto dto = new HomeworkDto();
+        dto.setId(entity.getId());
+        dto.setCourseId(entity.getCourseId());
+        dto.setTitle(entity.getTitle());
+        dto.setContent(entity.getContent());
+        dto.setType(HomeworkDto.Type.getEnum(entity.getType()));
+
+        return dto;
     }
+
+
 
     @Override
     public List<HomeworkDto> listHomeworksByCourseId(int courseId) {
         // TODO: Check courseId exist
-        return RepositoryUtil.mapAll(homeworkRepository.findByCourseId(courseId), HomeworkServiceImpl::toDto);
+        return RepositoryUtil
+                .mapAll(homeworkRepository.findByCourseId(courseId), HomeworkServiceImpl::toDto);
     }
 
     @Override

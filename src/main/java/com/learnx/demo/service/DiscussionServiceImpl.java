@@ -4,10 +4,9 @@ import com.learnx.demo.entity.Discussion;
 import com.learnx.demo.model.DiscussionDto;
 import com.learnx.demo.repository.DiscussionRepository;
 import com.learnx.demo.repository.RepositoryUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
@@ -17,6 +16,14 @@ public class DiscussionServiceImpl implements DiscussionService {
     @Autowired
     public DiscussionServiceImpl(DiscussionRepository repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public List<DiscussionDto> listDiscussionsByCourseId(int courseId) {
+        // TODO: Check courseId exist
+
+        return RepositoryUtil
+                .mapAll(repository.findByCourseId(courseId), DiscussionServiceImpl::toDto);
     }
 
     private static DiscussionDto toDto(Discussion entity) {
@@ -30,6 +37,15 @@ public class DiscussionServiceImpl implements DiscussionService {
         return dto;
     }
 
+    @Override
+    public DiscussionDto create(DiscussionDto dto) {
+
+        // TODO: Check some field can not be null
+        Discussion newEntity = toEntity(dto);
+        Discussion saveEntity = repository.save(newEntity);
+        return toDto(saveEntity);
+    }
+
     private static Discussion toEntity(DiscussionDto dto) {
         Discussion entity = new Discussion();
         entity.setId(dto.getId());
@@ -39,20 +55,5 @@ public class DiscussionServiceImpl implements DiscussionService {
         entity.setCourseId(dto.getCourseId());
 
         return entity;
-    }
-
-    @Override
-    public List<DiscussionDto> listDiscussionsByCourseId(int courseId) {
-        // TODO: Check courseId exist
-
-        return RepositoryUtil.mapAll(repository.findByCourseId(courseId), DiscussionServiceImpl::toDto);
-    }
-
-    @Override
-    public DiscussionDto create(DiscussionDto newDto) {
-
-        Discussion newEntity = toEntity(newDto);
-        Discussion saveEntity = repository.save(newEntity);
-        return toDto(saveEntity);
     }
 }

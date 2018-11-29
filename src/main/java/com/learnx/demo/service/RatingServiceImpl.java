@@ -1,9 +1,8 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.model.RatingDto;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RatingServiceImpl implements RatingService {

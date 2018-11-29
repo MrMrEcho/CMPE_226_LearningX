@@ -1,6 +1,10 @@
 package com.learnx.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -29,10 +33,11 @@ public class AppUserDto {
 
         public static Role getEnum(int value) {
             for (Role e : Role.values()) {
-                if (e.getValue() == value)
-                    return e;
+              if (e.getValue() == value) {
+                return e;
+              }
             }
-            return Role.NONE;//For values out of enum scope
+            return Role.NONE; // For values out of enum scope
         }
 
         public int getValue() {

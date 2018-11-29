@@ -1,18 +1,14 @@
 package com.learnx.demo.repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 public class RepositoryUtil {
-
-    public static <T> List<T> castAll(Collection<?> list, Class<T> cls) {
-        return list.stream().map(cls::cast).collect(Collectors.toList());
-    }
 
     public static <E, T> List<T> mapAll(Collection<E> list, Function<E, T> mapper) {
         return list.stream().map(mapper).collect(Collectors.toList());
@@ -25,6 +21,10 @@ public class RepositoryUtil {
             return results.get(0);
         }
         return null;
+    }
+
+    public static <T> List<T> castAll(Collection<?> list, Class<T> cls) {
+        return list.stream().map(cls::cast).collect(Collectors.toList());
     }
 
     public static Integer getLastInsertId(EntityManager em) {

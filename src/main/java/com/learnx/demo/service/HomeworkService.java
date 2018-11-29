@@ -1,7 +1,6 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.model.HomeworkDto;
-
 import java.util.List;
 
 public interface HomeworkService {

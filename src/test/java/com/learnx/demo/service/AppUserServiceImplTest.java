@@ -1,7 +1,5 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.CourseDto;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +8,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CourseServiceImplTest {
+public class AppUserServiceImplTest {
 
     @Autowired
-    private CourseService service;
+    private AppUserService service;
 
-    @Test
-    public void listCourses() {
-        List<CourseDto> results = service.listCourses();
+    @Test(expected = IllegalArgumentException.class)
+    public void isEnrollByCourseId() {
 
-        results.forEach(System.out::println);
+        service.isEnrollByCourseId(1, 1);
+
+        service.isEnrollByCourseId(1, 2);
+
+        service.isEnrollByCourseId(4, 1);
     }
 }

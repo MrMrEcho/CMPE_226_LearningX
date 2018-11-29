@@ -1,6 +1,10 @@
 package com.learnx.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -8,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HomeworkDto {
+
     private Integer id;
     private String title;
     private String content;
@@ -27,10 +32,11 @@ public class HomeworkDto {
 
         public static Type getEnum(int value) {
             for (Type e : Type.values()) {
-                if (e.getValue() == value)
-                    return e;
+              if (e.getValue() == value) {
+                return e;
+              }
             }
-            return Type.NONE; //For values out of enum scope
+            return Type.NONE; // For values out of enum scope
         }
 
         public int getValue() {
