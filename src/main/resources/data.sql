@@ -44,7 +44,16 @@ values ("255", 3, "Data Mining");$
 insert into Course (title, instructorId, description)
 values ("256", 3, "Large Scale");$
 insert into Course (title, instructorId, description)
-values ("257", 4, "ML");$
+values ("257", 4, "Machine Learning");$
+insert into Course (title, instructorId, description)
+values ("258", 4, "Big Data");$
+insert into Course (title, instructorId, description)
+values ("226", 4, "Database");$
+insert into Course (title, instructorId, description)
+values ("227", 4, "MySQL");$
+insert into Course (title, instructorId, description)
+values ("228", 4, "MongoDB");$
+
 
 -- Homework for 255
 insert into Homework(courseId, title, content, type)

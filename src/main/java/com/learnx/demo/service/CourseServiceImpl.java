@@ -40,7 +40,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> searchCourses(String keyword) {
-        List<Course> results = repository.findByTitle(keyword);
+        List<Course> results = repository.search(keyword);
         return results.stream()
                 .map(CourseServiceImpl::convertToDto)
                 .collect(Collectors.toList());
