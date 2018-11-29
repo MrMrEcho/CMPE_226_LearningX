@@ -33,15 +33,14 @@ public class MyPageController {
     private SeriesService seriesService;
 
     @GetMapping()
-    public ModelAndView showMyPage(HttpServletRequest request, HttpServletResponse response,
-                                   @ModelAttribute AppUserDto appUser) {
-        HttpSession session = request.getSession(false);
+    public ModelAndView showMyPage(HttpSession session) {
+
         int userId;
-        if (session != null) {
+        if (session != null && session.getAttribute("userid")!=null) {
             userId = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
         } else {
             //The user has not login yet, send the user to login
-            return new ModelAndView("login");
+            return new ModelAndView("redirect:/login");
         }
 
         ModelAndView mav = null;
@@ -62,7 +61,7 @@ public class MyPageController {
             case INSTRUCTOR:
                 mav = new ModelAndView("myPage_instructor");
                 mav.addObject("instructor", appUserDto);
-                List<CourseDto> courses = courseService.listCoursesByInstructorId(appUser.getId());
+                List<CourseDto> courses = courseService.listCoursesByInstructorId(userId);
                 mav.addObject("courses", courses);
                 break;
             case INSTITUTE:
