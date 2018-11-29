@@ -12,6 +12,6 @@ public class DiscussionDto {
     private String title;
     private String content;
 
-    private Integer appuserId;
+    private Integer userId;
     private Integer courseId;
 }

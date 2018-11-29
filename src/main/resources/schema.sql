@@ -134,7 +134,7 @@ create table Homework
 
 create table Submission
 (
-    studentId      int,
+    studentId   int,
     homeworkId  int,
     answer      varchar(256) not null,
     grade       int,
@@ -151,13 +151,18 @@ create table Submission
 
 create table Discussion
 (
-    userId      int,
-    courseId    int,
+    id          int auto_increment,
+    -- userId      int,
+    -- courseId    int,
+    userId      int not null,
+    courseId    int not null,
     title       varchar(128) not null,
     content     varchar(256),
     
-    primary key (userId, courseId),
+    -- primary key (userId, courseId),
+    primary key (id),
     
+    -- FIXME: remove user discussion still can keep
     foreign key (userId) references AppUser(id)
         on delete cascade,
     

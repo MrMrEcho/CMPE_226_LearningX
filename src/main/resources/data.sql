@@ -66,6 +66,10 @@ values (1, "255 week3", "adsfasdfsd");$
 insert into Material(courseId, title, url)
 values (2, "256 week3", "adsfasdfsd");$
 
+insert into Discussion(userId, courseId, title, content)
+values (3, 1, "instructor post", "aaaaaaa");$
+insert into Discussion(userId, courseId, title, content)
+values (1, 1, "student post", "babaabab");$
 
 insert into Series (instituteId, title)
 values(7, "DS");$

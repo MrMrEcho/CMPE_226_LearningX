@@ -229,7 +229,7 @@ public class AppController {
         ModelAndView mav = new ModelAndView("course_homework");
         CourseDto course = courseService.getCourseById(courseid);
         AppUserDto user = userService.getUserById(userid);
-        newDiscussion.setAppuserId(user.getId());
+        newDiscussion.setUserId(user.getId());
         newDiscussion.setCourseId(course.getId());
 
         discussionService.create(newDiscussion);
