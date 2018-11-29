@@ -55,8 +55,12 @@ public class AppUserRepository {
                 "WHERE id=:id";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("id", id);
-
-        return (AppUser) query.getSingleResult();
+        List<AppUser> users = query.getResultList();
+        if(users.isEmpty()){
+            return null;
+        } else{
+            return users.get(0);
+        }
     }
 
 }
