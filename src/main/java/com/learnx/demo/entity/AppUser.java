@@ -2,7 +2,6 @@ package com.learnx.demo.entity;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +21,6 @@ public class AppUser {
     private String password;
     private int appRole;
 
-    @Builder
     public AppUser(String username, String password, int appRole) {
         this.username = username;
         this.password = password;

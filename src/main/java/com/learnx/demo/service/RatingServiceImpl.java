@@ -1,29 +1,30 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Rating;
+import com.learnx.demo.model.RatingDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class RatingServiceImpl implements RatingService {
+
     @Override
-    public Rating create(Rating newRate) {
+    public RatingDto create(RatingDto rating) {
         return null;
     }
 
     @Override
-    public Rating update(Rating rate) {
+    public RatingDto update(RatingDto newRating) {
         return null;
     }
 
     @Override
-    public List<Rating> listRatingsByCourseId(int courseId) {
+    public List<RatingDto> listRatingsByCourseId(int courseId) {
         return null;
     }
 
     @Override
-    public int getAverageRatingByCourseId(int courseId) {
+    public double getAverageRatingByCourseId(int courseId) {
         return 0;
     }
 }

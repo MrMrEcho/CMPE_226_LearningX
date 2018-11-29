@@ -22,8 +22,8 @@ public class AppUserRepository {
     @Transactional
     public AppUser save(AppUser appUser) {
 
-        String sql = "insert into AppUser (username, password, approle) " +
-                "values (:username, :password, :role)";
+        String sql = "INSERT INTO AppUser (username, password, approle) " +
+                "VALUES (:username, :password, :role)";
         Query query = em.createNativeQuery(sql).
                 setParameter("username", appUser.getUsername()).
                 setParameter("password", appUser.getPassword()).
@@ -38,14 +38,14 @@ public class AppUserRepository {
     }
 
     public AppUser findByName(String username) {
-        String sql = "select id, username, password, approle FROM AppUser " +
-                "where username=:name";
+        String sql = "SELECT id, username, password, approle FROM AppUser " +
+                "WHERE username=:name";
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("name", username);
         List<AppUser> users = query.getResultList();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return null;
-        } else{
+        } else {
             return users.get(0);
         }
     }
@@ -56,9 +56,9 @@ public class AppUserRepository {
         Query query = em.createNativeQuery(sql, AppUser.class).
                 setParameter("id", id);
         List<AppUser> users = query.getResultList();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return null;
-        } else{
+        } else {
             return users.get(0);
         }
     }

@@ -11,7 +11,6 @@ public interface AppUserService {
     List<AppUserDto> listInstructorsByInstituteId(int instituteId);
 
     /**
-     *
      * @param userDto
      * @return
      * @throws IllegalArgumentException
@@ -19,4 +18,15 @@ public interface AppUserService {
     AppUserDto authenticate(AppUserDto userDto);
 
     AppUserDto create(AppUserDto userDto);
+
+    AppUserDto update(AppUserDto newUserDto);
+
+    boolean isEnrollByCourseId(int studentId, int courseId);
+
+    boolean isCompleteByCourseId(int studentId, int courseId);
+
+    boolean enrollByCourseId(int studentId, int courseId);
+
+    boolean dropByCourseId(int studentId, int courseId);
+
 }

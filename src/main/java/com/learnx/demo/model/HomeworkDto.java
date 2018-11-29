@@ -7,30 +7,31 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUserDto {
+public class HomeworkDto {
+
     private int id;
-    private String username;
-    private String password;
-    private Role role;
-    public enum Role {
+    private String title;
+    private String content;
+    private Type type;
+    private int courseId;
+
+    public enum Type {
         NONE(-1),
-        STUDENT(0),
-        INSTRUCTOR(1),
-        INSTITUTE(2),
-        ADMIN(3);
+        PRACTICE(0),
+        EXAM(1);
 
         private final int value;
 
-        Role(int value) {
+        Type(int value) {
             this.value = value;
         }
 
-        public static Role getEnum(int value) {
-            for (Role e : Role.values()) {
+        public static Type getEnum(int value) {
+            for (Type e : Type.values()) {
                 if (e.getValue() == value)
                     return e;
             }
-            return Role.NONE;//For values out of enum scope
+            return Type.NONE; //For values out of enum scope
         }
 
         public int getValue() {

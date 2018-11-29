@@ -2,17 +2,16 @@ package com.learnx.demo.model;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Series {
+public class DiscussionDto {
     private int id;
     private String title;
-    private String description;
-    AppUserDto institute;
-    List<Course> courses;
+    private String content;
 
+    private int appuserId;
+    private int courseId;
 }

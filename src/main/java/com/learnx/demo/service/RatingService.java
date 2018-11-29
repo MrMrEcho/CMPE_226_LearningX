@@ -1,13 +1,16 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Rating;
+import com.learnx.demo.model.RatingDto;
 
 import java.util.List;
 
 public interface RatingService {
 
-    Rating create(Rating newRate);
-    Rating update(Rating rate);
-    List<Rating> listRatingsByCourseId(int courseId);
-    int getAverageRatingByCourseId(int courseId);
+    RatingDto create(RatingDto rating);
+
+    RatingDto update(RatingDto newRating);
+
+    List<RatingDto> listRatingsByCourseId(int courseId);
+
+    double getAverageRatingByCourseId(int courseId);
 }

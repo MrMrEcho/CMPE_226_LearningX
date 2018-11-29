@@ -11,10 +11,30 @@ import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseRepository courseRepository;
+    private final CourseRepository repository;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseServiceImpl(CourseRepository repository) {
+        this.repository = repository;
+    }
+
+    private static CourseDto convertToDto(Course entity) {
+        CourseDto dto = new CourseDto();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setInstructorId(entity.getInstructorId());
+
+        return dto;
+    }
+
+    private static Course converToEntity(CourseDto dto) {
+        Course entity = new Course();
+        entity.setId(dto.getId());
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setInstructorId(dto.getInstructorId());
+
+        return entity;
     }
 
     @Override
@@ -24,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCourses() {
-        return RepositoryUtil.convertToDto(courseRepository.findAll(), CourseServiceImpl::convertToDto);
+        return RepositoryUtil.convertToDto(repository.findAll(), CourseServiceImpl::convertToDto);
     }
 
     @Override
@@ -33,7 +53,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> listCoursesByUserId(int userId, Boolean complete) {
+    public List<CourseDto> listCoursesByUserId(int userId) {
+        return null;
+    }
+
+    @Override
+    public List<CourseDto> listOnGoingCoursesByUserId(int userId) {
+        return null;
+    }
+
+    @Override
+    public List<CourseDto> listFinishedCoursesByUserId(int userId) {
         return null;
     }
 
@@ -60,45 +90,5 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto update(CourseDto newCourse) {
         return null;
-    }
-
-    @Override
-    public boolean isEnrolled(int courseId, int userId) {
-        return false;
-    }
-
-    @Override
-    public boolean isComplete(int courseId, int userId) {
-        return false;
-    }
-
-    @Override
-    public CourseDto enroll(int studentId, int courseId) {
-        return null;
-    }
-
-    @Override
-    public CourseDto drop(int studentId, int courseId) {
-        return null;
-    }
-
-    private static CourseDto convertToDto(Course entity) {
-        CourseDto dto = new CourseDto();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setDescription(entity.getDescription());
-        dto.setInstructorId(entity.getInstructorId());
-
-        return dto;
-    }
-
-    private static Course converToEntity(CourseDto dto) {
-        Course entity = new Course();
-        entity.setId(dto.getId());
-        entity.setTitle(dto.getTitle());
-        entity.setDescription(dto.getDescription());
-        entity.setInstructorId(dto.getInstructorId());
-
-        return entity;
     }
 }

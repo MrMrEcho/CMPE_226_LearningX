@@ -6,23 +6,26 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Course")
-public class Course {
+@Table(name = "Homework")
+public class Homework {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-    private String description;
+    private String content;
+    private int type;
 
-    private int instructorId;
+    private int courseId;
 
-    public Course(String title, String description) {
+    public Homework(String title, String content, int type) {
         this.title = title;
-        this.description = description;
+        this.content = content;
+        this.type = type;
     }
 }

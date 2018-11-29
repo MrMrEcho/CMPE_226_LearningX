@@ -1,13 +1,14 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Submission;
+import com.learnx.demo.model.SubmissionDto;
 
 import java.util.List;
 
 public interface SubmissionService {
 
-    List<Submission> listSubmissionByHomeworkId(Submission newSubmission);
+    List<SubmissionDto> listSubmissionByHomeworkId(SubmissionDto newSubmission);
 
-    Submission create(Submission newSubmission);
-    Submission grade(Submission submission);
+    SubmissionDto create(SubmissionDto newSubmission);
+
+    SubmissionDto grade(SubmissionDto submission);
 }

@@ -1,12 +1,12 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Discussion;
+import com.learnx.demo.model.DiscussionDto;
 
 import java.util.List;
 
 public interface DiscussionService {
 
-    List<Discussion> listDiscussionsByCourseId(int courseId);
+    List<DiscussionDto> listDiscussionsByCourseId(int courseId);
 
-    Discussion create(Discussion newDiscussion);
+    DiscussionDto create(DiscussionDto newDiscussion);
 }

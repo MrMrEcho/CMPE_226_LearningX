@@ -1,12 +1,13 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Homework;
+import com.learnx.demo.model.HomeworkDto;
 
 import java.util.List;
 
 public interface HomeworkService {
+    List<HomeworkDto> listHomeworksByCourseId(int courseId);
 
-    List<Homework> listHomeworkdsByCourseId(int courseId);
+    HomeworkDto create(HomeworkDto homework);
 
-    Homework create(Homework newHomework);
+    HomeworkDto update(HomeworkDto newHomework);
 }
