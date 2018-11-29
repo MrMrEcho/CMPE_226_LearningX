@@ -32,7 +32,9 @@ create table Course
     primary key (id),
     
     foreign key (instructorId) references AppUser(id)
-        on delete cascade
+        on delete cascade,
+
+    fulltext index course_content (title, description)
 );$
 
 create table WorkFor

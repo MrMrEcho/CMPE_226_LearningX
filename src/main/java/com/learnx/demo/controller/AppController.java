@@ -110,11 +110,11 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("search_result");
-        List<CourseDto> courseList = courseService.searchCourses(request.getParameter("keyword"));
-        mav.addObject("courseList", courseList);
-        return mav;
+    public ModelAndView search(@ModelAttribute("search") SearchDto searchDto, ModelMap modelMap) {
+        System.out.println("searchDto = " + searchDto);
+        List<CourseDto> courseList = courseService.searchCourses(searchDto.getKeyword());
+        modelMap.put("courseList", courseList);
+        return new ModelAndView("search_result", modelMap);
     }
 
     //  ======================
@@ -161,15 +161,15 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public ModelAndView allCourses(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("courses");
+    public ModelAndView allCourses(ModelMap modelMap) {
         List<CourseDto> courseList = courseService.listCourses();
         List<CourseDto> mostPopList = courseService.listCoursesSortedByRating(false);
         List<CourseDto> leastPopList = courseService.listCoursesSortedByRating(true);
-        mav.addObject("courseList", courseList);
-        mav.addObject("mostPopList", mostPopList);
-        mav.addObject("leastPopList", leastPopList);
-        return mav;
+        modelMap.put("search", new SearchDto());
+        modelMap.put("courseList", courseList);
+        modelMap.put("mostPopList", mostPopList);
+        modelMap.put("leastPopList", leastPopList);
+        return new ModelAndView("courses", modelMap);
     }
 
     //  ======================
