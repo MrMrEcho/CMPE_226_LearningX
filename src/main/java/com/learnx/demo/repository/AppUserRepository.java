@@ -6,16 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AppUserRepository {
 
+    private final PasswordEncoder passwordEncoder;
     private final EntityManager em;
 
     @Autowired
-    public AppUserRepository(EntityManager em) {
+    public AppUserRepository(EntityManager em, PasswordEncoder passwordEncoder) {
         this.em = em;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -26,7 +29,7 @@ public class AppUserRepository {
         Query query =
                 em.createNativeQuery(sql)
                         .setParameter("username", entity.getUsername())
-                        .setParameter("password", entity.getPassword())
+                        .setParameter("password", passwordEncoder.encode(entity.getPassword()))
                         .setParameter("role", entity.getAppRole());
 
         if (query.executeUpdate() == 0) {

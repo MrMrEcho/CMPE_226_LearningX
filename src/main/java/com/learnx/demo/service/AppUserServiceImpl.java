@@ -48,12 +48,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto getUserById(int userId) {
-
         AppUser result = userRepository.findById(userId);
         if (result == null) {
             return null;
         }
-
         return toDto(result);
     }
 
@@ -76,9 +74,7 @@ public class AppUserServiceImpl implements AppUserService {
         if (userRepository.findByName(dto.getUsername()) != null) {
             throw new IllegalArgumentException("username already exists!");
         }
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
-        //System.out.println("encodedPassword = " + encodedPassword);
-        AppUser newEntity = new AppUser(dto.getUsername(), encodedPassword,
+        AppUser newEntity = new AppUser(dto.getUsername(), dto.getPassword(),
                 AppUserDto.Role.STUDENT.getValue());
         AppUser saveEntity = userRepository.save(newEntity);
         return toDto(saveEntity);
