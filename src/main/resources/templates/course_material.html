@@ -1,38 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>LearningX</title>
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
-
+<div th:include="index :: head"></div>
 <body>
 <!-- Header section -->
-<header class="header-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-3">
-        <h2>Learning X</h2>
-      </div>
-      <div class="col-lg-9 col-md-9">
-        <div th:if="${session.userid == null}">
-          <a th:href="@{/login}" class="site-btn header-btn" >Login</a>
-        </div>
-        <div th:if="${session.userid != null}">
-          <a th:href="@{/logout}" class="site-btn header-btn" >Logout</a>
-        </div>
-        <nav class="main-menu">
-          <ul>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/courses}">Courses</a></li>
-            <li><a th:href="@{/me}">My Page</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-<!-- Header section end -->
+<div th:replace="index :: header">...</div>
 
 <!-- single course section -->
 <section class="single-course spad pb-0">

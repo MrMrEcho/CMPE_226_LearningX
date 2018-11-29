@@ -1,17 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>LearningX</title>
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<header>
-    <h1>Placeholder for header</h1>
-</header>
+<html>
+<div th:include="index :: head"></div>
 <body>
+<div th:replace="index :: header">...</div>
 <section>
     <div class="container center">
         <form method="post" action="#" th:object="${institute}" th:action="@{/me/addInstitute}">
