@@ -1,0 +1,29 @@
+package com.learnx.demo.repository;
+
+import com.learnx.demo.entity.Homework;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+
+@Service
+public class HomeworkRepository {
+
+    private final EntityManager em;
+
+    public HomeworkRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public Homework save(Homework homework) {
+
+        return null;
+    }
+
+    public List<Homework> findByCourseId(int courseId) {
+        //String sql = "select "
+        //return RepositoryUtil(results, Homework.class);
+
+        return null;
+    }
+}

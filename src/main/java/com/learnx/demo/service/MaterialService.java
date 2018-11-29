@@ -1,13 +1,14 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Material;
+import com.learnx.demo.model.MaterialDto;
 
 import java.util.List;
 
 public interface MaterialService {
 
-    List<Material> listMaterialsByCourseId(int courseId);
+    List<MaterialDto> listMaterialsByCourseId(int courseId);
 
-    // Material CRUD
-    Material create(Material material);
+    MaterialDto create(MaterialDto material);
+
+    MaterialDto update(MaterialDto material);
 }

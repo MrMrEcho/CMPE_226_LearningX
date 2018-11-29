@@ -1,20 +1,23 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.Course;
-import com.learnx.demo.model.Series;
+import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.model.SeriesDto;
 
 import java.util.List;
 
-// TODO: Rename to CourseSeriesService ?
 public interface SeriesService {
 
-    List<Course> listCoursesBySeriesId(int seriedId);
-    List<Series> listSeries();
-    List<Series> listSeriesByInstituteId(int instituteId);
-    List<Series> listSeriesByStudentId(int studentId);
+    List<CourseDto> listCoursesBySeriesId(int seriesId);
 
-    // CRUD
-    Series create(Series newSeries);
+    List<SeriesDto> listSeries();
 
-    Series addCourseBySeriesId(int courseId, int seriesId);
+    List<SeriesDto> listSeriesByInstituteId(int instituteId);
+
+    List<SeriesDto> listSeriesByStudentId(int studentId);
+
+    SeriesDto create(SeriesDto seriesDto);
+
+    SeriesDto udpate(SeriesDto newSeriesDto);
+
+    SeriesDto addCourseBySeriesId(int courseId, int seriesId);
 }
