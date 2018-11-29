@@ -76,4 +76,12 @@ public class CourseRepository {
 
         return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
     }
+
+    public List<Course> findByTitle(String title){
+        String sql = "select * from course where title = :title";
+        Query query = em.createNativeQuery(sql, Course.class);
+        query.setParameter("title", title);
+        return query.getResultList();
+    }
+
 }
