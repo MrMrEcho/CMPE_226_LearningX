@@ -80,6 +80,19 @@ public class AppUserServiceImpl implements AppUserService {
         return toDto(newEntity);
     }
 
+    @Override
+    public AppUserDto update(AppUserDto newDto, boolean passwordUpdate) {
+        existUser(newDto.getId());
+        if (passwordUpdate) {
+            String encodedPassword = passwordEncoder.encode(newDto.getPassword());
+            newDto.setPassword(encodedPassword);
+        }
+        AppUser newEntity = userRepository.update(toEntity(newDto));
+
+        return toDto(newEntity);
+    }
+
+
     private void existUser(int userId) {
         if (!userRepository.exists(userId)) {
             throw new IllegalArgumentException("User not exist");
