@@ -28,10 +28,14 @@ public class DemoApplication {
         return args -> {
             //Run code to run after initialization
             System.out.println("starting spring");
-            userRepository.save(new AppUser("student", "student", AppUserDto.Role.STUDENT.getValue()));
-            userRepository.save(new AppUser("instructor", "instructor", AppUserDto.Role.INSTRUCTOR.getValue()));
-            userRepository.save(new AppUser("institute", "institute", AppUserDto.Role.INSTITUTE.getValue()));
-            userRepository.save(new AppUser("admin", "admin", AppUserDto.Role.ADMIN.getValue()));
+            AppUser admin = new AppUser("admin", "admin", AppUserDto.Role.ADMIN.getValue());
+            userRepository.save(admin);
+            AppUser institute = new AppUser("institute", "institute", AppUserDto.Role.INSTITUTE.getValue());
+            userRepository.save(institute);
+            AppUser instructor = new AppUser("instructor", "instructor", AppUserDto.Role.INSTRUCTOR.getValue());
+            userRepository.save(instructor);
+            AppUser student = new AppUser("student", "student", AppUserDto.Role.STUDENT.getValue());
+            userRepository.save(student);
         };
     }
 
