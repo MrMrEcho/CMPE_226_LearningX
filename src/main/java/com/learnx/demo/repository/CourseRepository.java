@@ -67,20 +67,23 @@ public class CourseRepository {
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
-    public Course findById(int courseId) {
-        String sql = "SELECT * FROM course " + "WHERE id = :courseId";
-
+    public List<Course> findCourseByStudentId(int studentId) {
+        String sql =
+                "SELECT C.* " +
+                        "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
+                        "WHERE E.studentId = :studentId";
         Query query = em.createNativeQuery(sql, Course.class)
-                .setParameter("courseId", courseId);
+                .setParameter("studentId", studentId);
 
-        return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
-    public List<Course> findByTitle(String title){
+    public List<Course> findByTitle(String title) {
         String sql = "select * from Course where title = :title";
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("title", title);
-        return query.getResultList();
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
 /*
@@ -114,6 +117,20 @@ UNION
         System.out.println("sql = " + sql);
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("keyword", keyword);
-        return query.getResultList();
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public boolean exists(int courseId) {
+        return findById(courseId) != null;
+    }
+
+    public Course findById(int courseId) {
+        String sql = "SELECT * FROM course " + "WHERE id = :courseId";
+
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("courseId", courseId);
+
+        return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
     }
 }

@@ -1,6 +1,8 @@
 package com.learnx.demo.controller;
 
 
+import com.learnx.demo.entity.AppUser;
+import com.learnx.demo.entity.AppUser.Role;
 import com.learnx.demo.entity.Course;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.model.CourseDto;
@@ -45,13 +47,13 @@ public class MyPageController {
 
         ModelAndView mav = null;
         AppUserDto appUserDto = appUserService.getUserById(userId);
-        AppUserDto.Role role = appUserDto.getRole();
+        Role role = appUserDto.getRole();
 
         switch (role) {
             case STUDENT:
                 mav = new ModelAndView("myPage_student");
-                List<CourseDto> courses_ongoing = courseService.listOnGoingCoursesByUserId(userId);
-                List<CourseDto> courses_past = courseService.listFinishedCoursesByUserId(userId);
+                List<CourseDto> courses_ongoing = courseService.listOnGoingCoursesByStudentId(userId);
+                List<CourseDto> courses_past = courseService.listFinishedCoursesByStudentId(userId);
                 List<SeriesDto> certificates = seriesService.listSeriesByStudentId(userId);
                 mav.addObject("student", appUserDto);
                 mav.addObject("courses_ongoing", courses_ongoing);
@@ -87,7 +89,7 @@ public class MyPageController {
                 break;
             case ADMIN:
                 mav = new ModelAndView("myPage_admin");
-                mav.addObject("admin", appUserDto);
+                mav.addObject("newInstitute", new AppUserDto());
                 break;
             default:
                 return null;
@@ -97,9 +99,9 @@ public class MyPageController {
 
     @PostMapping("/addInstitute")
     public ModelAndView addInstitute(HttpServletRequest request, HttpServletResponse response,
-                                     @ModelAttribute("institute") AppUserDto institute) {
+                                     @ModelAttribute("newInstitute") AppUserDto institute) {
         try {
-            institute.setRole(AppUserDto.Role.INSTITUTE);
+            institute.setRole(AppUser.Role.INSTITUTE);
             appUserService.create(institute);
         } catch (Exception e) {
             System.out.print("Something WENT WRONG");
@@ -189,7 +191,7 @@ public class MyPageController {
         AppUserDto newInstructor = new AppUserDto();
         newInstructor.setUsername(instructor.getUsername());
         newInstructor.setPassword(instructor.getPassword());
-        newInstructor.setRole(AppUserDto.Role.INSTRUCTOR);
+        newInstructor.setRole(AppUser.Role.INSTRUCTOR);
 
         try {
 //            appUserService.create(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);

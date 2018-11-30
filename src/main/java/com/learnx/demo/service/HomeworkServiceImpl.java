@@ -30,7 +30,9 @@ public class HomeworkServiceImpl implements HomeworkService {
         entity.setType(dto.getType().getValue());
 
         return entity;
-    }    private static HomeworkDto toDto(Homework entity) {
+    }
+
+    private static HomeworkDto toDto(Homework entity) {
         HomeworkDto dto = new HomeworkDto();
         dto.setId(entity.getId());
         dto.setCourseId(entity.getCourseId());
@@ -40,8 +42,6 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         return dto;
     }
-
-
 
     @Override
     public List<HomeworkDto> listHomeworksByCourseId(int courseId) {

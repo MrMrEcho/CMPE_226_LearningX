@@ -5,6 +5,14 @@
 <body>
 <div th:replace="index :: header">...</div>
 
+<section class="hero-section">
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>The best online learning online platform</h1>
+    </div>
+  </div>
+</section>
+
 <!-- single course section -->
 <section class="single-course spad pb-0">
   <div class="container">
@@ -35,26 +43,17 @@
             <br><br>
             <div class="course-meta">
               <div class="cm-info">
-                <form action="#" th:action="@{/getRatingByCourseId}" method="post">
-                  <input id="courseid" name="courseid" th:type="hidden"  th:value="${course.id}" readonly/>
-                  <button type="submit" class="link-button">See Course's Ratings</button>
-                </form>
+                <a th:href="@{/getRatingByCourseId/} + ${course.id}" >See Course's Ratings</a>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <form action="#" th:action="@{/getHomeworkByCourseId}" method="post">
-                  <input id="courseid" name="courseid" th:type="hidden"  th:value="${course.id}" readonly/>
-                  <button type="submit" class="link-button">See Course's Homework</button>
-                </form>
+                <a th:href="@{/getHomeworkByCourseId/} + ${course.id}" >See Course's Homework</a>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <form action="#" th:action="@{/getMaterialByCourseId}" method="post">
-                  <input id="courseid" name="courseid" th:type="hidden"  th:value="${course.id}" readonly/>
-                  <button type="submit" class="link-button">See Course's Materials</button>
-                </form>
+                <a th:href="@{/getMaterialByCourseId/} + ${course.id}" >See Course's Materials</a>
               </div>
             </div>
             <br>
@@ -126,9 +125,9 @@
                 <th>User</th>
               </tr>
               <tr th:each="q : ${discussionList}">
-                <td><span th:text="${q.title}"> Course </span></td>
-                <td><span th:text="${q.content}"> Teacher </span></td>
-                <td><span th:text="${q.appUser.username}"> Teacher </span></td>
+                <td><span th:text="${q.title}"> title </span></td>
+                <td><span th:text="${q.content}"> content </span></td>
+                <td><span th:text="${nameMap.get(q.userId)}"> username </span></td>
               </tr>
             </table>
             <br><br>

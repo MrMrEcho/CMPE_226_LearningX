@@ -47,6 +47,7 @@
           <ul>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/courses}">Courses</a></li>
+            <li><a th:href="@{/search}">Search</a></li>
             <li><a th:href="@{/me}">My Page</a></li>
           </ul>
         </nav>
@@ -62,23 +63,6 @@
     </div>
   </div>
 </section>
-
-<!-- search section -->
-<section class="search-section">
-  <div class="container center">
-    <h2>Search course</h2>
-    <div class="row">
-      <div class="col-md-10  offset-md-1">
-        <!-- search form -->
-        <form id="searchform"  th:action="@{/search}" method="post">
-          <input id = "keyword" type="text" name="name" placeholder="Enter course" required>
-          <button class="site-btn">Search Course</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- search section end -->
 
 <!-- categories section -->
 <section class="categories-section spad">
@@ -98,12 +82,8 @@
               <div class="ci-text">
                 <h5 th:text="${s.title}"></h5>
                 <p th:text="${s.description}"></p>
-                <span th:text="${s.institute.username}"></span>
-                <br>
-                <form role="form" th:action="@{/singleSeries}" th:method="post">
-                  <input type="hidden" name="id" id="id" th:value="${s.id}"/>
-                  <button id="submit"  type="submit" class="link-button">Click here to the course list</button>
-                </form>
+                <!--<span th:text="${s.institute.username}"></span>-->
+                <a th:href="@{/singleSeries/} + ${s.id}" >Click here to view course list</a>
               </div>
             </div>
           </div>

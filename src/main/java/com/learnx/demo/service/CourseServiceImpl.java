@@ -2,19 +2,24 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.entity.Course;
 import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.repository.AppUserRepository;
 import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseRepository repository;
+    private final CourseRepository courseRepository;
+    private final AppUserRepository userRepository;
 
-    public CourseServiceImpl(CourseRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public CourseServiceImpl(CourseRepository courseRepository,
+            AppUserRepository userRepository) {
+        this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     private static Course toEntity(CourseDto dto) {
@@ -29,7 +34,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> searchCourses(String keyword) {
-        List<Course> results = repository.search(keyword);
+        List<Course> results = courseRepository.search(keyword);
         for (Course course : results) {
             System.out.println("course.getTitle() = " + course.getTitle());
         }
@@ -38,17 +43,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCourses() {
-        return RepositoryUtil.mapAll(repository.findAll(), CourseServiceImpl::toDto);
-    }
-
-    private static CourseDto toDto(Course entity) {
-        CourseDto dto = new CourseDto();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setDescription(entity.getDescription());
-        dto.setInstructorId(entity.getInstructorId());
-
-        return dto;
+        return RepositoryUtil.mapAll(courseRepository.findAll(), CourseServiceImpl::toDto);
     }
 
     @Override
@@ -57,17 +52,23 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> listCoursesByUserId(int userId) {
+    public List<CourseDto> listCourseByStudentId(int studentId) {
+        if (!userRepository.exists(studentId)) {
+            throw new IllegalArgumentException("Student not exist");
+        }
+
+        return RepositoryUtil.mapAll(
+                courseRepository.findCourseByStudentId(studentId),
+                CourseServiceImpl::toDto);
+    }
+
+    @Override
+    public List<CourseDto> listOnGoingCoursesByStudentId(int studentId) {
         return null;
     }
 
     @Override
-    public List<CourseDto> listOnGoingCoursesByUserId(int userId) {
-        return null;
-    }
-
-    @Override
-    public List<CourseDto> listFinishedCoursesByUserId(int userId) {
+    public List<CourseDto> listFinishedCoursesByStudentId(int studentId) {
         return null;
     }
 
@@ -84,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto getCourseById(int courseId) {
 
-        Course result = repository.findById(courseId);
+        Course result = courseRepository.findById(courseId);
         if (result == null) {
             return null;
         }
@@ -100,5 +101,15 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto update(CourseDto newCourse) {
         return null;
+    }
+
+    private static CourseDto toDto(Course entity) {
+        CourseDto dto = new CourseDto();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setInstructorId(entity.getInstructorId());
+
+        return dto;
     }
 }

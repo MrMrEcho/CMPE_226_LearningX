@@ -15,7 +15,7 @@ drop table if exists AppUser;$
 create table AppUser
 (
     id          int auto_increment,
-    username    varchar(32) NOT NULL,
+    username    varchar(32) NOT NULL UNIQUE,
     password    varchar(512) NOT NULL,
     appRole     int,
     
@@ -27,7 +27,7 @@ create table AppUser
 create table Course
 (
     id              int auto_increment,
-    title           varchar(128) not null,
+    title           varchar(128) not null unique,
     description     varchar(1024),
     instructorId    int,
     
@@ -68,8 +68,8 @@ create table Series
 
 create table CourseSeries
 (
-    courseId    int,
-    seriesId    int,
+    courseId    int not null,
+    seriesId    int not null,
     
     primary key (courseId, seriesId),
     
@@ -82,8 +82,8 @@ create table CourseSeries
 
 create table Enroll
 (
-    studentId   int,
-    courseId    int,
+    studentId   int not null,
+    courseId    int not null,
     isCompleted boolean default false,
     isDropped boolean default false,
     

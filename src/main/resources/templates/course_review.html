@@ -46,6 +46,7 @@
               <tr>
                 <th>Rating(star)</th>
                 <th>Name</th>
+                <th>Manage</th>
               </tr>
 
               <tr th:each="r : ${rateList}">
@@ -94,6 +95,7 @@
                     </div>
                 </td>
                 <td><span th:text="${r.student.username}"> Student </span></td>
+                <td> <a th:href="@{/courseInteraction/} + ${course.id}">Go</a></td>
               </tr>
             </table>
           <br><br>

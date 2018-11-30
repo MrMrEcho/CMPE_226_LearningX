@@ -16,6 +16,38 @@ import lombok.NoArgsConstructor;
 @Table(name = "AppUser")
 public class AppUser {
 
+    public enum Role {
+        NONE(-1),
+        STUDENT(0),
+        INSTRUCTOR(1),
+        INSTITUTE(2),
+        ADMIN(3);
+
+        private final int value;
+
+        Role(int value) {
+            this.value = value;
+        }
+
+        public static Role getEnum(int value) {
+            for (Role e : Role.values()) {
+                if (e.getValue() == value) {
+                    return e;
+                }
+            }
+            return Role.NONE; // For values out of enum scope
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    public static final int ADMIN = Role.ADMIN.getValue();
+    public static final int STUDENT = Role.STUDENT.getValue();
+    public static final int INSTITUTE = Role.INSTITUTE.getValue();
+    public static final int INSTRUCTOR = Role.INSTRUCTOR.getValue();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

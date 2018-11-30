@@ -5,22 +5,13 @@
 <body>
 <div th:replace="index :: header">...</div>
 
-<!-- search section -->
-<section class="login-section">
-  <div class="container center">
-    <h4 style="color:#878787;">Search course</h4>
-    <div class="row">
-      <div class="col-md-10  offset-md-1">
-        <!-- search form -->
-        <form id="searchform"  th:action="@{/search}" th:object="${search}" method="post">
-          <input type="text" name="keyword" th:value="*{keyword}" placeholder="Enter course" required>
-          <button class="site-btn">Search Course</button>
-        </form>
-      </div>
+<section class="hero-section">
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>The best online learning online platform</h1>
     </div>
   </div>
 </section>
-<!-- search section end -->
 
 
 <!-- all course section -->
@@ -37,11 +28,7 @@
               <h5 th:text="${course.title}"></h5>
               <p th:text="${course.description}"></p>
               <!--<span th:text="${course.instructor.username}"></span>-->
-              <br>
-              <form role="form" th:action="@{/singleCourse}" th:method="post">
-                <input type="hidden" name="id" id="id" th:value="${course.id}"/>
-                <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
-              </form>
+              <a th:href="@{/singleCourse/} + ${course.id}" >Click here to view course details</a>
             </div>
           </div>
         </div>

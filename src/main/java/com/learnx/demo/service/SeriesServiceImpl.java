@@ -42,4 +42,11 @@ public class SeriesServiceImpl implements SeriesService {
     public SeriesDto addCourseBySeriesId(int courseId, int seriesId) {
         return null;
     }
+
+    @Override
+    public SeriesDto getSeriesById(int seriesId)  {
+        return null;
+    }
+
+
 }

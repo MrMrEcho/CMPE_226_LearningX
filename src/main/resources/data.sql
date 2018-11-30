@@ -37,6 +37,7 @@ values(5, 8);$
 insert into WorkFor (instructorId, instituteId)
 values(6, 8);$
 
+
 -- Course (id, title, instructorId)
 -- SJSU DS track include 255, 256, 257
 -- Need trigger or function to check instructorId existinstructor
@@ -94,13 +95,13 @@ values(3, 1);$
 -- -- Enroll (studentId, courseId, isCompleted, isDropped)
 insert into Enroll (studentId, courseId)
 values(1, 1);$
--- insert into Enroll (studentId, courseId)
--- values(1, 2);$
--- insert into Enroll (studentId, courseId)
--- values(1, 3);$
--- insert into Enroll (studentId, courseId)
--- values(2, 1);$
--- insert into Enroll (studentId, courseId)
--- values(2, 2);$
+insert into Enroll (studentId, courseId)
+values(1, 2);$
+insert into Enroll (studentId, courseId)
+values(1, 3);$
+insert into Enroll (studentId, courseId)
+values(2, 1);$
+insert into Enroll (studentId, courseId)
+values(2, 5);$
 
 
