@@ -89,7 +89,7 @@ public class MyPageController {
                 break;
             case ADMIN:
                 mav = new ModelAndView("myPage_admin");
-                mav.addObject("admin", appUserDto);
+                mav.addObject("newInstitute", appUserDto);
                 break;
             default:
                 return null;
@@ -99,7 +99,7 @@ public class MyPageController {
 
     @PostMapping("/addInstitute")
     public ModelAndView addInstitute(HttpServletRequest request, HttpServletResponse response,
-                                     @ModelAttribute("institute") AppUserDto institute) {
+                                     @ModelAttribute("newInstitute") AppUserDto institute) {
         try {
             institute.setRole(AppUser.Role.INSTITUTE);
             appUserService.create(institute);
