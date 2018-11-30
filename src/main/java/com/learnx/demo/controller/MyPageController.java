@@ -1,6 +1,8 @@
 package com.learnx.demo.controller;
 
 
+import com.learnx.demo.entity.AppUser;
+import com.learnx.demo.entity.AppUser.Role;
 import com.learnx.demo.entity.Course;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.model.CourseDto;
@@ -45,7 +47,7 @@ public class MyPageController {
 
         ModelAndView mav = null;
         AppUserDto appUserDto = appUserService.getUserById(userId);
-        AppUserDto.Role role = appUserDto.getRole();
+        Role role = appUserDto.getRole();
 
         switch (role) {
             case STUDENT:
@@ -99,7 +101,7 @@ public class MyPageController {
     public ModelAndView addInstitute(HttpServletRequest request, HttpServletResponse response,
                                      @ModelAttribute("institute") AppUserDto institute) {
         try {
-            institute.setRole(AppUserDto.Role.INSTITUTE);
+            institute.setRole(AppUser.Role.INSTITUTE);
             appUserService.create(institute);
         } catch (Exception e) {
             System.out.print("Something WENT WRONG");
@@ -189,7 +191,7 @@ public class MyPageController {
         AppUserDto newInstructor = new AppUserDto();
         newInstructor.setUsername(instructor.getUsername());
         newInstructor.setPassword(instructor.getPassword());
-        newInstructor.setRole(AppUserDto.Role.INSTRUCTOR);
+        newInstructor.setRole(AppUser.Role.INSTRUCTOR);
 
         try {
 //            appUserService.create(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);

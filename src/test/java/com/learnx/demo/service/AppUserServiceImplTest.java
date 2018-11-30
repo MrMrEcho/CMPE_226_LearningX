@@ -1,5 +1,9 @@
 package com.learnx.demo.service;
 
+import static org.junit.Assert.assertEquals;
+
+import com.learnx.demo.entity.AppUser;
+import com.learnx.demo.model.AppUserDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +17,69 @@ public class AppUserServiceImplTest {
     @Autowired
     private AppUserService service;
 
-    @Test(expected = IllegalArgumentException.class)
-    public void isEnrollByCourseId() {
+    private AppUser entity;
+    private AppUserDto dto;
 
-        service.isEnrollByCourseId(1, 1);
 
-        service.isEnrollByCourseId(1, 2);
+    @Test
+    public void create() {
+        entity = new AppUser("ABC", "Pa$sWord", AppUser.ADMIN);
+        dto = AppUserServiceImpl.toDto(entity);
 
-        service.isEnrollByCourseId(4, 1);
+        AppUserDto saveDto = service.create(dto);
+        assertEquals(saveDto.getUsername(), dto.getUsername());
+        assertEquals(saveDto.getRole(), dto.getRole());
     }
+
+    @Test
+    public void update() {
+        entity = new AppUser("DEF", "Pa$sWord", AppUser.ADMIN);
+        dto = AppUserServiceImpl.toDto(entity);
+
+        AppUserDto saveDto = service.create(dto);
+        saveDto.setUsername("newName");
+        saveDto.setRole(AppUser.Role.INSTITUTE);
+
+        AppUserDto newDto = service.update(saveDto);
+        assertEquals(newDto.getUsername(), "newName");
+        assertEquals(newDto.getRole(), AppUser.Role.INSTITUTE);
+    }
+
+    @Test
+    public void getUserById() {
+    }
+
+    @Test
+    public void listInstructorsByInstituteId() {
+    }
+
+    @Test
+    public void authenticate() {
+    }
+
+    @Test
+    public void isEnrollByCourseId() {
+    }
+
+    @Test
+    public void isCompleteByCourseId() {
+    }
+
+    @Test
+    public void enrollByCourseId() {
+    }
+
+    @Test
+    public void dropByCourseId() {
+    }
+
+//    @Test(expected = IllegalArgumentException.class)
+//    public void isEnrollByCourseId() {
+//
+//        service.isEnrollByCourseId(1, 1);
+//
+//        service.isEnrollByCourseId(1, 2);
+//
+//        service.isEnrollByCourseId(4, 1);
+//    }
 }

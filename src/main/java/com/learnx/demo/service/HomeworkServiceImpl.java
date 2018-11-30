@@ -41,8 +41,6 @@ public class HomeworkServiceImpl implements HomeworkService {
         return dto;
     }
 
-
-
     @Override
     public List<HomeworkDto> listHomeworksByCourseId(int courseId) {
         // TODO: Check courseId exist

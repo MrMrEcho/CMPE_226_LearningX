@@ -74,17 +74,23 @@ public class CourseRepository {
         return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
     }
 
-    public List<Course> findByTitle(String title){
+    public List<Course> findByTitle(String title) {
         String sql = "select * from Course where title = :title";
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("title", title);
-        return query.getResultList();
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
     public List<Course> search(String keyword) {
         String sql = "select * from Course where match (title,description) against (:keyword with query expansion)";
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("keyword", keyword);
-        return query.getResultList();
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public boolean exists(int courseId) {
+        return findById(courseId) != null;
     }
 }

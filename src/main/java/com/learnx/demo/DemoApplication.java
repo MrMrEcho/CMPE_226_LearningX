@@ -1,7 +1,6 @@
 package com.learnx.demo;
 
 import com.learnx.demo.entity.AppUser;
-import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,10 +27,10 @@ public class DemoApplication {
         return args -> {
             //Run code to run after initialization
             System.out.println("starting spring");
-            userRepository.save(new AppUser("student", "student", AppUserDto.Role.STUDENT.getValue()));
-            userRepository.save(new AppUser("instructor", "instructor", AppUserDto.Role.INSTRUCTOR.getValue()));
-            userRepository.save(new AppUser("institute", "institute", AppUserDto.Role.INSTITUTE.getValue()));
-            userRepository.save(new AppUser("admin", "admin", AppUserDto.Role.ADMIN.getValue()));
+            userRepository.save(new AppUser("student", "student", AppUser.STUDENT));
+            userRepository.save(new AppUser("instructor", "instructor", AppUser.INSTRUCTOR));
+            userRepository.save(new AppUser("institute", "institute", AppUser.INSTITUTE));
+            userRepository.save(new AppUser("admin", "admin", AppUser.ADMIN));
         };
     }
 

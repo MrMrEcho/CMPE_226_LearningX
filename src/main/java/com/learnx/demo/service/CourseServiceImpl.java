@@ -6,7 +6,6 @@ import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -25,6 +24,12 @@ public class CourseServiceImpl implements CourseService {
         entity.setInstructorId(dto.getInstructorId());
 
         return entity;
+    }
+
+    void check(int courseId) {
+        if (repository.exists(courseId)) {
+            throw new IllegalArgumentException("Course not exist.");
+        }
     }
 
     @Override

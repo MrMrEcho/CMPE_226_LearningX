@@ -35,9 +35,37 @@ public class AppUserRepository {
         if (query.executeUpdate() == 0) {
             return null;
         }
-        entity.setId(RepositoryUtil.getLastInsertId(em));
+
+        AppUser saveEntity = new AppUser();
+        saveEntity.setId(RepositoryUtil.getLastInsertId(em));
+        saveEntity.setUsername(entity.getUsername());
+        saveEntity.setPassword(entity.getPassword());
+        saveEntity.setAppRole(entity.getAppRole());
+
+        return saveEntity;
+    }
+
+    @Transactional
+    public AppUser update(AppUser entity) {
+        String sql =
+                "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
+                        + "WHERE U.id = :id ";
+
+        Query query = em.createNativeQuery(sql)
+                .setParameter("username", entity.getUsername())
+                .setParameter("password", entity.getPassword())
+                .setParameter("appRole", entity.getAppRole())
+                .setParameter("id", entity.getId());
+
+        if (query.executeUpdate() == 0) {
+            return null;
+        }
 
         return entity;
+    }
+
+    public boolean exists(int id) {
+        return findById(id) != null;
     }
 
     public AppUser findByName(String username) {

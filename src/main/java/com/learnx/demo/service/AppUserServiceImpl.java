@@ -24,7 +24,19 @@ public class AppUserServiceImpl implements AppUserService {
         this.courseRepository = courseRepository;
     }
 
-    private static AppUser toEntity(AppUserDto dto) {
+    private void existUser(int userId) {
+        if (!userRepository.exists(userId)) {
+            throw new IllegalArgumentException("User not exist");
+        }
+    }
+
+    private void existCourse(int courseId) {
+        if (!courseRepository.exists(courseId)) {
+            throw new IllegalArgumentException("Course not exist");
+        }
+    }
+
+    protected static AppUser toEntity(AppUserDto dto) {
         AppUser entity = new AppUser();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
@@ -34,16 +46,14 @@ public class AppUserServiceImpl implements AppUserService {
         return entity;
     }
 
-    private void checkStudentExist(int studentId) {
-        if (userRepository.findStudentById(studentId) == null) {
-            throw new IllegalArgumentException("Student not exist.");
-        }
-    }
+    protected static AppUserDto toDto(AppUser entity) {
+        AppUserDto dto = new AppUserDto();
+        dto.setId(entity.getId());
+        dto.setUsername(entity.getUsername());
+        dto.setPassword(entity.getPassword());
+        dto.setRole(AppUser.Role.getEnum(entity.getAppRole()));
 
-    private void checkCourseExist(int courseId) {
-        if (courseRepository.findById(courseId) == null) {
-            throw new IllegalArgumentException("Course not exist.");
-        }
+        return dto;
     }
 
     @Override
@@ -74,48 +84,54 @@ public class AppUserServiceImpl implements AppUserService {
         if (userRepository.findByName(dto.getUsername()) != null) {
             throw new IllegalArgumentException("username already exists!");
         }
-        AppUser newEntity = new AppUser(dto.getUsername(), dto.getPassword(),
-                AppUserDto.Role.STUDENT.getValue());
+
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        //System.out.println("encodedPassword = " + encodedPassword);
+        AppUser newEntity = new AppUser(dto.getUsername(), encodedPassword,
+                dto.getRole().getValue());
         AppUser saveEntity = userRepository.save(newEntity);
+
         return toDto(saveEntity);
     }
 
     @Override
     public AppUserDto update(AppUserDto newDto) {
-        return null;
+        existUser(newDto.getId());
+        AppUser newEntity = userRepository.update(toEntity(newDto));
+
+        return toDto(newEntity);
     }
 
     @Override
     public boolean isEnrollByCourseId(int studentId, int courseId) {
-
-        checkStudentExist(studentId);
-        checkCourseExist(courseId);
+        existUser(studentId);
+        existCourse(courseId);
 
         return userRepository.isEnrollByCourseId(studentId, courseId);
     }
 
     @Override
     public boolean isCompleteByCourseId(int studentId, int courseId) {
+        existUser(studentId);
+        existCourse(courseId);
+
         return false;
     }
 
     @Override
     public boolean enrollByCourseId(int studentId, int courseId) {
+        existUser(studentId);
+        existCourse(courseId);
+
         return false;
     }
 
     @Override
     public boolean dropByCourseId(int studentId, int courseId) {
+        existUser(studentId);
+        existCourse(courseId);
+
         return false;
     }
 
-    private static AppUserDto toDto(AppUser entity) {
-        AppUserDto dto = new AppUserDto();
-        dto.setId(entity.getId());
-        dto.setUsername(entity.getUsername());
-        dto.setPassword(entity.getPassword());
-        dto.setRole(AppUserDto.Role.getEnum(entity.getAppRole()));
-
-        return dto;
-    }
 }

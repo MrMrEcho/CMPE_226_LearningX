@@ -37,6 +37,7 @@ values(5, 8);$
 insert into WorkFor (instructorId, instituteId)
 values(6, 8);$
 
+
 -- Course (id, title, instructorId)
 -- SJSU DS track include 255, 256, 257
 -- Need trigger or function to check instructorId existinstructor
