@@ -69,8 +69,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public HomeworkDto create(HomeworkDto newHomework) {
         Homework homework = toEntity(newHomework);
-        homeworkRepository.save(homework);
-        return null;
+        Homework saved = homeworkRepository.save(homework);
+        return toDto(saved);
     }
 
     @Override
