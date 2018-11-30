@@ -1,6 +1,8 @@
 package com.learnx.demo.repository;
 
 import com.learnx.demo.entity.Course;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -81,8 +83,35 @@ public class CourseRepository {
         return query.getResultList();
     }
 
+/*
+SQL Query
+(
+select *
+from Course
+where match (title,description) against ('data' in natural language mode with query expansion)
+order by (
+	match (title) against ('data' in natural language mode with query expansion) * 10
+	+
+	match (description) against ('data' in natural language mode with query expansion)
+)
+desc
+limit 10
+)
+UNION
+(
+	select * from Course
+	where instructorId in (
+		select id from AppUser
+        where username like '%SJSU%'
+	)
+);
+ */
     public List<Course> search(String keyword) {
-        String sql = "select * from Course where match (title,description) against (:keyword with query expansion)";
+        List<String> queryList = new ArrayList<>();
+        queryList.add("select * from Course where match (title,description) against (:keyword in natural language mode with query expansion) order by ((match (title) against (':keyword' in natural language mode with query expansion) * 10) + (match (description) against (':keyword' in natural language mode with query expansion))) desc limit 10");
+        queryList.add("select * from Course where instructorId in (select id from AppUser where username like '%:keyword%') order by instructorId limit 10");
+        String sql = RepositoryUtil.unionQuery(queryList);
+        System.out.println("sql = " + sql);
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("keyword", keyword);
         return query.getResultList();

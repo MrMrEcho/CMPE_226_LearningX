@@ -30,6 +30,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDto> searchCourses(String keyword) {
         List<Course> results = repository.search(keyword);
+        for (Course course : results) {
+            System.out.println("course.getTitle() = " + course.getTitle());
+        }
         return RepositoryUtil.mapAll(results, CourseServiceImpl::toDto);
     }
 

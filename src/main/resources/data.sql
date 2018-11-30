@@ -41,19 +41,19 @@ values(6, 8);$
 -- SJSU DS track include 255, 256, 257
 -- Need trigger or function to check instructorId existinstructor
 insert into Course (title, instructorId, description)
-values ("255", 3, "Data Mining");$
+values ("255 Data Mining", 3, "Data representation and preprocessing, proximity, finding nearest neighbors, dimensionality reduction, exploratory analysis, association analysis and sequential patterns, supervised inference and prediction, classification, regression, model selection and evaluation, overfitting, clustering, advanced topics.");$
 insert into Course (title, instructorId, description)
-values ("256", 3, "Large Scale");$
+values ("256 Large-Scale Analytics", 3, "Data mining and machine learning algorithms and applications for large amounts of data. Information retrieval and search engines, social network analysis, link analysis, ranking, Web personalization, recommender systems, opinion mining and sentiment analysis, advanced topics.");$
 insert into Course (title, instructorId, description)
-values ("257", 4, "Machine Learning");$
+values ("257 Machine Learning", 4, "Machine Learning concept, feasibility and learning types, theory of generalization, bias and variance, linear models for classification and regression, nonlinear transformation, regularization and validation, kernel methods, radial basis functions, support vector machines, ensemble methods, neural networks, hands-on projects. Prerequisite: Instructor Consent");$
 insert into Course (title, instructorId, description)
-values ("258", 4, "Big Data");$
+values ("258 Deep Learning", 4, "Deep neural networks and their applications to various problems, e.g., speech recognition, image segmentation, and natural language processing. Covers underlying theory, the range of applications to which it has been applied, and learning from very large data sets. Prerequisite: CMPE 255 or CMPE 257 or instructor consent");$
 insert into Course (title, instructorId, description)
-values ("226", 4, "Database");$
+values ("226 Database Systems", 4, "Database architectures, technologies, and practices for enterprise systems that use structured, semi-structured, and unstructured data. Provides opportunities to research and acquire experience using modern and emerging concepts in relational and non-relational database theory and technologies. Prerequisite: CMPE 272 or instructor consent. Computer Engineering or Software Engineering majors only.");$
 insert into Course (title, instructorId, description)
-values ("227", 4, "MySQL");$
+values ("207 Network Programming and Application", 4, "Development and implementation of networking software for building distributed applications. Application Programming Interfaces: BSD Sockets, Winsock, Remote Procedure Call and Middleware. Network programming project. Prerequisite: CMPE 206, or instructor consent.");$
 insert into Course (title, instructorId, description)
-values ("228", 4, "MongoDB");$
+values ("266 Big Data Engineering and Analytics", 4, "New big data related technologies, architecture, tool, algorithms and analytics to manage and extract values and hidden knowledge from data whose scale, diversity, speed and complexity are big. Prerequisite: CMPE 272 or Instructor Consent");$
 
 
 -- Homework for 255

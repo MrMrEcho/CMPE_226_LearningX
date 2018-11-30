@@ -34,4 +34,9 @@ public class RepositoryUtil {
 
         return bi.intValue();
     }
+
+    public static String unionQuery(List<String> queryList) {
+        String res = queryList.stream().map(q -> "(" + q + ")").collect(Collectors.joining(" union "));
+        return res;
+    }
 }

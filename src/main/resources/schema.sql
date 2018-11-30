@@ -19,14 +19,16 @@ create table AppUser
     password    varchar(512) NOT NULL,
     appRole     int,
     
-    primary key (id)
+    primary key (id),
+
+    fulltext index user_name (username)
 );$
 
 create table Course
 (
     id              int auto_increment,
     title           varchar(128) not null,
-    description     varchar(256),
+    description     varchar(1024),
     instructorId    int,
     
     primary key (id),
@@ -34,7 +36,9 @@ create table Course
     foreign key (instructorId) references AppUser(id)
         on delete cascade,
 
-    fulltext index course_content (title, description)
+    fulltext index course_content (title, description),
+    fulltext index course_title (title),
+    fulltext index course_description (description)
 );$
 
 create table WorkFor
