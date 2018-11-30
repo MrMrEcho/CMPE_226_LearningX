@@ -33,7 +33,7 @@ public class AppUserServiceImpl implements AppUserService {
         return toDto(result);
     }
 
-    protected static AppUserDto toDto(AppUser entity) {
+    static AppUserDto toDto(AppUser entity) {
         AppUserDto dto = new AppUserDto();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
@@ -92,23 +92,6 @@ public class AppUserServiceImpl implements AppUserService {
         return toDto(newEntity);
     }
 
-
-    private void existUser(int userId) {
-        if (!userRepository.exists(userId)) {
-            throw new IllegalArgumentException("User not exist");
-        }
-    }
-
-    protected static AppUser toEntity(AppUserDto dto) {
-        AppUser entity = new AppUser();
-        entity.setId(dto.getId());
-        entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
-        entity.setAppRole(dto.getRole().getValue());
-
-        return entity;
-    }
-
     @Override
     public boolean isEnrollByCourseId(int studentId, int courseId) {
         existUser(studentId);
@@ -145,6 +128,22 @@ public class AppUserServiceImpl implements AppUserService {
         existCourse(courseId);
 
         return false;
+    }
+
+    private static AppUser toEntity(AppUserDto dto) {
+        AppUser entity = new AppUser();
+        entity.setId(dto.getId());
+        entity.setUsername(dto.getUsername());
+        entity.setPassword(dto.getPassword());
+        entity.setAppRole(dto.getRole().getValue());
+
+        return entity;
+    }
+
+    private void existUser(int userId) {
+        if (!userRepository.exists(userId)) {
+            throw new IllegalArgumentException("User not exist");
+        }
     }
 
 }

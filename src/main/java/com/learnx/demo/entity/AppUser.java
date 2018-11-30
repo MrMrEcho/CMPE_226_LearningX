@@ -16,6 +16,23 @@ import lombok.NoArgsConstructor;
 @Table(name = "AppUser")
 public class AppUser {
 
+    public static final int ADMIN = Role.ADMIN.value;
+    public static final int STUDENT = Role.STUDENT.value;
+    public static final int INSTITUTE = Role.INSTITUTE.value;
+    public static final int INSTRUCTOR = Role.INSTRUCTOR.value;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String username;
+    private String password;
+    private int appRole;
+
+    public AppUser(String username, String password, int appRole) {
+        this.username = username;
+        this.password = password;
+        this.appRole = appRole;
+    }
+
     public enum Role {
         NONE(-1),
         STUDENT(0),
@@ -41,24 +58,5 @@ public class AppUser {
         public int getValue() {
             return value;
         }
-    }
-
-    public static final int ADMIN = Role.ADMIN.getValue();
-    public static final int STUDENT = Role.STUDENT.getValue();
-    public static final int INSTITUTE = Role.INSTITUTE.getValue();
-    public static final int INSTRUCTOR = Role.INSTRUCTOR.getValue();
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String username;
-    private String password;
-    private int appRole;
-
-    public AppUser(String username, String password, int appRole) {
-        this.username = username;
-        this.password = password;
-        this.appRole = appRole;
     }
 }

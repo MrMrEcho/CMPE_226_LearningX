@@ -140,18 +140,18 @@ create table Homework
 
 create table Submission
 (
-    studentId   int,
-    homeworkId  int,
-    answer      varchar(256) not null,
-    grade       int,
-    isGraded    boolean default false,
-    
-    primary key (studentId, homeworkId),
-    
-    foreign key (studentId) references AppUser(id)
+  studentId  int not null,
+  homeworkId int not null,
+  answer     varchar(256),
+  grade      int     default 0,
+  hasGrade   boolean default false,
+
+  primary key (studentId, homeworkId),
+
+  foreign key (studentId) references AppUser(id)
         on delete cascade,
-    
-    foreign key (homeworkId) references Homework(id)
+
+  foreign key (homeworkId) references Homework(id)
         on delete cascade
 );$
 
@@ -244,7 +244,7 @@ create trigger `AfterSubmissionGraded`
     for each row
 begin
     declare cid int;
-    if NEW.isGraded and NEW.grade >= 60 and isExam(NEW.homeworkId) then
+    if NEW.hasGrade and NEW.grade >= 60 and isExam(NEW.homeworkId) then
         set cid = getCourseIdByHomeworkId(NEW.homeworkId);
         call completeEnroll(NEW.studentId, cid);
     end if;

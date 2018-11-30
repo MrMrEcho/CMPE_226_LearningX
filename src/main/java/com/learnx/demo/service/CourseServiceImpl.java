@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
         this.userRepository = userRepository;
     }
 
-    private static Course toEntity(CourseDto dto) {
+    static Course toEntity(CourseDto dto) {
         Course entity = new Course();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -103,7 +103,7 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
-    private static CourseDto toDto(Course entity) {
+    static CourseDto toDto(Course entity) {
         CourseDto dto = new CourseDto();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());

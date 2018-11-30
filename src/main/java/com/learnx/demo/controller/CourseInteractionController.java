@@ -1,21 +1,26 @@
 package com.learnx.demo.controller;
 
 import com.learnx.demo.entity.AppUser;
-import com.learnx.demo.entity.Homework;
+import com.learnx.demo.entity.Homework.Type;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.model.HomeworkDto;
 import com.learnx.demo.model.MaterialDto;
-import com.learnx.demo.model.SubmissionDto;
-import com.learnx.demo.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import com.learnx.demo.service.AppUserService;
+import com.learnx.demo.service.HomeworkService;
+import com.learnx.demo.service.MaterialService;
+import com.learnx.demo.service.RatingService;
+import com.learnx.demo.service.SubmissionService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/courseInteraction")
@@ -63,9 +68,9 @@ public class CourseInteractionController {
                 HomeworkDto homeworkDto = new HomeworkDto();
                 homeworkDto.setCourseId(courseId);
                 mav.addObject("homework",homeworkDto);
-                List<HomeworkDto.Type> htypelist = new ArrayList<>();
-                htypelist.add(HomeworkDto.Type.PRACTICE);
-                htypelist.add(HomeworkDto.Type.EXAM);
+                List<Type> htypelist = new ArrayList<>();
+                htypelist.add(Type.PRACTICE);
+                htypelist.add(Type.EXAM);
                 mav.addObject("htypelist",htypelist);
                 //show homework lists and goto submissions in that
                 List<HomeworkDto> homeworkDtos = homeworkService.listHomeworksByCourseId(courseId);

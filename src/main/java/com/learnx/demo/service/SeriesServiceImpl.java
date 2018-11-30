@@ -44,7 +44,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public SeriesDto getSeriesById(int seriesId)  {
+    public SeriesDto getSeriesById(int seriesId) {
         return null;
     }
 
