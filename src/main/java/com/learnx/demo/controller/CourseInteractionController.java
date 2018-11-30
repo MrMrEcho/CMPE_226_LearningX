@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -59,7 +60,13 @@ public class CourseInteractionController {
                 materialDto.setCourseId(courseId);
                 mav.addObject("material", materialDto);
                 //add homework
-                mav.addObject("homework",new HomeworkDto());
+                HomeworkDto homeworkDto = new HomeworkDto();
+                homeworkDto.setCourseId(courseId);
+                mav.addObject("homework",homeworkDto);
+                List<HomeworkDto.Type> htypelist = new ArrayList<>();
+                htypelist.add(HomeworkDto.Type.PRACTICE);
+                htypelist.add(HomeworkDto.Type.EXAM);
+                mav.addObject("htypelist",htypelist);
                 //show homework lists and goto submissions in that
                 List<HomeworkDto> homeworkDtos = homeworkService.listHomeworksByCourseId(courseId);
                 mav.addObject("homeworks",homeworkDtos);
@@ -83,8 +90,17 @@ public class CourseInteractionController {
         String targetUrl="redirect://courseInteraction/"+courseId;
         materialService.create(material);
         ModelAndView mav=new ModelAndView(targetUrl);
-
         return mav;
     }
+
+    @PostMapping("/addHomework")
+    public ModelAndView addHomework(@ModelAttribute("homework") HomeworkDto homeworkDto){
+        int courseId=homeworkDto.getCourseId();
+        String targetUrl="redirect://courseInteraction/"+courseId;
+        homeworkService.create(homeworkDto);
+        ModelAndView mav=new ModelAndView(targetUrl);
+        return mav;
+    }
+
 
 }

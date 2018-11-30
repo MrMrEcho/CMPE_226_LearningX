@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <div th:include="index :: head"></div>
 <body>
 <div th:replace="index :: header">...</div>
-<section class="course-list spad pb-0">
+<section class="single-course spad pb-0">
     <div class="container" th:if="${not #lists.isEmpty(courses)}">
         <h3>The course taught by you:</h3>
         <table>

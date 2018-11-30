@@ -105,19 +105,16 @@ UNION
 	select * from Course
 	where instructorId in (
 		select id from AppUser
-        where username like '%SJSU%'
+        where username like '%data%'
 	)
 );
  */
     public List<Course> search(String keyword) {
         List<String> queryList = new ArrayList<>();
-        queryList.add("select * from Course where match (title,description) against (:keyword in natural language mode with query expansion) order by ((match (title) against (':keyword' in natural language mode with query expansion) * 10) + (match (description) against (':keyword' in natural language mode with query expansion))) desc limit 10");
-        queryList.add("select * from Course where instructorId in (select id from AppUser where username like '%:keyword%') order by instructorId limit 10");
+        queryList.add(String.format("select * from Course where match (title,description) against ('%s' in natural language mode with query expansion) order by ((match (title) against ('%s' in natural language mode with query expansion) * 10) + (match (description) against ('%s' in natural language mode with query expansion))) desc limit 10", keyword, keyword, keyword));
+        queryList.add(String.format("select * from Course where instructorId in (select id from AppUser where username like '%%%s%%') order by instructorId limit 10", keyword));
         String sql = RepositoryUtil.unionQuery(queryList);
-        System.out.println("sql = " + sql);
         Query query = em.createNativeQuery(sql, Course.class);
-        query.setParameter("keyword", keyword);
-
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 

@@ -5,7 +5,7 @@
 <body>
 <div th:replace="index :: header">...</div>
 <!--add material-->
-<section>
+<section class="single-course spad pb-0">
     <div class="container">
         <form method="post" th:action="@{/courseInteraction/addMaterial}" th:object="${material}">
             <h3>Add a new material for this course</h3>
@@ -19,6 +19,29 @@
         </form>
     </div>
 </section>
+<!--add homework-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/addHomework}" th:object="${homework}">
+            <h3>Add a new homework for this course</h3>
+            <label for="title">Homework Title</label>
+            <input type="text" th:field="*{title}"/>
+            <br/>
+            <label for="content">Content</label>
+            <input type="text" th:field="*{content}"/>
+            <br/>
+            <select th:field="*{type}">
+                <option th:each="htype : ${htypelist}"
+                        th:value="${htype}"
+                        th:text="${htype}">Text..</option>
+            </select>
+            <input type="submit" value="Add Homework"/>
+        </form>
+    </div>
+</section>
+<!--Show submission lists and the link with that-->
+<section class="single-course spad pb-0">
 
+</section>
 </body>
 </html>

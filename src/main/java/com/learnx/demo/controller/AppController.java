@@ -1,7 +1,24 @@
 package com.learnx.demo.controller;
 
-import com.learnx.demo.model.*;
-import com.learnx.demo.service.*;
+import com.learnx.demo.entity.AppUser.Role;
+import com.learnx.demo.model.AppUserDto;
+import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.model.DiscussionDto;
+import com.learnx.demo.model.HomeworkDto;
+import com.learnx.demo.model.MaterialDto;
+import com.learnx.demo.model.RatingDto;
+import com.learnx.demo.model.SearchDto;
+import com.learnx.demo.service.AppUserService;
+import com.learnx.demo.service.CourseService;
+import com.learnx.demo.service.DiscussionService;
+import com.learnx.demo.service.HomeworkService;
+import com.learnx.demo.service.MaterialService;
+import com.learnx.demo.service.RatingService;
+import com.learnx.demo.service.SeriesService;
+import java.util.HashMap;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,12 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
@@ -103,6 +116,7 @@ public class AppController {
     public ModelAndView addUser(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap) {
         AppUserDto newUser = null;
         try {
+            userDto.setRole(Role.STUDENT);
             newUser = userService.create(userDto);
         } catch (IllegalArgumentException e) {
             modelMap.put("message", e.getMessage());
