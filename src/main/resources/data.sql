@@ -95,13 +95,13 @@ values(3, 1);$
 -- -- Enroll (studentId, courseId, isCompleted, isDropped)
 insert into Enroll (studentId, courseId)
 values(1, 1);$
--- insert into Enroll (studentId, courseId)
--- values(1, 2);$
--- insert into Enroll (studentId, courseId)
--- values(1, 3);$
--- insert into Enroll (studentId, courseId)
--- values(2, 1);$
--- insert into Enroll (studentId, courseId)
--- values(2, 2);$
+insert into Enroll (studentId, courseId)
+values(1, 2);$
+insert into Enroll (studentId, courseId)
+values(1, 3);$
+insert into Enroll (studentId, courseId)
+values(2, 1);$
+insert into Enroll (studentId, courseId)
+values(2, 5);$
 
 

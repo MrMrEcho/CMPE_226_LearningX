@@ -21,4 +21,11 @@ public class CourseServiceImplTest {
 
         results.forEach(System.out::println);
     }
+
+    @Test
+    public void listCourseByStudentId() {
+        List<CourseDto> results = service.listCourseByStudentId(2);
+
+        results.forEach(System.out::println);
+    }
 }

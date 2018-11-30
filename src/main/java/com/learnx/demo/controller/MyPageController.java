@@ -52,8 +52,8 @@ public class MyPageController {
         switch (role) {
             case STUDENT:
                 mav = new ModelAndView("myPage_student");
-                List<CourseDto> courses_ongoing = courseService.listOnGoingCoursesByUserId(userId);
-                List<CourseDto> courses_past = courseService.listFinishedCoursesByUserId(userId);
+                List<CourseDto> courses_ongoing = courseService.listOnGoingCoursesByStudentId(userId);
+                List<CourseDto> courses_past = courseService.listFinishedCoursesByStudentId(userId);
                 List<SeriesDto> certificates = seriesService.listSeriesByStudentId(userId);
                 mav.addObject("student", appUserDto);
                 mav.addObject("courses_ongoing", courses_ongoing);
