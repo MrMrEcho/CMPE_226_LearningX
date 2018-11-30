@@ -1,3 +1,28 @@
+-- AppUser (username, password, appRole)
+insert into AppUser (username, password, appRole)
+values ("student1", "student1", 0);$
+insert into AppUser (username, password, appRole)
+values ("student2", "student2", 0);$
+
+insert into AppUser (username, password, appRole)
+values ("SJSU_T1", "SJSU_T1", 1);$
+insert into AppUser (username, password, appRole)
+values ("SJSU_T2", "SJSU_T2", 1);$
+
+insert into AppUser (username, password, appRole)
+values ("SCU_T1", "SCU_T1", 1);$
+insert into AppUser (username, password, appRole)
+values ("SCU_T2", "SCU_T2", 1);$
+
+insert into AppUser (username, password, appRole)
+values ("SJSU", "SJSU", 2);$
+insert into AppUser (username, password, appRole)
+values ("SCU", "SCU", 2);$
+
+insert into AppUser (username, password, appRole)
+values ("admin1", "admin1", 3);$
+
+
 -- WorkFor SJSUinstructor
 -- WorkFor (instructorId, instituteId)
 -- Need trigger or function to check instructorId exist and instituteId exist
