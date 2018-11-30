@@ -35,6 +35,7 @@
               </div>
             </div>
           </div>
+          <a th:href="@{/courseInteraction/} + ${course.id}">Manage Homework</a>
           <div class="course-meta">
             <h5 align="center" style="color:#878787;"> Homework</h5>
 
@@ -46,13 +47,10 @@
               <tr>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Manage</th>
               </tr>
-
               <tr th:each="h : ${homeworkList}">
                 <td><span th:text="${h.title}"> Course </span></td>
                 <td><span th:text="${h.content}"> Teacher </span></td>
-                <td> <a th:href="@{/courseInteraction/} + ${course.id}">Go</a></td>
               </tr>
             </table>
           </div>

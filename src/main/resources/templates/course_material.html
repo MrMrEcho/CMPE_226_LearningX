@@ -35,6 +35,7 @@
               </div>
             </div>
           </div>
+          <a th:href="@{/courseInteraction/} + ${course.id}">Manage Material</a>
           <div class="course-meta">
             <h5 align="center" style="color:#878787;"> Material</h5>
 
@@ -46,12 +47,10 @@
               <tr>
                 <th>Title</th>
                 <th>Url</th>
-                <th>Manage</th>
               </tr>
               <tr th:each="m : ${materialList}">
                 <td><span th:text="${m.title}"> Course </span></td>
                 <td><a th:href="@{${m.url}}" th:text="${m.url}"> Teacher </a></td>
-                <td> <a th:href="@{/courseInteraction/} + ${course.id}">Go</a></td>
               </tr>
             </table>
           </div>

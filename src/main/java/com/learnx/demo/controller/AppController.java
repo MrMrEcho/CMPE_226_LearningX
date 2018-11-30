@@ -228,7 +228,15 @@ public class AppController {
         ModelAndView mav = new ModelAndView("course_review");
         CourseDto course = courseService.getCourseById(courseId);
         List<RatingDto> rateList = rateService.listRatingsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(rateList != null) {
+            for(RatingDto r : rateList) {
+                AppUserDto user = userService.getUserById(r.getStudentId());
+                nameMap.put(r.getStudentId(), user.getUsername());
+            }
+        }
         mav.addObject("rateList", rateList);
+        mav.addObject("nameMap", nameMap);
         mav.addObject("course", course);
         mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
