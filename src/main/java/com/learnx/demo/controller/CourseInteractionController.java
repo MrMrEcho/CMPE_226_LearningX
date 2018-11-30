@@ -94,7 +94,7 @@ public class CourseInteractionController {
     @PostMapping("/addMaterial")
     public ModelAndView addMaterial(@ModelAttribute("material") MaterialDto material){
         int courseId=material.getCourseId();
-        String targetUrl="redirect://courseInteraction/"+courseId;
+        String targetUrl="redirect:/courseInteraction/"+courseId;
         materialService.create(material);
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
@@ -103,7 +103,7 @@ public class CourseInteractionController {
     @PostMapping("/addHomework")
     public ModelAndView addHomework(@ModelAttribute("homework") HomeworkDto homeworkDto){
         int courseId=homeworkDto.getCourseId();
-        String targetUrl="redirect://courseInteraction/"+courseId;
+        String targetUrl="redirect:/courseInteraction/"+courseId;
         homeworkService.create(homeworkDto);
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
@@ -117,7 +117,7 @@ public class CourseInteractionController {
            submissionService.update(sub);
        }
 
-       String targetUrl="redirect://courseInteraction/"+courseId;
+       String targetUrl="redirect:/courseInteraction/"+courseId;
        ModelAndView mav=new ModelAndView(targetUrl);
 
        return mav;
