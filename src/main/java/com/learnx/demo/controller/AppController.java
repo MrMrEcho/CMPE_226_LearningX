@@ -176,8 +176,8 @@ public class AppController {
 
         if (session != null && session.getAttribute("userid") != null) {
             int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
-            modelMap.put("enroll", userService.isEnrollByCourseId(userid, courseId));
-            modelMap.put("complete", userService.isCompleteByCourseId(userid, courseId));
+            modelMap.put("enroll", userService.hasEnrolled(userid, courseId));
+            modelMap.put("complete", userService.hasCompleted(userid, courseId));
             discussionDto.setUserId(userid);
         }
 
@@ -300,10 +300,10 @@ public class AppController {
         }
         newDiscussion.setTitle("");
         newDiscussion.setContent("");
-        modelMap.put("enroll", userService.isEnrollByCourseId(userId, courseId));
-        System.out.println("enroll:"+userService.isEnrollByCourseId(userId, courseId));
-        System.out.println("complete:"+userService.isCompleteByCourseId(userId, courseId));
-        modelMap.put("complete", userService.isCompleteByCourseId(userId, courseId));
+        modelMap.put("enroll", userService.hasEnrolled(userId, courseId));
+        System.out.println("enroll:"+userService.hasEnrolled(userId, courseId));
+        System.out.println("complete:"+userService.hasCompleted(userId, courseId));
+        modelMap.put("complete", userService.hasCompleted(userId, courseId));
         modelMap.put("course", course);
         modelMap.put("nameMap", nameMap);
         modelMap.put("question", newDiscussion);
@@ -325,7 +325,7 @@ public class AppController {
 
         int uid = Integer.valueOf(userid);
         int cid = Integer.valueOf(courseid);
-        boolean status = userService.enrollByCourseId(uid, cid);
+        boolean status = userService.enrollCourse(uid, cid);
         response.setContentType("text/plain");
         response.getWriter().write(String.valueOf(status));
     }

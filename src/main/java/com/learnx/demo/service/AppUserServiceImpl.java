@@ -5,6 +5,8 @@ import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
 import com.learnx.demo.repository.CourseRepository;
 import java.util.List;
+
+import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -62,9 +64,6 @@ public class AppUserServiceImpl implements AppUserService {
         if (userRepository.findByName(dto.getUsername()) != null) {
             throw new IllegalArgumentException("username already exists!");
         }
-
-        //String encodedPassword = passwordEncoder.encode(dto.getPassword());
-        //System.out.println("encodedPassword = " + encodedPassword);
         AppUser newEntity = new AppUser(dto.getUsername(), dto.getPassword(),
                 dto.getRole().getValue());
         AppUser saveEntity = userRepository.save(newEntity);
@@ -89,7 +88,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public boolean isEnrollByCourseId(int studentId, int courseId) {
+    public boolean hasEnrolled(int studentId, int courseId) {
         existUser(studentId);
         existCourse(courseId);
 
@@ -103,7 +102,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public boolean isCompleteByCourseId(int studentId, int courseId) {
+    public boolean hasCompleted(int studentId, int courseId) {
         existUser(studentId);
         existCourse(courseId);
 
@@ -111,7 +110,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public boolean enrollByCourseId(int studentId, int courseId) {
+    public boolean enrollCourse(int studentId, int courseId) {
         existUser(studentId);
         existCourse(courseId);
 
@@ -119,7 +118,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public boolean dropByCourseId(int studentId, int courseId) {
+    public boolean dropCourse(int studentId, int courseId) {
         existUser(studentId);
         existCourse(courseId);
 

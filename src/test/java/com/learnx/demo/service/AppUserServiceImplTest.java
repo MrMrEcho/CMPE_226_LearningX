@@ -75,12 +75,12 @@ public class AppUserServiceImplTest {
     }
 
 //    @Test(expected = IllegalArgumentException.class)
-//    public void isEnrollByCourseId() {
+//    public void hasEnrolled() {
 //
-//        service.isEnrollByCourseId(1, 1);
+//        service.hasEnrolled(1, 1);
 //
-//        service.isEnrollByCourseId(1, 2);
+//        service.hasEnrolled(1, 2);
 //
-//        service.isEnrollByCourseId(4, 1);
+//        service.hasEnrolled(4, 1);
 //    }
 }

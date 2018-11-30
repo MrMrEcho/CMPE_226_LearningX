@@ -9,9 +9,6 @@ public interface AppUserService {
 
     List<AppUserDto> listInstructorsByInstituteId(int instituteId);
 
-    /**
-     *
-     */
     AppUserDto authenticate(AppUserDto dto);
 
     AppUserDto create(AppUserDto dto);
@@ -20,12 +17,12 @@ public interface AppUserService {
 
     AppUserDto update(AppUserDto newDto, boolean hasUpdatePassword);
 
-    boolean isEnrollByCourseId(int studentId, int courseId);
+    boolean hasEnrolled(int studentId, int courseId);
 
-    boolean isCompleteByCourseId(int studentId, int courseId);
+    boolean hasCompleted(int studentId, int courseId);
 
-    boolean enrollByCourseId(int studentId, int courseId);
+    boolean enrollCourse(int studentId, int courseId);
 
-    boolean dropByCourseId(int studentId, int courseId);
+    boolean dropCourse(int studentId, int courseId);
 
 }
