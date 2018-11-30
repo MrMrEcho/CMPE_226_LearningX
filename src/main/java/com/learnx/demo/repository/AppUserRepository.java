@@ -6,16 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AppUserRepository {
 
+    private final PasswordEncoder passwordEncoder;
     private final EntityManager em;
 
     @Autowired
-    public AppUserRepository(EntityManager em) {
+    public AppUserRepository(EntityManager em, PasswordEncoder passwordEncoder) {
         this.em = em;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -26,28 +29,56 @@ public class AppUserRepository {
         Query query =
                 em.createNativeQuery(sql)
                         .setParameter("username", entity.getUsername())
-                        .setParameter("password", entity.getPassword())
+                        .setParameter("password", passwordEncoder.encode(entity.getPassword()))
                         .setParameter("role", entity.getAppRole());
 
         if (query.executeUpdate() == 0) {
             return null;
         }
-        entity.setId(RepositoryUtil.getLastInsertId(em));
+
+        AppUser saveEntity = new AppUser();
+        saveEntity.setId(RepositoryUtil.getLastInsertId(em));
+        saveEntity.setUsername(entity.getUsername());
+        saveEntity.setPassword(entity.getPassword());
+        saveEntity.setAppRole(entity.getAppRole());
+
+        return saveEntity;
+    }
+
+    @Transactional
+    public AppUser update(AppUser entity) {
+        String sql =
+                "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
+                        + "WHERE U.id = :id ";
+
+        Query query = em.createNativeQuery(sql)
+                .setParameter("username", entity.getUsername())
+                .setParameter("password", entity.getPassword())
+                .setParameter("appRole", entity.getAppRole())
+                .setParameter("id", entity.getId());
+
+        if (query.executeUpdate() == 0) {
+            return null;
+        }
 
         return entity;
+    }
+
+    public boolean exists(int id) {
+        return findById(id) != null;
+    }
+
+    public AppUser findById(int id) {
+        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
+        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
+
+        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
 
     public AppUser findByName(String username) {
         String sql =
                 "SELECT id, username, password, approle FROM AppUser " + "WHERE username = :name";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    public AppUser findById(int id) {
-        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
-        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }

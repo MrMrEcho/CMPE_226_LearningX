@@ -65,6 +65,37 @@ public class CourseRepository {
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
+    public List<Course> findCourseByStudentId(int studentId) {
+        String sql =
+                "SELECT C.* " +
+                        "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
+                        "WHERE E.studentId = :studentId";
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("studentId", studentId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public List<Course> findByTitle(String title) {
+        String sql = "select * from Course where title = :title";
+        Query query = em.createNativeQuery(sql, Course.class);
+        query.setParameter("title", title);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public List<Course> search(String keyword) {
+        String sql = "select * from Course where match (title,description) against (:keyword with query expansion)";
+        Query query = em.createNativeQuery(sql, Course.class);
+        query.setParameter("keyword", keyword);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public boolean exists(int courseId) {
+        return findById(courseId) != null;
+    }
+
     public Course findById(int courseId) {
         String sql = "SELECT * FROM course " + "WHERE id = :courseId";
 
@@ -72,19 +103,5 @@ public class CourseRepository {
                 .setParameter("courseId", courseId);
 
         return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
-    }
-
-    public List<Course> findByTitle(String title){
-        String sql = "select * from Course where title = :title";
-        Query query = em.createNativeQuery(sql, Course.class);
-        query.setParameter("title", title);
-        return query.getResultList();
-    }
-
-    public List<Course> search(String keyword) {
-        String sql = "select * from Course where match (title,description) against (:keyword with query expansion)";
-        Query query = em.createNativeQuery(sql, Course.class);
-        query.setParameter("keyword", keyword);
-        return query.getResultList();
     }
 }
