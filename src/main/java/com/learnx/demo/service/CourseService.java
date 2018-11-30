@@ -11,11 +11,11 @@ public interface CourseService {
 
     List<CourseDto> listCoursesSortedByRating(boolean ascending);
 
-    List<CourseDto> listCoursesByUserId(int userId);
+    List<CourseDto> listCourseByStudentId(int studentId);
 
-    List<CourseDto> listOnGoingCoursesByUserId(int userId);
+    List<CourseDto> listOnGoingCoursesByStudentId(int studentId);
 
-    List<CourseDto> listFinishedCoursesByUserId(int userId);
+    List<CourseDto> listFinishedCoursesByStudentId(int studentId);
 
     List<CourseDto> listCoursesByInstructorId(int instructorId);
 

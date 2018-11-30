@@ -68,17 +68,17 @@ public class AppUserRepository {
         return findById(id) != null;
     }
 
-    public AppUser findByName(String username) {
-        String sql =
-                "SELECT id, username, password, approle FROM AppUser " + "WHERE username = :name";
-        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
+    public AppUser findById(int id) {
+        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
+        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
 
-    public AppUser findById(int id) {
-        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
-        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
+    public AppUser findByName(String username) {
+        String sql =
+                "SELECT id, username, password, approle FROM AppUser " + "WHERE username = :name";
+        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
