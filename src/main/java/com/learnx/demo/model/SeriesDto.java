@@ -1,6 +1,5 @@
 package com.learnx.demo.model;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,4 @@ public class SeriesDto {
     private String description;
 
     private Integer instituteId;
-    private List<Integer> courseIds;
 }

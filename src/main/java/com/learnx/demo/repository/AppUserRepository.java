@@ -52,7 +52,7 @@ public class AppUserRepository {
         String sql =
                 "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
                         + "WHERE U.id = :id ";
-        if(hasUpdatePassword) {
+        if (hasUpdatePassword) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         }
         Query query = em.createNativeQuery(sql)

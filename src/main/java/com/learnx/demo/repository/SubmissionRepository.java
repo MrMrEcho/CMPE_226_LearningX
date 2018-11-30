@@ -21,6 +21,7 @@ public class SubmissionRepository {
 
     @Transactional
     public Submission create(Submission entity) {
+        // FIXME: This might not correct implementation
         String sql =
                 "INSERT INTO Submission (studentId, homeworkId) " +
                         "VALUES (:studentId, :homeworkId)";
