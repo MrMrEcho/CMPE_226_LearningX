@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+<!--add material-->
+<section>
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/addMaterial}" th:object="${material}">
+            <h3>Add a new material for this course</h3>
+            <label for="title">Material Title</label>
+            <input type="text" th:field="*{title}"/>
+            <br/>
+            <label for="url">Material Url</label>
+            <input type="text" th:field="*{url}"/>
+            <br/>
+            <input type="submit" value="Add Material"/>
+        </form>
+    </div>
+</section>
+
+</body>
+</html>
