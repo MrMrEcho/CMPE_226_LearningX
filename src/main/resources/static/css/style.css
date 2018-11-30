@@ -52,6 +52,12 @@ img {
   max-width: 100%;
 }
 
+.login-section span {
+  font-size: 24px;
+  font-weight: 600;
+  color: #d82a4e;
+}
+
 input:focus,
 select:focus,
 button:focus,
