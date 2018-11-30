@@ -63,9 +63,9 @@ public class AppUserServiceImpl implements AppUserService {
             throw new IllegalArgumentException("username already exists!");
         }
 
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        //String encodedPassword = passwordEncoder.encode(dto.getPassword());
         //System.out.println("encodedPassword = " + encodedPassword);
-        AppUser newEntity = new AppUser(dto.getUsername(), encodedPassword,
+        AppUser newEntity = new AppUser(dto.getUsername(), dto.getPassword(),
                 dto.getRole().getValue());
         AppUser saveEntity = userRepository.save(newEntity);
 
@@ -75,7 +75,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserDto update(AppUserDto newDto) {
         existUser(newDto.getId());
-        AppUser newEntity = userRepository.update(toEntity(newDto));
+        AppUser newEntity = userRepository.update(toEntity(newDto), false);
 
         return toDto(newEntity);
     }
@@ -83,11 +83,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserDto update(AppUserDto newDto, boolean passwordUpdate) {
         existUser(newDto.getId());
-        if (passwordUpdate) {
-            String encodedPassword = passwordEncoder.encode(newDto.getPassword());
-            newDto.setPassword(encodedPassword);
-        }
-        AppUser newEntity = userRepository.update(toEntity(newDto));
+        AppUser newEntity = userRepository.update(toEntity(newDto), true);
 
         return toDto(newEntity);
     }

@@ -18,7 +18,7 @@ public interface AppUserService {
 
     AppUserDto update(AppUserDto newDto);
 
-    AppUserDto update(AppUserDto newDto, boolean passwordUpdate);
+    AppUserDto update(AppUserDto newDto, boolean hasUpdatePassword);
 
     boolean isEnrollByCourseId(int studentId, int courseId);
 

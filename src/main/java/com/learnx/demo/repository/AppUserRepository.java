@@ -6,16 +6,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AppUserRepository {
 
     private final EntityManager em;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AppUserRepository(EntityManager em) {
+    public AppUserRepository(EntityManager em,
+            PasswordEncoder passwordEncoder) {
         this.em = em;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -23,6 +27,7 @@ public class AppUserRepository {
         String sql =
                 "INSERT INTO AppUser (username, password, approle) "
                         + "VALUES (:username, :password, :role)";
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         Query query =
                 em.createNativeQuery(sql)
                         .setParameter("username", entity.getUsername())
@@ -43,11 +48,13 @@ public class AppUserRepository {
     }
 
     @Transactional
-    public AppUser update(AppUser entity) {
+    public AppUser update(AppUser entity, boolean hasUpdatePassword) {
         String sql =
                 "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
                         + "WHERE U.id = :id ";
-
+        if(hasUpdatePassword) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
         Query query = em.createNativeQuery(sql)
                 .setParameter("username", entity.getUsername())
                 .setParameter("password", entity.getPassword())
