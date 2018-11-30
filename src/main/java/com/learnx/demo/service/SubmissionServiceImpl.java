@@ -7,6 +7,7 @@ import com.learnx.demo.model.SubmissionDto;
 import com.learnx.demo.repository.RepositoryUtil;
 import com.learnx.demo.repository.SubmissionRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // FIXME: Current implementation does not include input check let's fix when it comes out
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
 
-    SubmissionRepository repository;
+    private final SubmissionRepository repository;
 
+    @Autowired
     public SubmissionServiceImpl(SubmissionRepository repository) {
         this.repository = repository;
     }

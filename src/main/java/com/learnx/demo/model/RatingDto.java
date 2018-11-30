@@ -12,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingDto {
+
     private Integer studentId;
     private Integer courseId;
 

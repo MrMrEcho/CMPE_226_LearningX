@@ -3,23 +3,21 @@ package com.learnx.demo.service;
 import com.learnx.demo.entity.Homework;
 import com.learnx.demo.entity.Homework.Type;
 import com.learnx.demo.model.HomeworkDto;
-import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.HomeworkRepository;
 import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
 
-    private final CourseRepository courseRepository;
-    private final HomeworkRepository homeworkRepository;
+    private final HomeworkRepository repository;
 
-    public HomeworkServiceImpl(CourseRepository courseRepository,
-            HomeworkRepository homeworkRepository) {
-        this.courseRepository = courseRepository;
-        this.homeworkRepository = homeworkRepository;
+    @Autowired
+    public HomeworkServiceImpl(HomeworkRepository repository) {
+        this.repository = repository;
     }
 
     private static Homework toEntity(HomeworkDto dto) {
@@ -47,7 +45,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public List<HomeworkDto> listHomeworksByCourseId(int courseId) {
         return RepositoryUtil
-                .mapAll(homeworkRepository.findByCourseId(courseId), HomeworkServiceImpl::toDto);
+                .mapAll(repository.findByCourseId(courseId), HomeworkServiceImpl::toDto);
     }
 
     @Override
@@ -67,14 +65,17 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public HomeworkDto create(HomeworkDto newHomework) {
-        Homework homework = toEntity(newHomework);
-        Homework saved = homeworkRepository.save(homework);
-        return toDto(saved);
+    public HomeworkDto create(HomeworkDto dto) {
+        Homework newEntity = toEntity(dto);
+        Homework saveEntity = repository.save(newEntity);
+
+        return toDto(saveEntity);
     }
 
     @Override
-    public HomeworkDto update(HomeworkDto newHomework) {
-        return null;
+    public HomeworkDto update(HomeworkDto dto) {
+        Homework newEntity = repository.update(toEntity(dto));
+
+        return toDto(newEntity);
     }
 }

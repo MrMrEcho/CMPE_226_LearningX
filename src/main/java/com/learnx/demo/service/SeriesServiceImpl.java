@@ -5,6 +5,7 @@ import com.learnx.demo.model.SeriesDto;
 import com.learnx.demo.repository.RepositoryUtil;
 import com.learnx.demo.repository.SeriesRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ public class SeriesServiceImpl implements SeriesService {
 
     private final SeriesRepository repository;
 
+    @Autowired
     public SeriesServiceImpl(SeriesRepository repository) {
         this.repository = repository;
     }

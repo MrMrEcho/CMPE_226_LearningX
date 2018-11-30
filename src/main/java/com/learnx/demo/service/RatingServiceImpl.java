@@ -18,6 +18,15 @@ public class RatingServiceImpl implements RatingService {
         this.repository = repository;
     }
 
+    @Override
+    public RatingDto create(RatingDto rating) {
+
+        Rating newEntity = toEntity(rating);
+        Rating saveEntity = repository.save(newEntity);
+
+        return toDto(saveEntity);
+    }
+
     private static Rating toEntity(RatingDto dto) {
         Rating entity = new Rating();
         entity.setStudentId(dto.getStudentId());
@@ -34,15 +43,6 @@ public class RatingServiceImpl implements RatingService {
         dto.setRate(entity.getRate());
 
         return dto;
-    }
-
-    @Override
-    public RatingDto create(RatingDto rating) {
-
-        Rating newEntity = toEntity(rating);
-        Rating saveEntity = repository.save(newEntity);
-
-        return toDto(saveEntity);
     }
 
     @Override

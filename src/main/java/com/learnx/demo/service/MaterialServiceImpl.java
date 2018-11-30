@@ -18,16 +18,6 @@ public class MaterialServiceImpl implements MaterialService {
         this.repository = repository;
     }
 
-    private static Material toEntity(MaterialDto dto) {
-        Material entity = new Material();
-        entity.setId(dto.getId());
-        entity.setTitle(dto.getTitle());
-        entity.setUrl(dto.getUrl());
-        entity.setCourseId(dto.getCourseId());
-
-        return entity;
-    }
-
     @Override
     public List<MaterialDto> listMaterialsByCourseId(int courseId) {
         return RepositoryUtil
@@ -50,6 +40,16 @@ public class MaterialServiceImpl implements MaterialService {
         Material saveEntity = repository.save(newEntity);
 
         return toDto(saveEntity);
+    }
+
+    private static Material toEntity(MaterialDto dto) {
+        Material entity = new Material();
+        entity.setId(dto.getId());
+        entity.setTitle(dto.getTitle());
+        entity.setUrl(dto.getUrl());
+        entity.setCourseId(dto.getCourseId());
+
+        return entity;
     }
 
     @Override
