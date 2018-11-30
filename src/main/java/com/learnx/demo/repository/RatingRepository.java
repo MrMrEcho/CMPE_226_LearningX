@@ -27,7 +27,7 @@ public class RatingRepository {
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", entity.getStudentId())
                 .setParameter("courseId", entity.getCourseId())
-                .setParameter("rating", entity.getRate());
+                .setParameter("rate", entity.getRate());
 
         if (query.executeUpdate() == 0) {
             return null;
@@ -51,6 +51,9 @@ public class RatingRepository {
                 .setParameter("studentId", newEntity.getStudentId())
                 .setParameter("courseId", newEntity.getCourseId());
 
+        if (query.executeUpdate() == 0) {
+            return null;
+        }
         return newEntity;
     }
 

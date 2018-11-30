@@ -66,14 +66,6 @@ public class SubmissionServiceImpl implements SubmissionService {
         return toDto(newEntity);
     }
 
-//    @Override
-//    public SubmissionDto grade(SubmissionDto newDto) {
-//
-//        Submission newEntity = repository.update(toEntity(newDto));
-//
-//        return toDto(newEntity);
-//    }
-
     private static SubmissionDto toDto(Submission entity) {
         SubmissionDto dto = new SubmissionDto();
         dto.setStudentId(entity.getStudentId());

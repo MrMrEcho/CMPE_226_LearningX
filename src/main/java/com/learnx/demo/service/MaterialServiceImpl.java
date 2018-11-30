@@ -1,6 +1,5 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.entity.Homework;
 import com.learnx.demo.entity.Material;
 import com.learnx.demo.model.MaterialDto;
 import com.learnx.demo.repository.MaterialRepository;
@@ -46,13 +45,17 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public MaterialDto create(MaterialDto material) {
-        Material saved = repository.save(toEntity(material));
-        return toDto(saved);
+    public MaterialDto create(MaterialDto dto) {
+        Material newEntity = toEntity(dto);
+        Material saveEntity = repository.save(newEntity);
+
+        return toDto(saveEntity);
     }
 
     @Override
-    public MaterialDto update(MaterialDto material) {
-        return null;
+    public MaterialDto update(MaterialDto dto) {
+        Material newEntity = repository.update(toEntity(dto));
+
+        return toDto(newEntity);
     }
 }

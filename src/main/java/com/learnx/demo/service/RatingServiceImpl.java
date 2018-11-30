@@ -54,8 +54,6 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public List<RatingDto> listRatingsByCourseId(int courseId) {
-        List<?> a = repository.findRatingByCourseId(courseId);
-
         return RepositoryUtil.mapAll(
                 repository.findRatingByCourseId(courseId), RatingServiceImpl::toDto);
     }
