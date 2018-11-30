@@ -262,5 +262,5 @@ begin
     end if;
 end ;$
 
-delimiter ;
+-- delimiter ;
 
