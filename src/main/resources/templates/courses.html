@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 
-<div th:include="index :: head"></div>
+<div th:include="index :: head">
+  <style>
+    .limit-chars {
+      width: 50ch;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
+</div>
 <body>
 <div th:replace="index :: header">...</div>
 
@@ -12,7 +21,6 @@
     </div>
   </div>
 </section>
-
 
 <!-- all course section -->
 <section class="categories-section spad">
@@ -26,9 +34,9 @@
           <div class="categorie-item">
             <div class="ci-text">
               <h5 th:text="${course.title}"></h5>
-              <p th:text="${course.description}"></p>
+              <p th:text="${#strings.substring(course.description,0,60)}+ '...'"></p>
               <!--<span th:text="${course.instructor.username}"></span>-->
-              <a th:href="@{/singleCourse/} + ${course.id}" >Click here to view course details</a>
+              <a th:href="@{/courses/} + ${course.id}" >Click here to view course details</a>
             </div>
           </div>
         </div>
@@ -48,13 +56,10 @@
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${most.title}"></h5>
-            <p th:text="${course.description}"></p>
+            <p th:text="${#strings.substring(most.description,0,60)}+ '...'"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
             <br>
-            <form role="form" th:action="@{/singleCourse}" th:method="post">
-              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
-              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
-            </form>
+            <a th:href="@{/courses/} + ${most.id}" >Click here to view course details</a>
           </div>
         </div>
       </div>
@@ -73,13 +78,9 @@
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${least.title}"></h5>
-            <p th:text="${course.description}"></p>
+            <p th:text="${#strings.substring(least.description,0,60)}+ '...'"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
-            <br>
-            <form role="form" th:action="@{/singleCourse}" th:method="post">
-              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
-              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
-            </form>
+            <a th:href="@{/courses/} + ${least.id}" >Click here to view course details</a>
           </div>
         </div>
       </div>

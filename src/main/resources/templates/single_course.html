@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
-<div th:include="index :: head"></div>
+<head>
+  <title>LearningX</title>
+  <meta charset="UTF-8">
+  <style>
+  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+  <script  th:inline="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
 
 <body>
 <div th:replace="index :: header">...</div>
@@ -12,6 +20,30 @@
     </div>
   </div>
 </section>
+
+<script th:inline="javascript">
+    $(document).ready(function(){
+        $("#enrollsubmit").click(function(){
+
+            $.ajax({
+                url : 'http://localhost:8080/enrollCourse',
+                data : {
+                    euserid : $('#euserid').val(),
+                    ecourseid : $('#ecourseid').val()
+                },
+                success : function(responseText) {
+
+                    if(responseText == "true") {
+                        $("#enrollsubmit").attr("disabled", true);
+                        $("#enrollsubmit").val("Already Enroll");
+                    } else {
+                        $('#enrollStatus').text("enroll error!!");
+                    }
+                },
+            });
+        });
+    });
+</script>
 
 <!-- single course section -->
 <section class="single-course spad pb-0">
@@ -43,17 +75,17 @@
             <br><br>
             <div class="course-meta">
               <div class="cm-info">
-                <a th:href="@{/getRatingByCourseId/} + ${course.id}" >See Course's Ratings</a>
+                <a th:href="@{/courses/rating/} + ${course.id}" >See Course's Ratings</a>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <a th:href="@{/getHomeworkByCourseId/} + ${course.id}" >See Course's Homework</a>
+                <a th:href="@{/courses/homework/} + ${course.id}" >See Course's Homework</a>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <a th:href="@{/getMaterialByCourseId/} + ${course.id}" >See Course's Materials</a>
+                <a th:href="@{/courses/material/} + ${course.id}" >See Course's Materials</a>
               </div>
             </div>
             <br>
@@ -61,11 +93,13 @@
           </div>
           <div th:if="${session.userid != null}">
             <div th:if="${enroll == false and complete == false }">
-              <form action="#" th:action="@{/enrollCourse}" method="post">
-                <input id="userid" name="userid" th:type="hidden"  th:value="${session.userid}" readonly/>
-                <input id="courseid" name="courseid" th:type="hidden"  th:value="${course.id}" readonly/>
-                <input type="submit" class="site-btn price-btn" value="Enroll" />
+              <form>
+                <input id="euserid" name="euserid" th:type="hidden"  th:value="${session.userid}" readonly/>
+                <input id="ecourseid" name="ecourseid" th:type="hidden"  th:value="${course.id}" readonly/>
+                <input id="enrollsubmit" type="button" class="site-btn price-btn" value="Enroll" />
               </form>
+              <br>
+              <h6 id="enrollStatus" style="color:tomato"></h6>
             </div>
             <div th:if="${enroll == true  and complete == false}">
               <h6  class="signup-btn">Already Enrolled</h6>
@@ -96,15 +130,15 @@
           <div class="course-metas">
             <h5>Post discussion:</h5>
             <p th:text="${session.username != null} ? ${session.username} : 'You have to login first!'" style="color:tomato"></p>
-              <form action="#" th:object="${question}" th:action="@{/discussion}" method="post">
+              <form action="#" th:object="${question}" th:action="@{/courses/} + ${course.id}" method="post">
                 <label> Title </label><br>
                 <textarea name="title" rows="1" cols="80" th:value="*{title}" required></textarea><br>
                 <label> Content </label><br>
                 <textarea name="content" rows="2" cols="80" th:value="*{content}" required> </textarea><br><br>
-                <input id="userid" name="userid" th:type="hidden"  th:value="${session.userid}" readonly/>
-                <input id="courseid" name="courseid" th:type="hidden"  th:value="${course.id}" readonly/>
+                <input type="hidden" id="userId" name="userId" th:value="*{userId}" readonly/>
+                <input type="hidden" id="courseId" name="courseId" th:value="*{courseId}" readonly>
                 <div th:if="${session.userid != null}">
-                  <input type="submit" class="site-btn price-btn" value="Submit" />
+                  <input id="discussSubmit" type="submit" class="site-btn price-btn" value="Submit" />
                 </div>
                 <div th:if="${session.userid == null}">
                   <h6 class="signup-btn">Please Login</h6>
@@ -114,11 +148,10 @@
           <br><br>
           <div class="course-metas">
             <h6 align="center" style="color:#878787;">Discussion:</h6>
+            <div th:if="${discussionList == null || discussionList.isEmpty()}">
+              <h4 align="center" style="color:tomato"> No Discussion Available</h4>
+            </div>
             <table>
-              <tr th:if="${discussionList.empty}">
-                <td colspan="2"> No Discussion Available</td>
-              </tr>
-
               <tr>
                 <th>Title</th>
                 <th>Content</th>

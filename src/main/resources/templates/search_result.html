@@ -31,13 +31,13 @@
       <h3 style="color:tomato">No result </h3>
     </div>
     <div class="row" th:each="course: ${courseList}">
-      <div class="col-lg-auto col-md-auto">
+      <div class="col-lg-9 col-md-auto">
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${course.title}"></h5>
-            <p th:text="${course.description}"></p>
+            <p  th:text="${course.description}"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
-            <a th:href="@{/singleCourse/} + ${course.id}" >Click here to view course details</a>
+            <a th:href="@{/courses/} + ${course.id}" >Click here to view course details</a>
           </div>
         </div>
       </div>

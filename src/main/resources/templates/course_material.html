@@ -5,6 +5,14 @@
 <!-- Header section -->
 <div th:replace="index :: header">...</div>
 
+<section class="hero-section">
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>The best online learning online platform</h1>
+    </div>
+  </div>
+</section>
+
 <!-- single course section -->
 <section class="single-course spad pb-0">
   <div class="container">
@@ -17,7 +25,7 @@
             <div class="course-meta">
               <div class="cm-info">
                 <h6>Instructor</h6>
-                <p th:text="${course.instructor.username}"></p>
+                <p th:text="${instructor}"></p>
               </div>
             </div>
             <div class="course-meta">
@@ -30,7 +38,7 @@
           <div class="course-meta">
             <h5 align="center" style="color:#878787;"> Material</h5>
 
-            <div th:if="${homeworkList == null}">
+            <div th:if="${materialList == null || materialList.isEmpty()}">
               <h4 align="center" style="color:tomato">No Material Available</h4>
             </div>
 
@@ -42,7 +50,7 @@
               </tr>
               <tr th:each="m : ${materialList}">
                 <td><span th:text="${m.title}"> Course </span></td>
-                <td><a href="${m.content}" th:text="${m.content}"> Teacher </a></td>
+                <td><a th:href="@{${m.url}}" th:text="${m.url}"> Teacher </a></td>
                 <td> <a th:href="@{/courseInteraction/} + ${course.id}">Go</a></td>
               </tr>
             </table>
