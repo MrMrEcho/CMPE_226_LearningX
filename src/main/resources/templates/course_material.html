@@ -38,10 +38,12 @@
               <tr>
                 <th>Title</th>
                 <th>Url</th>
+                <th>Manage</th>
               </tr>
               <tr th:each="m : ${materialList}">
                 <td><span th:text="${m.title}"> Course </span></td>
                 <td><a href="${m.content}" th:text="${m.content}"> Teacher </a></td>
+                <td> <a th:href="@{/courseInteraction/} + ${course.id}">Go</a></td>
               </tr>
             </table>
           </div>

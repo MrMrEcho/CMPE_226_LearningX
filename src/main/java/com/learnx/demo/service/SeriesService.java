@@ -19,4 +19,6 @@ public interface SeriesService {
     SeriesDto udpate(SeriesDto newSeriesDto);
 
     SeriesDto addCourseBySeriesId(int courseId, int seriesId);
+
+    SeriesDto getSeriesById(int seriesId);
 }

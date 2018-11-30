@@ -12,8 +12,8 @@
     <div class="row">
       <div class="col-md-10  offset-md-1">
         <!-- search form -->
-        <form id="searchform"  th:action="@{/search}" method="post">
-          <input id = "keyword" type="text" name="name" placeholder="Enter course" th:text="${keyword}?${keyword}"required/>
+        <form id="searchform" th:object="${searchDto}"  th:action="@{/search}" method="post">
+          <input type="text" name="keyword" th:value="*{keyword}" placeholder="Enter course" required>
           <button class="site-btn">Search Course</button>
         </form>
       </div>
@@ -25,7 +25,7 @@
 <section class="categories-section spad">
   <div class="container">
     <div class="section-title">
-      <h3>Search Result</h3>
+      <h3>Course Result</h3>
     </div>
     <div th:if="${courseList == null || courseList.isEmpty()}">
       <h3 style="color:tomato">No result </h3>
@@ -37,11 +37,7 @@
             <h5 th:text="${course.title}"></h5>
             <p th:text="${course.description}"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
-            <br>
-            <form role="form" th:action="@{/singleCourse}" th:method="post">
-              <input type="hidden" name="id" id="id" th:value="${course.id}"/>
-              <button id="submit"  type="submit" class="link-button">Click here to view course details</button>
-            </form>
+            <a th:href="@{/singleCourse/} + ${course.id}" >Click here to view course details</a>
           </div>
         </div>
       </div>

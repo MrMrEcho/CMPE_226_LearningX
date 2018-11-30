@@ -82,12 +82,8 @@
               <div class="ci-text">
                 <h5 th:text="${s.title}"></h5>
                 <p th:text="${s.description}"></p>
-                <span th:text="${s.institute.username}"></span>
-                <br>
-                <form role="form" th:action="@{/singleSeries}" th:method="post">
-                  <input type="hidden" name="id" id="id" th:value="${s.id}"/>
-                  <button id="submit"  type="submit" class="link-button">Click here to the course list</button>
-                </form>
+                <!--<span th:text="${s.institute.username}"></span>-->
+                <a th:href="@{/singleSeries/} + ${s.id}" >Click here to view course list</a>
               </div>
             </div>
           </div>
