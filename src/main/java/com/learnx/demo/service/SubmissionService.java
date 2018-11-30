@@ -5,9 +5,16 @@ import java.util.List;
 
 public interface SubmissionService {
 
-    List<SubmissionDto> listSubmissionByHomeworkId(SubmissionDto newSubmission);
+    List<SubmissionDto> listExamSubmissionByCourseId(int courseId);
+
+    List<SubmissionDto> listExamSubmissionByCourseId(int courseId, boolean hasGrade);
+
+    SubmissionDto findById(int studentId, int homeworkId);
 
     SubmissionDto create(SubmissionDto newSubmission);
 
-    SubmissionDto grade(SubmissionDto submission);
+    //SubmissionDto grade(SubmissionDto submission);
+
+    // Student submit and instructor grade all the same thing for insert operation
+    SubmissionDto update(SubmissionDto submissionDto);
 }

@@ -36,7 +36,8 @@ public class RepositoryUtil {
     }
 
     public static String unionQuery(List<String> queryList) {
-        String res = queryList.stream().map(q -> "(" + q + ")").collect(Collectors.joining(" union "));
+        String res = queryList.stream().map(q -> "(" + q + ")")
+                .collect(Collectors.joining(" union "));
         return res;
     }
 }

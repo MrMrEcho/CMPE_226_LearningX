@@ -12,11 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AppUserRepository {
 
-    private final PasswordEncoder passwordEncoder;
     private final EntityManager em;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AppUserRepository(EntityManager em, PasswordEncoder passwordEncoder) {
+    public AppUserRepository(EntityManager em,
+            PasswordEncoder passwordEncoder) {
         this.em = em;
         this.passwordEncoder = passwordEncoder;
     }
@@ -26,10 +27,11 @@ public class AppUserRepository {
         String sql =
                 "INSERT INTO AppUser (username, password, approle) "
                         + "VALUES (:username, :password, :role)";
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         Query query =
                 em.createNativeQuery(sql)
                         .setParameter("username", entity.getUsername())
-                        .setParameter("password", passwordEncoder.encode(entity.getPassword()))
+                        .setParameter("password", entity.getPassword())
                         .setParameter("role", entity.getAppRole());
 
         if (query.executeUpdate() == 0) {
@@ -46,11 +48,13 @@ public class AppUserRepository {
     }
 
     @Transactional
-    public AppUser update(AppUser entity) {
+    public AppUser update(AppUser entity, boolean hasUpdatePassword) {
         String sql =
                 "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
                         + "WHERE U.id = :id ";
-
+        if (hasUpdatePassword) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
         Query query = em.createNativeQuery(sql)
                 .setParameter("username", entity.getUsername())
                 .setParameter("password", entity.getPassword())

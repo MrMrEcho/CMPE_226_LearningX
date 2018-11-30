@@ -18,6 +18,8 @@ public interface AppUserService {
 
     AppUserDto update(AppUserDto newDto);
 
+    AppUserDto update(AppUserDto newDto, boolean hasUpdatePassword);
+
     boolean isEnrollByCourseId(int studentId, int courseId);
 
     boolean isCompleteByCourseId(int studentId, int courseId);

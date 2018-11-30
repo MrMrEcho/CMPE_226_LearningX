@@ -24,14 +24,4 @@ public class Course {
     private String description;
 
     private Integer instructorId;
-
-    //    public Course(String title, String description) {
-    //        this.title = title;
-    //        this.description = description;
-    //    }
-    //
-    //    public Course(String title, String description, Integer instructorId) {
-    //        this(title, description);
-    //        this.instructorId = instructorId;
-    //    }
 }

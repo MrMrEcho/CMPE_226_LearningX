@@ -38,9 +38,10 @@ public class AppUserServiceImplTest {
 
         AppUserDto saveDto = service.create(dto);
         saveDto.setUsername("newName");
+        saveDto.setPassword("Password");
         saveDto.setRole(AppUser.Role.INSTITUTE);
 
-        AppUserDto newDto = service.update(saveDto);
+        AppUserDto newDto = service.update(saveDto, true);
         assertEquals(newDto.getUsername(), "newName");
         assertEquals(newDto.getRole(), AppUser.Role.INSTITUTE);
     }

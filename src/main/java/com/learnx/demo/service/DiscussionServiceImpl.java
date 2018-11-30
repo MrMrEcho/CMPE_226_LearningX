@@ -39,7 +39,6 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionDto create(DiscussionDto dto) {
-
         // TODO: Check some field can not be null
         Discussion newEntity = toEntity(dto);
         Discussion saveEntity = repository.save(newEntity);

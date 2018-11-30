@@ -4,7 +4,14 @@
 <div th:include="index :: head"></div>
 <body>
 <div th:replace="index :: header">...</div>
-<section class="course-list spad pb-0">
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">My Page for <span>student</span></h4>
+    </div>
+</section>
+
+<section class="single-course spad pb-0">
     <div class="container" th:if="${not #lists.isEmpty(courses_ongoing)}">
         <h3>The courses you are taking now:</h3>
         <table>

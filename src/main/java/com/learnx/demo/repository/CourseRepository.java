@@ -1,7 +1,6 @@
 package com.learnx.demo.repository;
 
 import com.learnx.demo.entity.Course;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -86,29 +85,29 @@ public class CourseRepository {
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
-/*
-SQL Query
-(
-select *
-from Course
-where match (title,description) against ('data' in natural language mode with query expansion)
-order by (
-	match (title) against ('data' in natural language mode with query expansion) * 10
-	+
-	match (description) against ('data' in natural language mode with query expansion)
-)
-desc
-limit 10
-)
-UNION
-(
-	select * from Course
-	where instructorId in (
-		select id from AppUser
-        where username like '%data%'
-	)
-);
- */
+    /*
+    SQL Query
+    (
+    select *
+    from Course
+    where match (title,description) against ('data' in natural language mode with query expansion)
+    order by (
+        match (title) against ('data' in natural language mode with query expansion) * 10
+        +
+        match (description) against ('data' in natural language mode with query expansion)
+    )
+    desc
+    limit 10
+    )
+    UNION
+    (
+        select * from Course
+        where instructorId in (
+            select id from AppUser
+            where username like '%data%'
+        )
+    );
+     */
     public List<Course> search(String keyword) {
         List<String> queryList = new ArrayList<>();
         queryList.add(String.format("select * from Course where instructorId in (select id from AppUser where username like '%%%s%%') order by instructorId limit 10", keyword));

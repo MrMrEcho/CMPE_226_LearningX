@@ -44,12 +44,18 @@ h6 {
 p {
   font-size: 14.1px;
   color: #878787;
-  line-height: 2.2;
+  line-height: 1.4;
   font-weight: 500;
 }
 
 img {
   max-width: 100%;
+}
+
+.login-section span {
+  font-size: 24px;
+  font-weight: 600;
+  color: #d82a4e;
 }
 
 input:focus,

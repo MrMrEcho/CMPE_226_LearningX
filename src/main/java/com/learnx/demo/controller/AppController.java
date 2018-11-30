@@ -1,7 +1,24 @@
 package com.learnx.demo.controller;
 
-import com.learnx.demo.model.*;
-import com.learnx.demo.service.*;
+import com.learnx.demo.entity.AppUser.Role;
+import com.learnx.demo.model.AppUserDto;
+import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.model.DiscussionDto;
+import com.learnx.demo.model.HomeworkDto;
+import com.learnx.demo.model.MaterialDto;
+import com.learnx.demo.model.RatingDto;
+import com.learnx.demo.model.SearchDto;
+import com.learnx.demo.service.AppUserService;
+import com.learnx.demo.service.CourseService;
+import com.learnx.demo.service.DiscussionService;
+import com.learnx.demo.service.HomeworkService;
+import com.learnx.demo.service.MaterialService;
+import com.learnx.demo.service.RatingService;
+import com.learnx.demo.service.SeriesService;
+import java.util.HashMap;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 
 @Controller
 @RequestMapping("/")
@@ -99,6 +116,7 @@ public class AppController {
     public ModelAndView addUser(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap) {
         AppUserDto newUser = null;
         try {
+            userDto.setRole(Role.STUDENT);
             newUser = userService.create(userDto);
         } catch (IllegalArgumentException e) {
             modelMap.put("message", e.getMessage());
@@ -120,13 +138,10 @@ public class AppController {
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView search(@ModelAttribute("search") SearchDto searchDto, ModelMap modelMap) {
-        System.out.println("searchDto = " + searchDto);
         List<CourseDto> courseList = courseService.searchCourses(searchDto.getKeyword());
-        System.out.println("courseList:" + courseList.size());
         modelMap.put("courseList", courseList);
         modelMap.put("searchDto",searchDto);
         return new ModelAndView("search_result", modelMap);
-
     }
 
 
@@ -154,14 +169,16 @@ public class AppController {
     //  ======================
 
 
-    @RequestMapping(value = "/singleCourse/{id}", method = RequestMethod.GET)
-    public ModelAndView singleCourses(@PathVariable(value="id") String id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("single_course");
+    @RequestMapping(value = "/courses/{id}", method = RequestMethod.GET)
+    public ModelAndView singleCourses(@PathVariable(value="id") String id, HttpSession session, ModelMap modelMap) {
         int courseId = Integer.valueOf(id);
+        DiscussionDto discussionDto =  new DiscussionDto();
+
         if (session != null && session.getAttribute("userid") != null) {
             int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
-            mav.addObject("enroll", userService.isEnrollByCourseId(userid, courseId));
-            mav.addObject("complete", userService.isCompleteByCourseId(userid, courseId));
+            modelMap.put("enroll", userService.isEnrollByCourseId(userid, courseId));
+            modelMap.put("complete", userService.isCompleteByCourseId(userid, courseId));
+            discussionDto.setUserId(userid);
         }
 
         CourseDto course = courseService.getCourseById(courseId);
@@ -169,19 +186,19 @@ public class AppController {
         HashMap<Integer, String> nameMap = new HashMap<>();
         if(discussionList != null) {
             for(DiscussionDto d : discussionList) {
-                int userid = d.getUserId();
-                AppUserDto user = userService.getUserById(userid);
-                nameMap.put(userid, user.getUsername());
+                AppUserDto user = userService.getUserById(d.getUserId());
+                nameMap.put(d.getUserId(), user.getUsername());
             }
         }
 
-        mav.addObject("course", course);
-        mav.addObject("nameMap", nameMap);
-        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
-        mav.addObject("discussionList", discussionList);
-        mav.addObject("question", new DiscussionDto());
-        mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
-        return mav;
+        discussionDto.setCourseId(courseId);
+        modelMap.put("course", course);
+        modelMap.put("nameMap", nameMap);
+        modelMap.put("question", discussionDto);
+        modelMap.put("instructor", userService.getUserById(course.getInstructorId()).getUsername());
+        modelMap.put("discussionList", discussionList);
+        modelMap.put("average_rating", rateService.getAverageRatingByCourseId(courseId));
+        return new ModelAndView("single_course", modelMap);
     }
 
     //  ======================
@@ -205,14 +222,23 @@ public class AppController {
     //  ======================
 
 
-    @RequestMapping(value = "/getRatingByCourseId/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/courses/rating/{id}", method = RequestMethod.GET)
     public ModelAndView getReviews(@PathVariable(value="id") String id) {
         int courseId = Integer.valueOf(id);
         ModelAndView mav = new ModelAndView("course_review");
         CourseDto course = courseService.getCourseById(courseId);
         List<RatingDto> rateList = rateService.listRatingsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(rateList != null) {
+            for(RatingDto r : rateList) {
+                AppUserDto user = userService.getUserById(r.getStudentId());
+                nameMap.put(r.getStudentId(), user.getUsername());
+            }
+        }
         mav.addObject("rateList", rateList);
+        mav.addObject("nameMap", nameMap);
         mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
     }
 
@@ -220,7 +246,7 @@ public class AppController {
     //        homework
     //  ======================
 
-    @RequestMapping(value = "/getHomeworkByCourseId/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/courses/homework/{id}", method = RequestMethod.GET)
     public ModelAndView getHomework(@PathVariable(value="id") String id) {
         int courseId = Integer.valueOf(id);
         ModelAndView mav = new ModelAndView("course_homework");
@@ -228,6 +254,7 @@ public class AppController {
         List<HomeworkDto> homeworkList = homeworkService.listHomeworksByCourseId(courseId);
         mav.addObject("homeworkList", homeworkList);
         mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
     }
 
@@ -235,7 +262,7 @@ public class AppController {
     //        Material
     //  ======================
 
-    @RequestMapping(value = "/getMaterialByCourseId/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/courses/material/{id}", method = RequestMethod.GET)
     public ModelAndView getMaterial(@PathVariable(value="id") String id) {
         int courseId = Integer.valueOf(id);
         ModelAndView mav = new ModelAndView("course_material");
@@ -243,6 +270,7 @@ public class AppController {
         List<MaterialDto> materialList = materialService.listMaterialsByCourseId(courseId);
         mav.addObject("materialList", materialList);
         mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
     }
 
@@ -250,42 +278,55 @@ public class AppController {
     //       discusssion
     //  ======================
 
-    @RequestMapping(value = "/discussion", method = RequestMethod.POST)
-    public ModelAndView postDiscussion(HttpServletRequest request,
-                                       @ModelAttribute("discussion") DiscussionDto newDiscussion) {
-        int userid = Integer.valueOf(request.getParameter("userid"));
-        int courseid = Integer.valueOf(request.getParameter("courseid"));
-        ModelAndView mav = new ModelAndView("course_homework");
-        CourseDto course = courseService.getCourseById(courseid);
-        AppUserDto user = userService.getUserById(userid);
-        newDiscussion.setUserId(user.getId());
-        newDiscussion.setCourseId(course.getId());
+    @RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
+    public ModelAndView postDiscussion(HttpServletRequest request, @PathVariable(value="id") String id,
+                                       @ModelAttribute("question") DiscussionDto newDiscussion, ModelMap modelMap) {
+        System.out.println(newDiscussion.getCourseId());
+        System.out.println(newDiscussion.getUserId());
+        System.out.println(newDiscussion.getTitle());
+        System.out.println(newDiscussion.getContent());
+        CourseDto course = courseService.getCourseById(newDiscussion.getCourseId());
+        int  courseId = course.getId();
+        int userId = newDiscussion.getCourseId();
 
         discussionService.create(newDiscussion);
-        List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(courseid);
-        mav.addObject("course", course);
-        mav.addObject("discussionList", discussionList);
-        return mav;
+        List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(discussionList != null) {
+            for(DiscussionDto d : discussionList) {
+                int userid = d.getUserId();
+                nameMap.put(userid, userService.getUserById(userid).getUsername());
+            }
+        }
+        newDiscussion.setTitle("");
+        newDiscussion.setContent("");
+        modelMap.put("enroll", userService.isEnrollByCourseId(userId, courseId));
+        System.out.println("enroll:"+userService.isEnrollByCourseId(userId, courseId));
+        System.out.println("complete:"+userService.isCompleteByCourseId(userId, courseId));
+        modelMap.put("complete", userService.isCompleteByCourseId(userId, courseId));
+        modelMap.put("course", course);
+        modelMap.put("nameMap", nameMap);
+        modelMap.put("question", newDiscussion);
+        modelMap.put("instructor", userService.getUserById(course.getInstructorId()).getUsername());
+        modelMap.put("discussionList", discussionList);
+        modelMap.put("average_rating", rateService.getAverageRatingByCourseId(courseId));
+        return new ModelAndView("single_course", modelMap);
     }
 
     //  ======================
     //      enroll courses
     //  ======================
 
-    @RequestMapping(value = "/enrollCourse", method = RequestMethod.POST)
-    public ModelAndView enrollCourse(HttpServletRequest request) {
-        int userId = Integer.valueOf(request.getParameter("userid"));
-        int courseId = Integer.valueOf(request.getParameter("courseid"));
-        ModelAndView mav = new ModelAndView("single_course");
-        CourseDto course = courseService.getCourseById(courseId);
-        userService.enrollByCourseId(userId, course.getId());
-        List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(course.getId());
-        mav.addObject("enroll", userService.isEnrollByCourseId(userId, courseId));
-        mav.addObject("complete", userService.isCompleteByCourseId(userId, courseId));
-        mav.addObject("course", course);
-        mav.addObject("discussionList", discussionList);
-        mav.addObject("discussion", new DiscussionDto());
-        mav.addObject("average_rating", rateService.getAverageRatingByCourseId(courseId));
-        return mav;
+    @RequestMapping(value = "/enrollCourse", method = RequestMethod.GET)
+    public void enrollCourse(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+        String userid = request.getParameter("euserid");
+        String courseid = request.getParameter("ecourseid");
+
+        int uid = Integer.valueOf(userid);
+        int cid = Integer.valueOf(courseid);
+        boolean status = userService.enrollByCourseId(uid, cid);
+        response.setContentType("text/plain");
+        response.getWriter().write(String.valueOf(status));
     }
 }

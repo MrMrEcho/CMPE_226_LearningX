@@ -1,20 +1,24 @@
 package com.learnx.demo.controller;
 
 import com.learnx.demo.entity.AppUser;
-import com.learnx.demo.entity.Homework;
-import com.learnx.demo.model.AppUserDto;
-import com.learnx.demo.model.HomeworkDto;
-import com.learnx.demo.model.MaterialDto;
-import com.learnx.demo.model.SubmissionDto;
-import com.learnx.demo.service.*;
+import com.learnx.demo.entity.Homework.Type;
+import com.learnx.demo.model.*;
+import com.learnx.demo.service.AppUserService;
+import com.learnx.demo.service.HomeworkService;
+import com.learnx.demo.service.MaterialService;
+import com.learnx.demo.service.RatingService;
+import com.learnx.demo.service.SubmissionService;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/courseInteraction")
@@ -59,10 +63,20 @@ public class CourseInteractionController {
                 materialDto.setCourseId(courseId);
                 mav.addObject("material", materialDto);
                 //add homework
-                mav.addObject("homework",new HomeworkDto());
-                //show homework lists and goto submissions in that
-                List<HomeworkDto> homeworkDtos = homeworkService.listHomeworksByCourseId(courseId);
-                mav.addObject("homeworks",homeworkDtos);
+                HomeworkDto homeworkDto = new HomeworkDto();
+                homeworkDto.setCourseId(courseId);
+                mav.addObject("homework",homeworkDto);
+                List<Type> htypelist = new ArrayList<>();
+                htypelist.add(Type.PRACTICE);
+                htypelist.add(Type.EXAM);
+                mav.addObject("htypelist",htypelist);
+                //show examSubmissions and grade them
+                List<SubmissionDto> exams=submissionService.listExamSubmissionByCourseId(courseId,false);
+                SubmissionWrapper examSubmissions=new SubmissionWrapper();
+                for(SubmissionDto examSub:exams){
+                    examSubmissions.addSubmission(examSub);
+                }
+                mav.addObject("examSubmissions",examSubmissions);
 
                 break;
             case STUDENT:
@@ -83,8 +97,31 @@ public class CourseInteractionController {
         String targetUrl="redirect://courseInteraction/"+courseId;
         materialService.create(material);
         ModelAndView mav=new ModelAndView(targetUrl);
-
         return mav;
     }
+
+    @PostMapping("/addHomework")
+    public ModelAndView addHomework(@ModelAttribute("homework") HomeworkDto homeworkDto){
+        int courseId=homeworkDto.getCourseId();
+        String targetUrl="redirect://courseInteraction/"+courseId;
+        homeworkService.create(homeworkDto);
+        ModelAndView mav=new ModelAndView(targetUrl);
+        return mav;
+    }
+
+    @PostMapping("//gradeExams/{courseId}")
+    public ModelAndView gradeExams(@ModelAttribute("examSubmissions") SubmissionWrapper examSubmissions,
+                                   @PathVariable int courseId){
+       List<SubmissionDto> submissionDtos=examSubmissions.getSubmissions();
+       for(SubmissionDto sub:submissionDtos){
+           submissionService.update(sub);
+       }
+
+       String targetUrl="redirect://courseInteraction/"+courseId;
+       ModelAndView mav=new ModelAndView(targetUrl);
+
+       return mav;
+    }
+
 
 }
