@@ -1,5 +1,6 @@
 package com.learnx.demo.service;
 
+import com.learnx.demo.entity.Homework;
 import com.learnx.demo.entity.Material;
 import com.learnx.demo.model.MaterialDto;
 import com.learnx.demo.repository.MaterialRepository;
@@ -18,7 +19,7 @@ public class MaterialServiceImpl implements MaterialService {
         this.repository = repository;
     }
 
-    private static Material toEntity(Material dto) {
+    private static Material toEntity(MaterialDto dto) {
         Material entity = new Material();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -46,7 +47,8 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public MaterialDto create(MaterialDto material) {
-        return null;
+        Material saved = repository.save(toEntity(material));
+        return toDto(saved);
     }
 
     @Override

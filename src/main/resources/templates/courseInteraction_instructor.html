@@ -16,6 +16,7 @@
     <div class="container">
         <form method="post" th:action="@{/courseInteraction/addMaterial}" th:object="${material}">
             <h3>Add a new material for this course</h3>
+            <input name="courseId" th:field="*{courseId}" hidden />
             <label for="title">Material Title</label>
             <input type="text" th:field="*{title}"/>
             <br/>
