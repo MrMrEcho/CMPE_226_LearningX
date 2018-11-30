@@ -99,9 +99,9 @@ CREATE TABLE Enroll
 
 CREATE TABLE Rating
 (
-    studentId INT,
-    courseId  INT,
-    rating    INT,
+    studentId INT NOT NULL,
+    courseId  INT NOT NULL,
+    rate      INT DEFAULT 0,
 
     PRIMARY KEY (studentId, courseId),
 
@@ -204,7 +204,7 @@ WHERE appRole = 3;$
 
 CREATE OR REPLACE VIEW AverageRating
 AS
-SELECT C.id AS id, C.title AS title, avg(R.rating) AS rating, count(DISTINCT R.studentId) AS count
+SELECT C.id AS id, C.title AS title, avg(R.rate) AS rate, count(DISTINCT R.studentId) AS count
 FROM Course C
          JOIN Rating R ON C.id = R.courseId
 GROUP BY C.id;$

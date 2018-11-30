@@ -7,6 +7,7 @@
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://github.com/FortAwesome/Font-Awesome/blob/master/web-fonts-with-css/css/fontawesome.css" rel="stylesheet">
 </div>
 
 <body>
@@ -58,42 +59,42 @@
 
               <tr th:each="r : ${rateList}">
                 <td>
-                    <div th:if="${r.rating == 0}">
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                      <span class="fa fa-star"></span>
-                    </div>
-                    <div th:if="${r.rating == 1}">
-                      <span class="fa fa-star checked"></span>
+                    <div th:if="${r.rate == 0}">
+                      <span class="fa fa-signal"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                     </div>
-                    <div th:if="${r.rating == 2}">
+                    <div th:if="${r.rate == 1}">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </div>
+                    <div th:if="${r.rate == 2}">
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                     </div>
-                    <div th:if="${r.rating == 3}">
+                    <div th:if="${r.rate == 3}">
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star"></span>
                       <span class="fa fa-star"></span>
                     </div>
-                    <div th:if="${r.rating == 4}">
+                    <div th:if="${r.rate == 4}">
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star"></span>
                     </div>
-                    <div th:if="${r.rating == 5}">
+                    <div th:if="${r.rate == 5}">
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>
                       <span class="fa fa-star checked"></span>

@@ -18,13 +18,13 @@ public class SubmissionServiceImplTest {
     @Test
     public void create() {
 //        SubmissionDto sub1 = new SubmissionDto(1, 3);
-//        sub1 = service.create(sub1);
+//        sub1 = service.save(sub1);
 //
 //        SubmissionDto sub2 = new SubmissionDto(1, 1);
-//        sub2 = service.create(sub2);
+//        sub2 = service.save(sub2);
 //
 //        SubmissionDto sub3 = new SubmissionDto(2, 3);
-//        sub3 = service.create(sub3);
+//        sub3 = service.save(sub3);
     }
 
     @Test

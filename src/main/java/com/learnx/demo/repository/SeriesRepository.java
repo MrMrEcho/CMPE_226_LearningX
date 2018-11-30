@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,12 +13,13 @@ public class SeriesRepository {
 
     private final EntityManager em;
 
+    @Autowired
     public SeriesRepository(EntityManager em) {
         this.em = em;
     }
 
     @Transactional
-    public Series create(Series entity) {
+    public Series save(Series entity) {
         String sql =
                 "INSERT INTO Series (title, description, instituteId) " +
                         "VALUES (:title, :description, :instituteId)";

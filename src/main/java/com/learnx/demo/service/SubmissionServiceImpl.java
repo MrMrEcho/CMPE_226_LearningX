@@ -42,7 +42,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     public SubmissionDto create(SubmissionDto dto) {
         // TODO: need to check student is enroll is course
         Submission newEntity = toEntity(dto);
-        Submission saveEntity = repository.create(newEntity);
+        Submission saveEntity = repository.save(newEntity);
 
         return toDto(saveEntity);
     }

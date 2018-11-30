@@ -11,5 +11,5 @@ public interface RatingService {
 
     List<RatingDto> listRatingsByCourseId(int courseId);
 
-    double getAverageRatingByCourseId(int courseId);
+    int getAverageRatingByCourseId(int courseId);
 }

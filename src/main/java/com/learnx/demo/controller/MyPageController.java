@@ -194,7 +194,7 @@ public class MyPageController {
         newInstructor.setRole(AppUser.Role.INSTRUCTOR);
 
         try {
-//            appUserService.create(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);
+//            appUserService.save(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);
             appUserService.create(newInstructor);
         } catch (Exception e) {
 //            TODO: check if error is handled later

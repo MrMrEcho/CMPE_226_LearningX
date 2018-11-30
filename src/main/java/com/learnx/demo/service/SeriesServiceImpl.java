@@ -46,7 +46,7 @@ public class SeriesServiceImpl implements SeriesService {
     @Override
     public SeriesDto create(SeriesDto dto) {
         Series newEntity = toEntity(dto);
-        Series saveEntity = repository.create(newEntity);
+        Series saveEntity = repository.save(newEntity);
 
         return toDto(saveEntity);
     }

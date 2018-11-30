@@ -107,5 +107,10 @@ VALUES (2, 1);$
 INSERT INTO Enroll (studentId, courseId)
 VALUES (2, 5);$
 
+INSERT INTO Rating (studentId, courseId, rate)
+VALUES (1, 1, 5);$
+INSERT INTO Rating (studentId, courseId, rate)
+VALUES (2, 1, 4);$
+
 
 

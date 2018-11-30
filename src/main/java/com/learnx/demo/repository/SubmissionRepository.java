@@ -20,7 +20,7 @@ public class SubmissionRepository {
     }
 
     @Transactional
-    public Submission create(Submission entity) {
+    public Submission save(Submission entity) {
         // FIXME: This might not correct implementation
         String sql =
                 "INSERT INTO Submission (studentId, homeworkId) " +
@@ -47,7 +47,7 @@ public class SubmissionRepository {
         String sql =
                 "UPDATE Submission " +
                         "SET answer = :answer, grade = :grade, hasGrade = :hasGrade " +
-                        "WHERE studentId = :studentId and homeworkId = :homeworkId";
+                        "WHERE studentId = :studentId AND homeworkId = :homeworkId";
 
         Query query = em.createNativeQuery(sql)
                 .setParameter("answer", newEntity.getAnswer())
@@ -69,7 +69,7 @@ public class SubmissionRepository {
 
     public Submission findById(int studentId, int homeworkId) {
         String sql = "SELECT * FROM Submission " +
-                "WHERE studentId = :studentId and homeworkId = :homeworkId";
+                "WHERE studentId = :studentId AND homeworkId = :homeworkId";
         Query query = em.createNativeQuery(sql, Submission.class)
                 .setParameter("studentId", studentId)
                 .setParameter("homeworkId", homeworkId);
@@ -80,7 +80,7 @@ public class SubmissionRepository {
     public List<Submission> findSubmissionByCourseId(int courseId, boolean hasGrade, Type type) {
         String sql = "SELECT S.*" +
                 "FROM Submission S INNER JOIN Homework H ON S.homeworkId = H.id " +
-                "WHERE courseId =:courseId and hasGrade = :hasGrade and H.type = :type";
+                "WHERE courseId =:courseId AND hasGrade = :hasGrade AND H.type = :type";
 
         Query query = em.createNativeQuery(sql, Submission.class)
                 .setParameter("courseId", courseId)
@@ -93,7 +93,7 @@ public class SubmissionRepository {
     public List<Submission> findSubmissionByCourseId(int courseId, Type type) {
         String sql = "SELECT S.*" +
                 "FROM Submission S INNER JOIN Homework H ON S.homeworkId = H.id " +
-                "WHERE courseId =:courseId and H.type = :type";
+                "WHERE courseId =:courseId AND H.type = :type";
 
         Query query = em.createNativeQuery(sql, Submission.class)
                 .setParameter("courseId", courseId)
