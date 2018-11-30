@@ -2,9 +2,7 @@ package com.learnx.demo.controller;
 
 import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.entity.Homework.Type;
-import com.learnx.demo.model.AppUserDto;
-import com.learnx.demo.model.HomeworkDto;
-import com.learnx.demo.model.MaterialDto;
+import com.learnx.demo.model.*;
 import com.learnx.demo.service.AppUserService;
 import com.learnx.demo.service.HomeworkService;
 import com.learnx.demo.service.MaterialService;
@@ -72,9 +70,13 @@ public class CourseInteractionController {
                 htypelist.add(Type.PRACTICE);
                 htypelist.add(Type.EXAM);
                 mav.addObject("htypelist",htypelist);
-                //show homework lists and goto submissions in that
-                List<HomeworkDto> homeworkDtos = homeworkService.listHomeworksByCourseId(courseId);
-                mav.addObject("homeworks",homeworkDtos);
+                //show examSubmissions and grade them
+                List<SubmissionDto> exams=submissionService.listExamSubmissionByCourseId(courseId,false);
+                SubmissionWrapper examSubmissions=new SubmissionWrapper();
+                for(SubmissionDto examSub:exams){
+                    examSubmissions.addSubmission(examSub);
+                }
+                mav.addObject("examSubmissions",examSubmissions);
 
                 break;
             case STUDENT:
@@ -105,6 +107,20 @@ public class CourseInteractionController {
         homeworkService.create(homeworkDto);
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
+    }
+
+    @PostMapping("//gradeExams/{courseId}")
+    public ModelAndView gradeExams(@ModelAttribute("examSubmissions") SubmissionWrapper examSubmissions,
+                                   @PathVariable int courseId){
+       List<SubmissionDto> submissionDtos=examSubmissions.getSubmissions();
+       for(SubmissionDto sub:submissionDtos){
+           submissionService.update(sub);
+       }
+
+       String targetUrl="redirect://courseInteraction/"+courseId;
+       ModelAndView mav=new ModelAndView(targetUrl);
+
+       return mav;
     }
 
 

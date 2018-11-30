@@ -23,25 +23,52 @@
 <section class="single-course spad pb-0">
     <div class="container">
         <form method="post" th:action="@{/courseInteraction/addHomework}" th:object="${homework}">
-            <h3>Add a new homework for this course</h3>
+            <h3>Add a new homework/exam for this course (Only 1 exam allowed for 1 course)</h3>
             <label for="title">Homework Title</label>
             <input type="text" th:field="*{title}"/>
             <br/>
             <label for="content">Content</label>
             <input type="text" th:field="*{content}"/>
             <br/>
+            <label for="type">Type</label>
             <select th:field="*{type}">
                 <option th:each="htype : ${htypelist}"
                         th:value="${htype}"
                         th:text="${htype}">Text..</option>
             </select>
+            <br/>
             <input type="submit" value="Add Homework"/>
         </form>
     </div>
 </section>
 <!--Show submission lists and the link with that-->
 <section class="single-course spad pb-0">
-
+    <div class="container" th:if="${not #lists.isEmpty(examSubmissions)}">
+        <h3>The courses you are taking now:</h3>
+        <form th:action="@{/courseInteraction/gradeExams/{path}(path=${currentCourseId})}" th:object="${examSubmissions}" method="post">
+            <fieldset>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Answer</th>
+                        <th>Grade(>=60 to pass this course)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="subs, itemStat : *{submissions}">
+                        <td th:text="${subs.getAnswer()}"></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].grade}"></td>
+                        <!--<td>-->
+                        <!--<input type="text" th:field="${sub.grade}"/>-->
+                        <!--</td>-->
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit" id="submitB" th:value="Save">
+                <input type="reset" id="resetB" th:value="Reset"/>
+            </fieldset>
+        </form>
+    </div>
 </section>
 </body>
 </html>
