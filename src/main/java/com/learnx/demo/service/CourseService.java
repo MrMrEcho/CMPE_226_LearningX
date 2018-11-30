@@ -21,6 +21,8 @@ public interface CourseService {
 
     List<CourseDto> listCoursesByInstituteId(int instructorId);
 
+    List<CourseDto> listCoursesBySeriesId(int seriesId);
+
     CourseDto getCourseById(int courseId);
 
     /**

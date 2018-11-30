@@ -1,12 +1,9 @@
 package com.learnx.demo.service;
 
-import com.learnx.demo.model.CourseDto;
 import com.learnx.demo.model.SeriesDto;
 import java.util.List;
 
 public interface SeriesService {
-
-    List<CourseDto> listCoursesBySeriesId(int seriesId);
 
     List<SeriesDto> listSeries();
 
@@ -18,7 +15,7 @@ public interface SeriesService {
 
     SeriesDto udpate(SeriesDto newSeriesDto);
 
-    SeriesDto addCourseBySeriesId(int courseId, int seriesId);
+    void addCourseBySeriesId(int courseId, int seriesId);
 
     SeriesDto getSeriesById(int seriesId);
 }

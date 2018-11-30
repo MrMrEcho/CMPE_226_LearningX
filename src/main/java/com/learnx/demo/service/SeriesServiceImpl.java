@@ -1,7 +1,6 @@
 package com.learnx.demo.service;
 
 import com.learnx.demo.entity.Series;
-import com.learnx.demo.model.CourseDto;
 import com.learnx.demo.model.SeriesDto;
 import com.learnx.demo.repository.RepositoryUtil;
 import com.learnx.demo.repository.SeriesRepository;
@@ -15,11 +14,6 @@ public class SeriesServiceImpl implements SeriesService {
 
     public SeriesServiceImpl(SeriesRepository repository) {
         this.repository = repository;
-    }
-
-    @Override
-    public List<CourseDto> listCoursesBySeriesId(int seriesId) {
-        return null;
     }
 
     @Override
@@ -75,8 +69,8 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public SeriesDto addCourseBySeriesId(int courseId, int seriesId) {
-        return null;
+    public void addCourseBySeriesId(int courseId, int seriesId) {
+        repository.addCourseToSeriesById(courseId, seriesId);
     }
 
     @Override

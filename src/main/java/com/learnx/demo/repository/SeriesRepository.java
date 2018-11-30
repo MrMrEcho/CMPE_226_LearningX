@@ -65,19 +65,46 @@ public class SeriesRepository {
         return RepositoryUtil.castAll(query.getResultList(), Series.class);
     }
 
-    public Series findById(int courseId) {
-        String sql = "SELECT * FROM Series WHERE id = :courseId";
+    public Series findById(int id) {
+        String sql = "SELECT * FROM Series WHERE id = :id";
         Query query = em.createNativeQuery(sql, Series.class)
-                .setParameter("id", courseId);
+                .setParameter("id", id);
 
         return RepositoryUtil.findOneResult(query.getResultList(), Series.class);
     }
 
     public List<Series> findByInstituteId(int instituteId) {
-        return null;
+        String sql = "SELECT * FROM Series WHERE instituteId = :instituteId";
+        Query query = em.createNativeQuery(sql, Series.class)
+                .setParameter("instituteId", instituteId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Series.class);
     }
 
     public List<Series> findByStudentId(int studentId) {
-        return null;
+        String sql =
+                "SELECT DISTINCT S.id, S.title, S.description, S.instituteId " +
+                        "FROM CourseSeries C " +
+                        "INNER JOIN Enroll E ON E.courseId = C.courseId " +
+                        "INNER JOIN Series S ON S.id = C.seriesId " +
+                        "WHERE E.studentId = :studentId";
+        Query query = em.createNativeQuery(sql, Series.class)
+                .setParameter("studentId", studentId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Series.class);
+    }
+
+    @Transactional
+    public void addCourseToSeriesById(int courseId, int seriesId) {
+        String sql =
+                "INSERT INTO CourseSeries (courseId, seriesId) " +
+                        "VALUES (:courseId, :seriesId)";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("courseId", courseId)
+                .setParameter("seriesId", seriesId);
+
+        if (query.executeUpdate() == 0) {
+            return;
+        }
     }
 }

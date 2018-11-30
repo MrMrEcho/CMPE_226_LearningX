@@ -1,266 +1,266 @@
--- delimiter ;$
+-- DELIMITER ;$
 
-drop table if exists Discussion;$
-drop table if exists Submission;$
-drop table if exists Homework;$
-drop table if exists Material;$
-drop table if exists Rating;$
-drop table if exists Enroll;$
-drop table if exists CourseSeries;$
-drop table if exists Course;$
-drop table if exists Series;$
-drop table if exists WorkFor;$
-drop table if exists AppUser;$
+DROP TABLE IF EXISTS Discussion;$
+DROP TABLE IF EXISTS Submission;$
+DROP TABLE IF EXISTS Homework;$
+DROP TABLE IF EXISTS Material;$
+DROP TABLE IF EXISTS Rating;$
+DROP TABLE IF EXISTS Enroll;$
+DROP TABLE IF EXISTS CourseSeries;$
+DROP TABLE IF EXISTS Course;$
+DROP TABLE IF EXISTS Series;$
+DROP TABLE IF EXISTS WorkFor;$
+DROP TABLE IF EXISTS AppUser;$
 
-create table AppUser
+CREATE TABLE AppUser
 (
-    id       int auto_increment,
-    username varchar(32)  NOT NULL UNIQUE,
-    password varchar(512) NOT NULL,
-    appRole  int,
+    id       INT AUTO_INCREMENT,
+    username VARCHAR(32)  NOT NULL UNIQUE,
+    password VARCHAR(512) NOT NULL,
+    appRole  INT,
 
-    primary key (id),
+    PRIMARY KEY (id),
 
-    fulltext index user_name (username)
+    FULLTEXT INDEX user_name (username)
 );$
 
-create table Course
+CREATE TABLE Course
 (
-    id           int auto_increment,
-    title        varchar(128) not null unique,
-    description  varchar(1024),
-    instructorId int,
+    id           INT AUTO_INCREMENT,
+    title        VARCHAR(128) NOT NULL UNIQUE,
+    description  VARCHAR(1024),
+    instructorId INT,
 
-    primary key (id),
+    PRIMARY KEY (id),
 
-    foreign key (instructorId) references AppUser (id)
-        on delete cascade,
+    FOREIGN KEY (instructorId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
 
-    fulltext index course_content (title, description),
-    fulltext index course_title (title),
-    fulltext index course_description (description)
+    FULLTEXT INDEX course_content (title, description),
+    FULLTEXT INDEX course_title (title),
+    FULLTEXT INDEX course_description (description)
 );$
 
-create table WorkFor
+CREATE TABLE WorkFor
 (
-    instructorId int,
-    instituteId  int,
+    instructorId INT,
+    instituteId  INT,
 
-    primary key (instructorId, instituteId),
+    PRIMARY KEY (instructorId, instituteId),
 
-    foreign key (instructorId) references AppUser (id)
-        on delete cascade,
-    foreign key (instituteId) references AppUser (id)
-        on delete cascade
+    FOREIGN KEY (instructorId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (instituteId) REFERENCES AppUser (id)
+        ON DELETE CASCADE
 );$
 
-create table Series
+CREATE TABLE Series
 (
-    id          int auto_increment,
-    instituteId int,
-    title       varchar(128) not null,
-    description varchar(1024),
+    id          INT AUTO_INCREMENT,
+    instituteId INT          NOT NULL,
+    title       VARCHAR(128) NOT NULL,
+    description VARCHAR(1024),
 
-    primary key (id),
+    PRIMARY KEY (id),
 
-    foreign key (instituteId) references AppUser (id)
-        on delete cascade
+    FOREIGN KEY (instituteId) REFERENCES AppUser (id)
+        ON DELETE CASCADE
 );$
 
-create table CourseSeries
+CREATE TABLE CourseSeries
 (
-    courseId int not null,
-    seriesId int not null,
+    courseId INT NOT NULL,
+    seriesId INT NOT NULL,
 
-    primary key (courseId, seriesId),
+    PRIMARY KEY (courseId, seriesId),
 
-    foreign key (courseId) references Course (id)
-        on delete cascade,
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE,
 
-    foreign key (seriesId) references Series (id)
-        on delete cascade
+    FOREIGN KEY (seriesId) REFERENCES Series (id)
+        ON DELETE CASCADE
 );$
 
-create table Enroll
+CREATE TABLE Enroll
 (
-    studentId   int not null,
-    courseId    int not null,
-    isCompleted boolean default false,
-    isDropped   boolean default false,
+    studentId   INT NOT NULL,
+    courseId    INT NOT NULL,
+    isCompleted BOOLEAN DEFAULT FALSE,
+    isDropped   BOOLEAN DEFAULT FALSE,
 
-    primary key (studentId, courseId),
+    PRIMARY KEY (studentId, courseId),
 
-    foreign key (studentId) references AppUser (id)
-        on delete cascade,
+    FOREIGN KEY (studentId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
 
-    foreign key (courseId) references Course (id)
-        on delete cascade
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE
 );$
 
-create table Rating
+CREATE TABLE Rating
 (
-    studentId int,
-    courseId  int,
-    rating    int,
+    studentId INT,
+    courseId  INT,
+    rating    INT,
 
-    primary key (studentId, courseId),
+    PRIMARY KEY (studentId, courseId),
 
-    foreign key (studentId) references AppUser (id)
-        on delete cascade,
+    FOREIGN KEY (studentId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
 
-    foreign key (courseId) references Course (id)
-        on delete cascade
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE
 );$
 
-create table Material
+CREATE TABLE Material
 (
-    id       int auto_increment,
-    courseId int          not null,
-    title    varchar(128) not null,
-    url      varchar(1024),
+    id       INT AUTO_INCREMENT,
+    courseId INT          NOT NULL,
+    title    VARCHAR(128) NOT NULL,
+    url      VARCHAR(1024),
 
-    primary key (id),
+    PRIMARY KEY (id),
 
-    foreign key (courseId) references Course (id)
-        on delete cascade
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE
 );$
 
-create table Homework
+CREATE TABLE Homework
 (
-    id       int auto_increment,
-    courseId int          not null,
-    title    varchar(128) not null,
-    content  varchar(256),
-    type     int          not null,
+    id       INT AUTO_INCREMENT,
+    courseId INT          NOT NULL,
+    title    VARCHAR(128) NOT NULL,
+    content  VARCHAR(256),
+    type     INT          NOT NULL,
 
-    primary key (id),
+    PRIMARY KEY (id),
 
-    foreign key (courseId) references Course (id)
-        on delete cascade
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE
 );$
 
-create table Submission
+CREATE TABLE Submission
 (
-    studentId  int not null,
-    homeworkId int not null,
-    answer     varchar(1024),
-    grade      int     default 0,
-    hasGrade   boolean default false,
+    studentId  INT NOT NULL,
+    homeworkId INT NOT NULL,
+    answer     VARCHAR(1024),
+    grade      INT     DEFAULT 0,
+    hasGrade   BOOLEAN DEFAULT FALSE,
 
-    primary key (studentId, homeworkId),
+    PRIMARY KEY (studentId, homeworkId),
 
-    foreign key (studentId) references AppUser (id)
-        on delete cascade,
+    FOREIGN KEY (studentId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
 
-    foreign key (homeworkId) references Homework (id)
-        on delete cascade
+    FOREIGN KEY (homeworkId) REFERENCES Homework (id)
+        ON DELETE CASCADE
 );$
 
-create table Discussion
+CREATE TABLE Discussion
 (
-    id       int auto_increment,
+    id       INT AUTO_INCREMENT,
     -- userId      int,
     -- courseId    int,
-    userId   int          not null,
-    courseId int          not null,
-    title    varchar(128) not null,
-    content  varchar(1024),
+    userId   INT          NOT NULL,
+    courseId INT          NOT NULL,
+    title    VARCHAR(128) NOT NULL,
+    content  VARCHAR(1024),
 
     -- primary key (userId, courseId),
-    primary key (id),
+    PRIMARY KEY (id),
 
     -- FIXME: remove user discussion still can keep
-    foreign key (userId) references AppUser (id)
-        on delete cascade,
+    FOREIGN KEY (userId) REFERENCES AppUser (id)
+        ON DELETE CASCADE,
 
-    foreign key (courseId) references Course (id)
-        on delete cascade
+    FOREIGN KEY (courseId) REFERENCES Course (id)
+        ON DELETE CASCADE
 );$
 
 -- Create Views
-create or replace view Student
-as
-select *
-from AppUser
-where appRole = 0;$
+CREATE OR REPLACE VIEW Student
+AS
+SELECT *
+FROM AppUser
+WHERE appRole = 0;$
 
-create or replace view Instructor
-as
-select *
-from AppUser
-where appRole = 1;$
+CREATE OR REPLACE VIEW Instructor
+AS
+SELECT *
+FROM AppUser
+WHERE appRole = 1;$
 
-create or replace view Institute
-as
-select *
-from AppUser
-where appRole = 2;$
+CREATE OR REPLACE VIEW Institute
+AS
+SELECT *
+FROM AppUser
+WHERE appRole = 2;$
 
-create or replace view AdminUser
-as
-select *
-from AppUser
-where appRole = 3;$
+CREATE OR REPLACE VIEW AdminUser
+AS
+SELECT *
+FROM AppUser
+WHERE appRole = 3;$
 
-create or replace view AverageRating
-as
-select C.id as id, C.title as title, avg(R.rating) as rating, count(distinct R.studentId) as count
-from Course C
-         join Rating R on C.id = R.courseId
-group by C.id;$
+CREATE OR REPLACE VIEW AverageRating
+AS
+SELECT C.id AS id, C.title AS title, avg(R.rating) AS rating, count(DISTINCT R.studentId) AS count
+FROM Course C
+         JOIN Rating R ON C.id = R.courseId
+GROUP BY C.id;$
 
 -- Create stored procedures
-drop function if exists isExam ;$
-create function `isExam`(homeworkId int)
-    returns boolean
+DROP FUNCTION IF EXISTS isExam ;$
+CREATE FUNCTION `isExam`(homeworkId INT)
+    RETURNS BOOLEAN
     READS SQL DATA
     DETERMINISTIC
-begin
-    declare htype int;
-    select type into htype from Homework where id = homeworkId;
-    if htype = 1 then
-        return true;
-    else
-        return false;
-    end if;
-end ;$
+BEGIN
+    DECLARE htype INT;
+    SELECT type INTO htype FROM Homework WHERE id = homeworkId;
+    IF htype = 1 THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END ;$
 
 
-drop function if exists getCourseIdByHomeworkId ;$
-create function `getCourseIdByHomeworkId`(homeworkId int)
-    returns int
+DROP FUNCTION IF EXISTS getCourseIdByHomeworkId ;$
+CREATE FUNCTION `getCourseIdByHomeworkId`(homeworkId INT)
+    RETURNS INT
     READS SQL DATA
     DETERMINISTIC
-begin
-    declare cid int;
-    select courseId into cid from Homework where id = homeworkId;
-    return cid;
-end ;$
+BEGIN
+    DECLARE cid INT;
+    SELECT courseId INTO cid FROM Homework WHERE id = homeworkId;
+    RETURN cid;
+END ;$
 
 
-drop procedure if exists completeEnroll ;$
-create procedure `completeEnroll`(studentId int, cid int)
-begin
-    update Enroll E
-    set isCompleted = true
-    where E.studentId = studentId
-      and E.courseId = cid;
-end ;$
+DROP PROCEDURE IF EXISTS completeEnroll ;$
+CREATE PROCEDURE `completeEnroll`(studentId INT, cid INT)
+BEGIN
+    UPDATE Enroll E
+    SET isCompleted = TRUE
+    WHERE E.studentId = studentId
+      AND E.courseId = cid;
+END ;$
 
 -- Create triggers
 
-drop trigger if exists AfterSubmissionGraded ;$
-create trigger `AfterSubmissionGraded`
-    after update
-    on Submission
-    for each row
-begin
-    declare cid int;
-    if NEW.hasGrade and NEW.grade >= 60 and isExam(NEW.homeworkId) then
-        set cid = getCourseIdByHomeworkId(NEW.homeworkId);
-        call completeEnroll(NEW.studentId, cid);
-    end if;
-end ;$
+DROP TRIGGER IF EXISTS AfterSubmissionGraded ;$
+CREATE TRIGGER `AfterSubmissionGraded`
+    AFTER UPDATE
+    ON Submission
+    FOR EACH ROW
+BEGIN
+    DECLARE cid INT;
+    IF NEW.hasGrade AND NEW.grade >= 60 AND isExam(NEW.homeworkId) THEN
+        SET cid = getCourseIdByHomeworkId(NEW.homeworkId);
+        CALL completeEnroll(NEW.studentId, cid);
+    END IF;
+END ;$
 
--- delimiter ;
+-- DELIMITER ;
 

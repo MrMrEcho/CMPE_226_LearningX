@@ -153,7 +153,7 @@ public class AppController {
     public ModelAndView singleSeries(HttpServletRequest request, @PathVariable(value="seriesId") String seriesId) {
         ModelAndView mav = new ModelAndView("search_result");
         int id = Integer.valueOf(seriesId);
-        List<CourseDto> courseList = seriesService.listCoursesBySeriesId(id);
+        List<CourseDto> courseList = courseService.listCoursesBySeriesId(id);
         SearchDto searchDto = new SearchDto("");
         if(seriesService.getSeriesById(id) != null) {
             searchDto.setKeyword(seriesService.getSeriesById(id).getTitle());

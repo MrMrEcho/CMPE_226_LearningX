@@ -83,6 +83,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDto> listCoursesBySeriesId(int seriesId) {
+        return null;
+    }
+
+    @Override
     public CourseDto getCourseById(int courseId) {
 
         Course result = courseRepository.findById(courseId);
@@ -103,7 +108,7 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
-    static CourseDto toDto(Course entity) {
+    private static CourseDto toDto(Course entity) {
         CourseDto dto = new CourseDto();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
