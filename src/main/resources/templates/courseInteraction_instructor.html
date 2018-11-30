@@ -44,7 +44,7 @@
 <!--Show submission lists and the link with that-->
 <section class="single-course spad pb-0">
     <div class="container" th:if="${not #lists.isEmpty(examSubmissions)}">
-        <h3>The courses you are taking now:</h3>
+        <h3>The current exam answers</h3>
         <form th:action="@{/courseInteraction/gradeExams/{path}(path=${currentCourseId})}" th:object="${examSubmissions}" method="post">
             <fieldset>
                 <table>
