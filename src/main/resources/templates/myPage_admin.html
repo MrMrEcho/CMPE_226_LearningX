@@ -4,7 +4,7 @@
 <div th:include="index :: head"></div>
 <body>
 <div th:replace="index :: header">...</div>
-<section>
+<section class="single-course spad pb-0">
     <div class="container center">
         <form method="post" action="#" th:object="${newInstitute}" th:action="@{/me/addInstitute}">
             <h3>Add a new institute</h3>

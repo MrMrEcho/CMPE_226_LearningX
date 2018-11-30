@@ -89,7 +89,7 @@ public class MyPageController {
                 break;
             case ADMIN:
                 mav = new ModelAndView("myPage_admin");
-                mav.addObject("newInstitute", appUserDto);
+                mav.addObject("newInstitute", new AppUserDto());
                 break;
             default:
                 return null;
