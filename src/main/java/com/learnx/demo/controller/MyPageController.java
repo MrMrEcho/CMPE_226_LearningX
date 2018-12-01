@@ -197,7 +197,7 @@ public class MyPageController {
 //            appUserService.save(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);
             newInstructor = appUserService.create(newInstructor);
             // set work for relationship
-            appUserService.workFor(newInstructor.getId(), instituteId);
+            //appUserService.workFor(newInstructor.getId(), instituteId);
 
         } catch (Exception e) {
 //            TODO: check if error is handled later
