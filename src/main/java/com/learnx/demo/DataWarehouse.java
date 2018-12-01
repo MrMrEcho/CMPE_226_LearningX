@@ -1,13 +1,7 @@
 package com.learnx.demo;
 
-import com.learnx.demo.entity.AppUser;
-import com.learnx.demo.entity.Course;
-import com.learnx.demo.entity.Discussion;
-import com.learnx.demo.entity.Homework;
-import com.learnx.demo.repository.AppUserRepository;
-import com.learnx.demo.repository.CourseRepository;
-import com.learnx.demo.repository.DiscussionRepository;
-import com.learnx.demo.repository.HomeworkRepository;
+import com.learnx.demo.entity.*;
+import com.learnx.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -53,6 +47,9 @@ public class DataWarehouse {
     CourseRepository courseRepository;
 
     @Autowired
+    SeriesRepository seriesRepository;
+
+    @Autowired
     DataSource dataSource;
     
     @Autowired
@@ -67,6 +64,23 @@ public class DataWarehouse {
         generateMaterials();
         generateEnrolls();
         generateDiscussions();
+        generateSeries();
+    }
+
+    private void generateSeries() {
+        seriesRepository.save(new Series(null, "Web and Mobile Application", "Build web and mobile apps", 1));
+        seriesRepository.save(new Series(null, "Machine Learning", "machine learning technology", 1));
+        seriesRepository.save(new Series(null, "Database and Data Mining", "database technology", 2));
+        seriesRepository.save(new Series(null, "Big Data Analytics", "analyze numerous data", 2));
+
+        seriesRepository.addCourseToSeriesById(1, 1);
+        seriesRepository.addCourseToSeriesById(8, 1);
+        seriesRepository.addCourseToSeriesById(5, 2);
+        seriesRepository.addCourseToSeriesById(6, 2);
+        seriesRepository.addCourseToSeriesById(2, 3);
+        seriesRepository.addCourseToSeriesById(3, 3);
+        seriesRepository.addCourseToSeriesById(4, 4);
+        seriesRepository.addCourseToSeriesById(7, 4);
     }
 
     private void generateEnrolls() {
