@@ -48,6 +48,11 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
+    public boolean workFor(int instructorId, int instituteId) {
+        return repository.workFor(instructorId, instituteId);
+    }
+
+    @Override
     public AppUserDto authenticate(AppUserDto dto) {
         AppUser user = repository.findByName(dto.getUsername());
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {

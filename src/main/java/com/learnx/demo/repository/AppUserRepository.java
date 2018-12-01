@@ -1,6 +1,7 @@
 package com.learnx.demo.repository;
 
 import com.learnx.demo.entity.AppUser;
+import com.learnx.demo.model.AppUserDto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -146,6 +147,18 @@ public class AppUserRepository {
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", studentId)
                 .setParameter("courseId", courseId);
+
+        return query.executeUpdate() == 1;
+    }
+
+    @Transactional
+    public boolean workFor(int instructorId, int instituteId) {
+        String sql = "INSERT INTO WorkFor (instructorId, instituteId) "
+                        + "VALUES (:instructorId, :instituteId)";
+        Query query =
+                em.createNativeQuery(sql)
+                        .setParameter("instructorId", instructorId)
+                        .setParameter("instituteId", instituteId);
 
         return query.executeUpdate() == 1;
     }

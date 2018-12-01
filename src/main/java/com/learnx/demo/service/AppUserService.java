@@ -9,6 +9,8 @@ public interface AppUserService {
 
     List<AppUserDto> listInstructorsByInstituteId(int instituteId);
 
+    boolean workFor(int instructorId, int instituteId);
+
     AppUserDto authenticate(AppUserDto dto);
 
     AppUserDto create(AppUserDto dto);

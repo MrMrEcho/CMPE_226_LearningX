@@ -238,6 +238,4 @@ public class DataWarehouse {
             userRepository.save(new AppUser(username + i, "123", role));
         }
     }
-
-
 }

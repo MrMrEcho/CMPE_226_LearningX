@@ -195,7 +195,10 @@ public class MyPageController {
 
         try {
 //            appUserService.save(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);
-            appUserService.create(newInstructor);
+            newInstructor = appUserService.create(newInstructor);
+            // set work for relationship
+            appUserService.workFor(newInstructor.getId(), instituteId);
+
         } catch (Exception e) {
 //            TODO: check if error is handled later
             System.out.println("Could not add new institute, check please.");
