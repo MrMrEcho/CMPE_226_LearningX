@@ -48,7 +48,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCoursesSortedByRating(boolean ascending) {
-        return null;
+        return RepositoryUtil.mapAll(
+                courseRepository.findCourseOrderByRating(ascending),
+                CourseServiceImpl::toDto);
     }
 
     @Override
@@ -117,4 +119,5 @@ public class CourseServiceImpl implements CourseService {
 
         return dto;
     }
+
 }

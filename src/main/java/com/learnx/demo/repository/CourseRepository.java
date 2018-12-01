@@ -136,4 +136,15 @@ public class CourseRepository {
 
         return RepositoryUtil.findOneResult(query.getResultList(), Course.class);
     }
+
+    public List<Course> findCourseOrderByRating(boolean ascending) {
+        String sql =
+                "SELECT C.* " +
+                        "FROM Course C INNER JOIN AverageRating R ON C.id = R.id " +
+                        "ORDER BY R.rate ";
+        sql = sql + (ascending ? "ASC" : "DESC");
+        Query query = em.createNativeQuery(sql, Course.class);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
 }

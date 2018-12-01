@@ -20,8 +20,6 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public List<DiscussionDto> listDiscussionsByCourseId(int courseId) {
-        // TODO: Check courseId exist
-
         return RepositoryUtil
                 .mapAll(repository.findByCourseId(courseId), DiscussionServiceImpl::toDto);
     }
@@ -39,7 +37,6 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionDto create(DiscussionDto dto) {
-        // TODO: Check some field can not be null
         Discussion newEntity = toEntity(dto);
         Discussion saveEntity = repository.save(newEntity);
         return toDto(saveEntity);

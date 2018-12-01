@@ -140,5 +140,4 @@ public class AppUserServiceImpl implements AppUserService {
             throw new IllegalArgumentException("User not exist");
         }
     }
-
 }
