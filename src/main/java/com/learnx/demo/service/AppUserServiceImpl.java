@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 public class AppUserServiceImpl implements AppUserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final AppUserRepository userRepository;
+    private final AppUserRepository repository;
 
     @Autowired
-    public AppUserServiceImpl(PasswordEncoder passwordEncoder, AppUserRepository userRepository) {
+    public AppUserServiceImpl(PasswordEncoder passwordEncoder, AppUserRepository repository) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+        this.repository = repository;
     }
 
     @Override
     public AppUserDto getUserById(int userId) {
-        AppUser result = userRepository.findById(userId);
+        AppUser result = repository.findById(userId);
         if (result == null) {
             return null;
         }
@@ -46,7 +46,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto authenticate(AppUserDto dto) {
-        AppUser user = userRepository.findByName(dto.getUsername());
+        AppUser user = repository.findByName(dto.getUsername());
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Incorrect username or password!");
         }
@@ -55,33 +55,33 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto create(AppUserDto dto) {
-        if (userRepository.findByName(dto.getUsername()) != null) {
+        if (repository.findByName(dto.getUsername()) != null) {
             throw new IllegalArgumentException("username already exists!");
         }
         AppUser newEntity = new AppUser(dto.getUsername(), dto.getPassword(),
                 dto.getRole().getValue());
-        AppUser saveEntity = userRepository.save(newEntity);
+        AppUser saveEntity = repository.save(newEntity);
 
         return toDto(saveEntity);
     }
 
     @Override
     public AppUserDto update(AppUserDto newDto) {
-        AppUser newEntity = userRepository.update(toEntity(newDto), false);
+        AppUser newEntity = repository.update(toEntity(newDto), false);
 
         return toDto(newEntity);
     }
 
     @Override
     public AppUserDto update(AppUserDto newDto, boolean passwordUpdate) {
-        AppUser newEntity = userRepository.update(toEntity(newDto), true);
+        AppUser newEntity = repository.update(toEntity(newDto), true);
 
         return toDto(newEntity);
     }
 
     @Override
     public boolean hasEnrolled(int studentId, int courseId) {
-        return userRepository.isEnrollByCourseId(studentId, courseId);
+        return repository.isEnrollByCourseId(studentId, courseId);
     }
 
     @Override

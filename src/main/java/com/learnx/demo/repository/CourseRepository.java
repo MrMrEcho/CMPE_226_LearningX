@@ -53,7 +53,7 @@ public class CourseRepository {
                 .setParameter("instructorId", newEntity.getInstructorId())
                 .setParameter("id", newEntity.getId());
 
-        if(query.executeUpdate() == 0) {
+        if (query.executeUpdate() == 0) {
             return null;
         }
 
@@ -168,17 +168,32 @@ public class CourseRepository {
     }
 
     public List<Course> findCourseByInstructorId(int instructorId) {
-        return null;
+        String sql = "SELECT C.* FROM Course WHERE instructorId = :instructorId";
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter(instructorId, instructorId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
     public List<Course> findCourseByInstituteId(int instituteId) {
-        return null;
+        String sql = "SELECT C.* " +
+                "FROM Course C INNER JOIN WorkFor W ON C.instructorId = W.instructorId " +
+                "WHERE W.instituteId = :instituteId";
+
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("instituteId", instituteId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
 
     public List<Course> findCourseBySeriesId(int seriesId) {
         String sql = "SELECT C.*" +
-                "FROM Course C INNER JOIN CourseSeries ON  ";
-        return null;
+                "FROM Course C INNER JOIN CourseSeries S ON C.id = S.courseId " +
+                "WHERE S.seriesId = :seriesId";
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("seriesId", seriesId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 }

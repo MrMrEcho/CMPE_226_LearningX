@@ -60,7 +60,7 @@ public class RatingRepository {
         String sql = "SELECT rate FROM AverageRating WHERE id = :courseId";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", courseId);
-        
+
         return RepositoryUtil.findOneResult(query.getResultList(), BigDecimal.class).intValue();
     }
 
