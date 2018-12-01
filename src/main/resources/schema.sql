@@ -159,8 +159,6 @@ CREATE TABLE Submission
 CREATE TABLE Discussion
 (
     id       INT AUTO_INCREMENT,
-    -- userId      int,
-    -- courseId    int,
     userId   INT          NOT NULL,
     courseId INT          NOT NULL,
     title    VARCHAR(128) NOT NULL,

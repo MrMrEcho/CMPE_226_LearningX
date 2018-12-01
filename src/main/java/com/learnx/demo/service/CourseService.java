@@ -25,9 +25,6 @@ public interface CourseService {
 
     CourseDto getCourseById(int courseId);
 
-    /**
-     * Create a course record from
-     */
     CourseDto create(CourseDto course);
 
     CourseDto update(CourseDto newCourse);

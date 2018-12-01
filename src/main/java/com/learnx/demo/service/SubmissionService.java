@@ -13,8 +13,6 @@ public interface SubmissionService {
 
     SubmissionDto create(SubmissionDto newSubmission);
 
-    //SubmissionDto grade(SubmissionDto submission);
-
     // Student submit and instructor grade all the same thing for insert operation
     SubmissionDto update(SubmissionDto submissionDto);
 }
