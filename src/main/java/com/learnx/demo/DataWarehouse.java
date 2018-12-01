@@ -2,7 +2,6 @@ package com.learnx.demo;
 
 import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.repository.AppUserRepository;
-import com.learnx.demo.repository.RepositoryUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +12,13 @@ import javax.transaction.Transactional;
 @Component
 public class DataWarehouse {
 
-    private static final int ADMIN_NUMBER = 3;
-    private static final int INSTITUTE_NUMBER = 3;
-    private static final int INSTRUCTOR_NUMBER_PER_INSTITUTE = 3;
-    private static final int STUDETN_NUMBER_PER_INSTRUCTOR = 5;
+    private static final int ADMIN_NUMBER = 1;
+    private static final int INSTITUTE_NUMBER = 2;
+    private static final int INSTRUCTOR_NUMBER_PER_INSTITUTE = 2;
+    private static final int STUDENT_NUMBER_PER_INSTRUCTOR = 2;
+    private static final int INSTITUTE_OFFSET = ADMIN_NUMBER;
+    private static final int INSTRUCTOR_OFFSET = ADMIN_NUMBER + INSTITUTE_NUMBER;
+    private static final int STUDENT_OFFSET = INSTRUCTOR_OFFSET + ADMIN_NUMBER * INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE;
 
     @Autowired
     AppUserRepository userRepository;
@@ -28,6 +30,7 @@ public class DataWarehouse {
     public void generate() {
         generateUsers();
         generateWorkFor();
+
     }
 
     protected void generateWorkFor() {
@@ -38,8 +41,9 @@ public class DataWarehouse {
         }
     }
 
-    @Transactional
-    protected void workFor(int instructorId, int instituteId) {
+    private void workFor(int instructorId, int instituteId) {
+        instructorId += INSTRUCTOR_OFFSET;
+        instituteId += INSTITUTE_OFFSET;
         String sql =
                 "INSERT INTO WorkFor (instructorId, instituteId) "
                         + "VALUES (:instructorId, :instituteId)";
@@ -50,11 +54,11 @@ public class DataWarehouse {
         query.executeUpdate();
     }
 
-    protected void generateUsers() {
-        generateUsers("admin", AppUser.ADMIN, 1);
+    private void generateUsers() {
+        generateUsers("admin", AppUser.ADMIN, ADMIN_NUMBER);
         generateUsers("institute", AppUser.INSTITUTE, INSTITUTE_NUMBER);
         generateUsers("instructor", AppUser.INSTRUCTOR, INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE);
-        generateUsers("student", AppUser.STUDENT, INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE * STUDETN_NUMBER_PER_INSTRUCTOR);
+        generateUsers("student", AppUser.STUDENT, INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE * STUDENT_NUMBER_PER_INSTRUCTOR);
     }
 
     private void generateUsers(String username, int role, int count) {

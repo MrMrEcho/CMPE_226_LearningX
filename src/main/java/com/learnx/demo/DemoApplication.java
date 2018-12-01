@@ -33,8 +33,6 @@ public class DemoApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
             //Run code to run after initialization
-            System.out.println("starting spring");
-
             dataWarehouse.generate();
 
 //            Resource initData = new ClassPathResource("import-data.sql");
