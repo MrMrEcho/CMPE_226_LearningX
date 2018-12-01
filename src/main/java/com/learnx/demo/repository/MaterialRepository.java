@@ -19,25 +19,23 @@ public class MaterialRepository {
     }
 
     public List<Material> findByCourseId(int courseId) {
-        String sql =
-                "SELECT M.* "
-                        + "FROM Material M INNER JOIN Course C ON M.courseId = C.id "
-                        + "WHERE C.id = :courseId";
-        Query query = em.createNativeQuery(sql, Material.class).setParameter("courseId", courseId);
+        String sql = "SELECT M.* " +
+                "FROM Material M INNER JOIN Course C ON M.courseId = C.id " +
+                "WHERE C.id = :courseId";
+        Query query = em.createNativeQuery(sql, Material.class)
+                .setParameter("courseId", courseId);
 
         return RepositoryUtil.castAll(query.getResultList(), Material.class);
     }
 
     @Transactional
     public Material save(Material entity) {
-        String sql =
-                "INSERT INTO Material (courseId, title, url) "
-                        + "VALUES (:courseId, :title, :url)";
-        Query query =
-                em.createNativeQuery(sql)
-                        .setParameter("courseId", entity.getCourseId())
-                        .setParameter("title", entity.getTitle())
-                        .setParameter("url", entity.getUrl());
+        String sql = "INSERT INTO Material (courseId, title, url) " +
+                "VALUES (:courseId, :title, :url)";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("courseId", entity.getCourseId())
+                .setParameter("title", entity.getTitle())
+                .setParameter("url", entity.getUrl());
 
         if (query.executeUpdate() == 0) {
             return null;
@@ -54,9 +52,9 @@ public class MaterialRepository {
 
     @Transactional
     public Material update(Material newEntity) {
-        String sql =
-                "UPDATE Material SET courseId = :courseId, title = :title, url = :url " +
-                        "WHERE id = :id";
+        String sql = "UPDATE Material " +
+                "SET courseId = :courseId, title = :title, url = :url " +
+                "WHERE id = :id";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", newEntity.getCourseId())
                 .setParameter("title", newEntity.getTitle())

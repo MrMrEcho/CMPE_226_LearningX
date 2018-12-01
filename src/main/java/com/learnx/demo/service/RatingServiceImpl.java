@@ -20,7 +20,6 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDto create(RatingDto rating) {
-
         Rating newEntity = toEntity(rating);
         Rating saveEntity = repository.save(newEntity);
 

@@ -55,7 +55,6 @@ public class CourseInteractionController {
              * 3. Grade submission
              */
             case INSTRUCTOR:
-
                 mav=new ModelAndView("courseInteraction_instructor");
                 mav.addObject("currentCourseId",courseId);
                 //add material
@@ -79,8 +78,41 @@ public class CourseInteractionController {
                 mav.addObject("examSubmissions",examSubmissions);
 
                 break;
+            /**
+             * Student's work
+             * 0. Show homeworks
+             * 1. Add submission
+             * 2. Add ratings to course
+             */
             case STUDENT:
                 mav=new ModelAndView("courseInteraction_student");
+                mav.addObject("currentCourseId",courseId);
+                mav.addObject("currentStudentId",userId);
+                //show homeworks
+                List<HomeworkDto> homeworkDtos = homeworkService.listHomeworksByCourseId(courseId);
+                mav.addObject("homeworks", homeworkDtos);
+
+                //add submission for exam
+                List<HomeworkDto> examsOfCurrentCourse = homeworkService.listExamsByCourseId(courseId);
+                    //The course should have no more than 1 exam
+                mav.addObject("examsOfCurrentCourse",examsOfCurrentCourse);
+                HomeworkDto theExam=null;
+                SubmissionDto sbd=null;
+                if(!examsOfCurrentCourse.isEmpty()){
+                    theExam=examsOfCurrentCourse.get(0);
+                    mav.addObject("theExam",theExam);
+                    sbd = new SubmissionDto(userId,theExam.getId());
+                    sbd.setHasGrade(false);
+                }
+                mav.addObject("submissionForExam",sbd);
+                //add ratings
+                //TODO is this done in the course_review page?
+                RatingDto ratingDto = new RatingDto();
+                ratingDto.setCourseId(courseId);
+                ratingDto.setStudentId(userId);
+                mav.addObject("rating",ratingDto);
+
+
                 break;
             default:
                 return new ModelAndView("index");
@@ -109,7 +141,7 @@ public class CourseInteractionController {
         return mav;
     }
 
-    @PostMapping("//gradeExams/{courseId}")
+    @PostMapping("/gradeExams/{courseId}")
     public ModelAndView gradeExams(@ModelAttribute("examSubmissions") SubmissionWrapper examSubmissions,
                                    @PathVariable int courseId){
        List<SubmissionDto> submissionDtos=examSubmissions.getSubmissions();
@@ -121,6 +153,21 @@ public class CourseInteractionController {
        ModelAndView mav=new ModelAndView(targetUrl);
 
        return mav;
+    }
+
+    @PostMapping("/addExamSubmission/{courseId}")
+    public ModelAndView addExamSubmission(@ModelAttribute SubmissionDto submissionForExam,
+                                          @PathVariable int courseId){
+
+        SubmissionDto dto = submissionForExam;
+        if (!submissionService.exist(dto.getStudentId(), dto.getHomeworkId())) {
+            dto = submissionService.create(dto);
+        }
+
+        submissionService.update(dto);
+        String targetUrl="redirect:/courseInteraction/"+courseId;
+        ModelAndView mav=new ModelAndView(targetUrl);
+        return mav;
     }
 
 

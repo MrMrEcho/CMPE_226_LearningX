@@ -20,8 +20,6 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public List<DiscussionDto> listDiscussionsByCourseId(int courseId) {
-        // TODO: Check courseId exist
-
         return RepositoryUtil
                 .mapAll(repository.findByCourseId(courseId), DiscussionServiceImpl::toDto);
     }
@@ -29,7 +27,7 @@ public class DiscussionServiceImpl implements DiscussionService {
     private static DiscussionDto toDto(Discussion entity) {
         DiscussionDto dto = new DiscussionDto();
         dto.setId(entity.getId());
-        dto.setTitle(entity.getContent());
+        dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
         dto.setUserId(entity.getUserId());
         dto.setCourseId(entity.getCourseId());
@@ -39,7 +37,6 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionDto create(DiscussionDto dto) {
-        // TODO: Check some field can not be null
         Discussion newEntity = toEntity(dto);
         Discussion saveEntity = repository.save(newEntity);
         return toDto(saveEntity);
@@ -48,7 +45,7 @@ public class DiscussionServiceImpl implements DiscussionService {
     private static Discussion toEntity(DiscussionDto dto) {
         Discussion entity = new Discussion();
         entity.setId(dto.getId());
-        entity.setTitle(dto.getContent());
+        entity.setTitle(dto.getTitle());
         entity.setContent(dto.getContent());
         entity.setUserId(dto.getUserId());
         entity.setCourseId(dto.getCourseId());

@@ -13,9 +13,9 @@ public interface SeriesService {
 
     SeriesDto create(SeriesDto seriesDto);
 
-    SeriesDto udpate(SeriesDto newSeriesDto);
+    SeriesDto update(SeriesDto newSeriesDto);
 
-    void addCourseBySeriesId(int courseId, int seriesId);
+    boolean addCourseBySeriesId(int courseId, int seriesId);
 
     SeriesDto getSeriesById(int seriesId);
 }

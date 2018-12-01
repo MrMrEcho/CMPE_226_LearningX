@@ -19,10 +19,9 @@ public class DiscussionRepository {
     }
 
     public List<Discussion> findByCourseId(int courseId) {
-        String sql =
-                "SELECT D.* "
-                        + "FROM Discussion D INNER JOIN Course C ON D.courseId = C.id "
-                        + "WHERE C.id = :courseId";
+        String sql = "SELECT D.* "
+                + "FROM Discussion D INNER JOIN Course C ON D.courseId = C.id "
+                + "WHERE C.id = :courseId";
         Query query = em.createNativeQuery(sql, Discussion.class)
                 .setParameter("courseId", courseId);
 
@@ -31,21 +30,25 @@ public class DiscussionRepository {
 
     @Transactional
     public Discussion save(Discussion entity) {
-        String sql =
-                "INSERT INTO Discussion (userId, courseId, title, content) "
-                        + "VALUES (:userId, :courseId, :title, :content)";
-        Query query =
-                em.createNativeQuery(sql, Discussion.class)
-                        .setParameter("userId", entity.getUserId())
-                        .setParameter("courseId", entity.getCourseId())
-                        .setParameter("title", entity.getTitle())
-                        .setParameter("content", entity.getContent());
+        String sql = "INSERT INTO Discussion (userId, courseId, title, content) " +
+                "VALUES (:userId, :courseId, :title, :content)";
+        Query query = em.createNativeQuery(sql, Discussion.class)
+                .setParameter("userId", entity.getUserId())
+                .setParameter("courseId", entity.getCourseId())
+                .setParameter("title", entity.getTitle())
+                .setParameter("content", entity.getContent());
 
         if (query.executeUpdate() == 0) {
             return null;
         }
-        entity.setId(RepositoryUtil.getLastInsertId(em));
 
-        return entity;
+        Discussion newEntity = new Discussion();
+        newEntity.setId(RepositoryUtil.getLastInsertId(em));
+        newEntity.setTitle(entity.getTitle());
+        newEntity.setContent(entity.getContent());
+        newEntity.setCourseId(entity.getCourseId());
+        newEntity.setUserId(entity.getUserId());
+
+        return newEntity;
     }
 }

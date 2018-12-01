@@ -94,7 +94,7 @@ VALUES (2, 1);
 INSERT INTO CourseSeries (courseId, seriesId)
 VALUES (3, 1);
 
--- Enroll (studentId, courseId, isCompleted, isDropped)
+-- Enroll (studentId, courseId, hasCompleted, hasDropped)
 INSERT INTO Enroll (studentId, courseId)
 VALUES (1, 1);
 INSERT INTO Enroll (studentId, courseId)

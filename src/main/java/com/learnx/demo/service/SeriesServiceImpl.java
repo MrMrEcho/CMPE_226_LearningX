@@ -64,15 +64,15 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public SeriesDto udpate(SeriesDto dto) {
+    public SeriesDto update(SeriesDto dto) {
         Series newEntity = repository.update(toEntity(dto));
 
         return toDto(newEntity);
     }
 
     @Override
-    public void addCourseBySeriesId(int courseId, int seriesId) {
-        repository.addCourseToSeriesById(courseId, seriesId);
+    public boolean addCourseBySeriesId(int courseId, int seriesId) {
+        return repository.addCourseToSeriesById(courseId, seriesId);
     }
 
     @Override

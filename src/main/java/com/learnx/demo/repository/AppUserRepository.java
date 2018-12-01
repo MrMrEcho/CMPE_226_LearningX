@@ -24,15 +24,13 @@ public class AppUserRepository {
 
     @Transactional
     public AppUser save(AppUser entity) {
-        String sql =
-                "INSERT INTO AppUser (username, password, approle) "
-                        + "VALUES (:username, :password, :role)";
+        String sql = "INSERT INTO AppUser (username, password, approle) " +
+                "VALUES (:username, :password, :role)";
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        Query query =
-                em.createNativeQuery(sql)
-                        .setParameter("username", entity.getUsername())
-                        .setParameter("password", entity.getPassword())
-                        .setParameter("role", entity.getAppRole());
+        Query query = em.createNativeQuery(sql)
+                .setParameter("username", entity.getUsername())
+                .setParameter("password", entity.getPassword())
+                .setParameter("role", entity.getAppRole());
 
         if (query.executeUpdate() == 0) {
             return null;
@@ -49,9 +47,9 @@ public class AppUserRepository {
 
     @Transactional
     public AppUser update(AppUser entity, boolean hasUpdatePassword) {
-        String sql =
-                "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
-                        + "WHERE U.id = :id ";
+        String sql = "UPDATE AppUser U " +
+                "SET username = :username, password = :password, appRole = :appRole " +
+                "WHERE U.id = :id ";
         if (hasUpdatePassword) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         }
@@ -73,64 +71,23 @@ public class AppUserRepository {
     }
 
     public AppUser findById(int id) {
-        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
+        String sql = "SELECT id, username, password, approle FROM AppUser WHERE id = :id";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
 
     public AppUser findByName(String username) {
-        String sql =
-                "SELECT id, username, password, approle FROM AppUser " + "WHERE username = :name";
+        String sql = "SELECT id, username, password, approle FROM AppUser WHERE username = :name";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
 
-    /**
-     * Find instructor from Instructor view
-     *
-     * @return Instructor(AppUser)
-     */
-    public AppUser findInstructorById(int instructorId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Instructor "
-                        + "WHERE id = :instructorId";
-        Query query =
-                em.createNativeQuery(sql, AppUser.class).setParameter("instructorId", instructorId);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    /**
-     * Find student from Student view
-     */
-    public AppUser findStudentById(int studentId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Student " + "WHERE id = :studentId";
-        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("studentId", studentId);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    /**
-     * Find institute from Institute view
-     */
-    public AppUser findInstituteById(int instituteId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Institute "
-                        + "WHERE id = :instituteId";
-        Query query = em.createNativeQuery(sql, AppUser.class)
-                .setParameter("instituteId", instituteId);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    public boolean isEnrollByCourseId(int studentId, int courseId) {
-        String sql =
-                "SELECT E.studentId "
-                        + "FROM Enroll E "
-                        + "WHERE E.studentId = :studentId AND E.courseId = :courseId";
+    public boolean hasEnrollCourse(int studentId, int courseId) {
+        String sql = "SELECT E.studentId " +
+                "FROM Enroll E " +
+                "WHERE E.studentId = :studentId AND E.courseId = :courseId";
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", studentId)
                 .setParameter("courseId", courseId);
@@ -138,5 +95,58 @@ public class AppUserRepository {
         List<?> results = query.getResultList();
 
         return results.size() == 1;
+    }
+
+    public List<AppUser> findInstructorByInstituteId(int instituteId) {
+        String sql = "SELECT T.* " +
+                "FROM Instructor T INNER JOIN WorkFor W ON T.id = W.instructorId " +
+                "WHERE W.instituteId = :instituteId";
+        Query query = em.createNativeQuery(sql, AppUser.class)
+                .setParameter("instituteId", instituteId);
+
+        return RepositoryUtil.castAll(query.getResultList(), AppUser.class);
+    }
+
+    public boolean hasCompletedCourse(int studentId, int courseId) {
+        String sql = "SELECT hasCompleted FROM Enroll WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        List<?> result = query.getResultList();
+
+        return result.size() == 1 && (Boolean)result.get(0);
+    }
+
+    public boolean hasDroppedCourse(int studentId, int courseId) {
+        String sql = "SELECT hasDropped " +
+                "FROM Enroll WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        List<?> result = query.getResultList();
+
+        return result.size() == 1 && (Boolean)result.get(0);
+    }
+
+    @Transactional
+    public boolean enrollCourse(int studentId, int courseId) {
+        String sql = "INSERT INTO Enroll (studentId, courseId) VALUES (:studentId, :courseId)";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        return query.executeUpdate() == 1;
+    }
+
+    @Transactional
+    public boolean dropCourse(int studentId, int courseId) {
+        String sql = "UPDATE Enroll SET hasDropped = true WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        return query.executeUpdate() == 1;
     }
 }
