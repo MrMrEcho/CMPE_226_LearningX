@@ -39,7 +39,7 @@
         <h4>The Exam Question</h4>
         <div th:text="${theExam.getTitle()}">Title</div>
         <div th:text="${theExam.getContent()}" >Question</div>
-        <form th:action="@{/courseInteraction/addExamSubmission/{path}(path=${currentCourseId})}" th:object="${submissionForExam}">
+        <form th:action="@{/courseInteraction/addExamSubmission/{path}(path=${currentCourseId})}" th:object="${submissionForExam}" method="post">
             <input name="homeworkId" th:field="*{homeworkId}" hidden />
             <input name="studentId" th:field="*{studentId}" hidden />
             <label for="answer">Your answer</label>

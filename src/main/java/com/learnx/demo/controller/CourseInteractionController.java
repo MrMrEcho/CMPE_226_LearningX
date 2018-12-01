@@ -160,6 +160,10 @@ public class CourseInteractionController {
                                           @PathVariable int courseId){
         submissionForExam.setHasGrade(false);
         submissionService.update(submissionForExam);
+//        System.out.println(submissionForExam.getHomeworkId());
+//        System.out.println(submissionForExam.getStudentId());
+//        System.out.println(submissionForExam.getAnswer());
+//        System.out.println(submissionForExam.isHasGrade());
         String targetUrl="redirect:/courseInteraction/"+courseId;
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
