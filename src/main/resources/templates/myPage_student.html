@@ -23,12 +23,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course : ${courses_ongoing}">
-                <td th:text="${course.getTitle()}">Text..</td>
-                <td th:text="${course.getDescription()}">Text..</td>
+            <tr th:each="singleCourse : ${courses_ongoing}">
+                <td th:text="${singleCourse.getTitle()}">Text..</td>
+                <td th:text="${singleCourse.getDescription()}">Text..</td>
                 <td>+++
-                    <form th:action="@{/singleCourse}" method="post">
-                    <input type="hidden" name="id" id="idOngoingCourse" th:value="${course.getId()}"/>
+                    <form th:action="@{/courses/details/{path}(path=${singleCourse.getId()})}" method="post">
+                    <input type="hidden" name="id" id="idOngoingCourse" th:value="${singleCourse.getId()}"/>
                     <button id="scbutton1" type="submit" class="link-button">Go to this course</button>
                     </form>
                 </td>
@@ -49,12 +49,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="course : ${courses_past}">
-                <td th:text="${course.getTitle()}">Text..</td>
-                <td th:text="${course.getDescription()}">Text..</td>
+            <tr th:each="pastCourse : ${courses_past}">
+                <td th:text="${pastCourse.getTitle()}">Text..</td>
+                <td th:text="${pastCourse.getDescription()}">Text..</td>
                 <td>
-                    <form th:action="@{/singleCourse}" method="post">
-                        <input type="hidden" name="id" id="idPastCourse" th:value="${course.getId()}"/>
+                    <form th:action="@{/courses/details/{path}(path=${pastCourse.getId()})}" method="post">
+                        <input type="hidden" name="id" id="idPastCourse" th:value="${pastCourse.getId()}"/>
                         <button id="scbutton2" type="submit" class="link-button">Go to this course</button>
                     </form>
                 </td>
