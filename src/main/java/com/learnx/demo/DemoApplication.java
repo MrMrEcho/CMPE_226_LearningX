@@ -37,9 +37,9 @@ public class DemoApplication {
 
             dataWarehouse.generate();
 
-            Resource initData = new ClassPathResource("import-data.sql");
-            DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
-            DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+//            Resource initData = new ClassPathResource("import-data.sql");
+//            DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
+//            DatabasePopulatorUtils.execute(databasePopulator, dataSource);
         };
     }
 
