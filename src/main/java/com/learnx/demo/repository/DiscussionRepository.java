@@ -41,8 +41,14 @@ public class DiscussionRepository {
         if (query.executeUpdate() == 0) {
             return null;
         }
-        entity.setId(RepositoryUtil.getLastInsertId(em));
 
-        return entity;
+        Discussion newEntity = new Discussion();
+        newEntity.setId(RepositoryUtil.getLastInsertId(em));
+        newEntity.setTitle(entity.getTitle());
+        newEntity.setContent(entity.getContent());
+        newEntity.setCourseId(entity.getCourseId());
+        newEntity.setUserId(entity.getUserId());
+
+        return newEntity;
     }
 }
