@@ -61,7 +61,13 @@ public class RatingRepository {
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", courseId);
 
-        return RepositoryUtil.findOneResult(query.getResultList(), BigDecimal.class).intValue();
+        List<?> result = query.getResultList();
+        if (result.size() != 1) {
+            return 0;
+        }
+        BigDecimal bi = (BigDecimal)result.get(0);
+
+        return bi.intValue();
     }
 
     public List<Rating> findRatingByCourseId(int courseId) {
