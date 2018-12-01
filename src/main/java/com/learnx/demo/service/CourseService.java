@@ -19,7 +19,7 @@ public interface CourseService {
 
     List<CourseDto> listCoursesByInstructorId(int instructorId);
 
-    List<CourseDto> listCoursesByInstituteId(int instructorId);
+    List<CourseDto> listCoursesByInstituteId(int InstituteId);
 
     List<CourseDto> listCoursesBySeriesId(int seriesId);
 

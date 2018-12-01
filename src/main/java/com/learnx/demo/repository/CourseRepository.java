@@ -166,4 +166,19 @@ public class CourseRepository {
 
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
+
+    public List<Course> findCourseByInstructorId(int instructorId) {
+        return null;
+    }
+
+    public List<Course> findCourseByInstituteId(int instituteId) {
+        return null;
+    }
+
+
+    public List<Course> findCourseBySeriesId(int seriesId) {
+        String sql = "SELECT C.*" +
+                "FROM Course C INNER JOIN CourseSeries ON  ";
+        return null;
+    }
 }

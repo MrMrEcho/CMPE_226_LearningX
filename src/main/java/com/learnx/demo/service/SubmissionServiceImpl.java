@@ -34,8 +34,18 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
+    public boolean exist(int studentId, int homeworkId) {
+        return repository.findById(studentId, homeworkId) != null;
+    }
+
+    @Override
     public SubmissionDto findById(int studentId, int homeworkId) {
-        return toDto(repository.findById(studentId, homeworkId));
+        Submission entity = repository.findById(studentId, homeworkId);
+        if (entity == null) {
+            return null;
+        }
+
+        return toDto(entity);
     }
 
     @Override

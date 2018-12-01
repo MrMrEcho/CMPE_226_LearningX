@@ -2,7 +2,6 @@ package com.learnx.demo.service;
 
 import com.learnx.demo.entity.Course;
 import com.learnx.demo.model.CourseDto;
-import com.learnx.demo.repository.AppUserRepository;
 import com.learnx.demo.repository.CourseRepository;
 import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
@@ -13,13 +12,10 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final AppUserRepository userRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository,
-            AppUserRepository userRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
-        this.userRepository = userRepository;
     }
 
     static Course toEntity(CourseDto dto) {
@@ -76,22 +72,27 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCoursesByInstructorId(int instructorId) {
-        return null;
+        return RepositoryUtil.mapAll(
+                courseRepository.findCourseByInstructorId(instructorId),
+                CourseServiceImpl::toDto);
     }
 
     @Override
-    public List<CourseDto> listCoursesByInstituteId(int instructorId) {
-        return null;
+    public List<CourseDto> listCoursesByInstituteId(int instituteId) {
+        return RepositoryUtil.mapAll(
+                courseRepository.findCourseByInstituteId(instituteId),
+                CourseServiceImpl::toDto);
     }
 
     @Override
     public List<CourseDto> listCoursesBySeriesId(int seriesId) {
-        return null;
+        return RepositoryUtil.mapAll(
+                courseRepository.findCourseBySeriesId(seriesId),
+                CourseServiceImpl::toDto);
     }
 
     @Override
     public CourseDto getCourseById(int courseId) {
-
         Course result = courseRepository.findById(courseId);
         if (result == null) {
             return null;

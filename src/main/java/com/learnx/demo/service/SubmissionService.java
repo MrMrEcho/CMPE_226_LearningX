@@ -9,6 +9,8 @@ public interface SubmissionService {
 
     List<SubmissionDto> listExamSubmissionByCourseId(int courseId, boolean hasGrade);
 
+    boolean exist(int studentId, int homeworkId);
+
     SubmissionDto findById(int studentId, int homeworkId);
 
     SubmissionDto create(SubmissionDto newSubmission);

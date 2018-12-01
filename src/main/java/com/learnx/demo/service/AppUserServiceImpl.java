@@ -3,9 +3,7 @@ package com.learnx.demo.service;
 import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
-import com.learnx.demo.repository.CourseRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,11 @@ public class AppUserServiceImpl implements AppUserService {
 
     private final PasswordEncoder passwordEncoder;
     private final AppUserRepository userRepository;
-    private final CourseRepository courseRepository;
 
     @Autowired
-    public AppUserServiceImpl(PasswordEncoder passwordEncoder,
-            AppUserRepository userRepository, CourseRepository courseRepository) {
+    public AppUserServiceImpl(PasswordEncoder passwordEncoder, AppUserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.courseRepository = courseRepository;
     }
 
     @Override
