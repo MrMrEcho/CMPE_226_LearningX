@@ -1,12 +1,20 @@
 package com.learnx.demo;
 
 import com.learnx.demo.entity.AppUser;
+import com.learnx.demo.entity.Homework;
 import com.learnx.demo.repository.AppUserRepository;
+import com.learnx.demo.repository.HomeworkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
 @Component
@@ -20,8 +28,16 @@ public class DataWarehouse {
     private static final int INSTRUCTOR_OFFSET = ADMIN_NUMBER + INSTITUTE_NUMBER;
     private static final int STUDENT_OFFSET = INSTRUCTOR_OFFSET + ADMIN_NUMBER * INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE;
 
+    public static final int COURSE_NUMBER = 8;
+
     @Autowired
     AppUserRepository userRepository;
+
+    @Autowired
+    HomeworkRepository homeworkRepository;
+
+    @Autowired
+    DataSource dataSource;
     
     @Autowired
     private EntityManager em;
@@ -30,7 +46,43 @@ public class DataWarehouse {
     public void generate() {
         generateUsers();
         generateWorkFor();
+        generateCourses();
+        generateHomeworks();   
+        
+    }
 
+    private void generateHomeworks() {
+        for (int i = 0; i < COURSE_NUMBER; i++) {
+            generateHomeworks(i + 1);
+        }
+    }
+
+    private void generateHomeworks(int courseId) {
+        Homework homework = new Homework();
+        homework.setTitle("Course " + courseId + ": homework 1");
+        homework.setCourseId(courseId);
+        homework.setType(0);
+        homework.setContent("Content 1");
+        homeworkRepository.save(homework);
+
+        homework.setTitle("Course " + courseId + ": homework 2");
+        homework.setContent("Content 2");
+        homeworkRepository.save(homework);
+
+        homework.setTitle("Course " + courseId + ": Exam");
+        homework.setType(1);
+        homework.setContent("Content exam");
+        homeworkRepository.save(homework);
+    }
+
+    private void generateCourses() {
+        loadSql("import-courses.sql");
+    }
+
+    private void loadSql(String sqlFile) {
+        Resource initData = new ClassPathResource(sqlFile);
+        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
+        DatabasePopulatorUtils.execute(databasePopulator, dataSource);
     }
 
     protected void generateWorkFor() {

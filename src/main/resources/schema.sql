@@ -203,7 +203,7 @@ CREATE OR REPLACE VIEW AverageRating
 AS
 SELECT C.id AS id, C.title AS title, avg(R.rate) AS rate, count(DISTINCT R.studentId) AS count
 FROM Course C
-         JOIN Rating R ON C.id = R.courseId
+         LEFT JOIN Rating R ON C.id = R.courseId
 GROUP BY C.id;$
 
 -- Create stored procedures

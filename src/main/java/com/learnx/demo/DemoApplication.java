@@ -20,10 +20,9 @@ import javax.sql.DataSource;
 public class DemoApplication {
 
     @Autowired
-    DataSource dataSource;
-
-    @Autowired
     DataWarehouse dataWarehouse;
+
+    private static boolean INIT_DATABASE = true;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -33,11 +32,9 @@ public class DemoApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
             //Run code to run after initialization
-            dataWarehouse.generate();
-
-//            Resource initData = new ClassPathResource("import-data.sql");
-//            DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
-//            DatabasePopulatorUtils.execute(databasePopulator, dataSource);
+            if (INIT_DATABASE) {
+                dataWarehouse.generate();
+            }
         };
     }
 
