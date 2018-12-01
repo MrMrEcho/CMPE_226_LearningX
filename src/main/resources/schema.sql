@@ -167,7 +167,6 @@ CREATE TABLE Discussion
     -- primary key (userId, courseId),
     PRIMARY KEY (id),
 
-    -- FIXME: remove user discussion still can keep
     FOREIGN KEY (userId) REFERENCES AppUser (id)
         ON DELETE CASCADE,
 
