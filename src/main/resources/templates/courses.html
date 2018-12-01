@@ -34,7 +34,7 @@
           <div class="categorie-item">
             <div class="ci-text">
               <h5 th:text="${course.title}"></h5>
-              <p th:text="${#strings.substring(course.description,0,60)}+ '...'"></p>
+              <p th:text="${#strings.abbreviate(course.description, 60)}"></p>
               <!--<span th:text="${course.instructor.username}"></span>-->
               <a th:href="@{/courses/} + ${course.id}" >Click here to view course details</a>
             </div>
@@ -56,7 +56,7 @@
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${most.title}"></h5>
-            <p th:text="${#strings.substring(most.description,0,60)}+ '...'"></p>
+            <p th:text="${#strings.abbreviate(most.description, 60)}"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
             <br>
             <a th:href="@{/courses/} + ${most.id}" >Click here to view course details</a>
@@ -78,7 +78,7 @@
         <div class="categorie-item">
           <div class="ci-text">
             <h5 th:text="${least.title}"></h5>
-            <p th:text="${#strings.substring(least.description,0,60)}+ '...'"></p>
+            <p th:text="${#strings.abbreviate(least.description, 60)}"></p>
             <!--<span th:text="${course.instructor.username}"></span>-->
             <a th:href="@{/courses/} + ${least.id}" >Click here to view course details</a>
           </div>
