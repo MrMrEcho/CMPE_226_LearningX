@@ -158,12 +158,13 @@ public class CourseInteractionController {
     @PostMapping("/addExamSubmission/{courseId}")
     public ModelAndView addExamSubmission(@ModelAttribute SubmissionDto submissionForExam,
                                           @PathVariable int courseId){
-        submissionForExam.setHasGrade(false);
-        submissionService.update(submissionForExam);
-//        System.out.println(submissionForExam.getHomeworkId());
-//        System.out.println(submissionForExam.getStudentId());
-//        System.out.println(submissionForExam.getAnswer());
-//        System.out.println(submissionForExam.isHasGrade());
+
+        SubmissionDto dto = submissionForExam;
+        if (!submissionService.exist(dto.getStudentId(), dto.getHomeworkId())) {
+            dto = submissionService.create(dto);
+        }
+
+        submissionService.update(dto);
         String targetUrl="redirect:/courseInteraction/"+courseId;
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
