@@ -71,7 +71,7 @@ public class AppUserRepository {
     }
 
     public AppUser findById(int id) {
-        String sql = "SELECT id, username, password, approle FROM AppUser " + "WHERE id = :id";
+        String sql = "SELECT id, username, password, approle FROM AppUser WHERE id = :id";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("id", id);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
@@ -80,41 +80,6 @@ public class AppUserRepository {
     public AppUser findByName(String username) {
         String sql = "SELECT id, username, password, approle FROM AppUser WHERE username = :name";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    /**
-     * Find instructor from Instructor view
-     *
-     * @return Instructor(AppUser)
-     */
-    public AppUser findInstructorById(int instructorId) {
-        String sql = "SELECT id, username, password, approle FROM Instructor WHERE id = :instructorId";
-        Query query = em.createNativeQuery(sql, AppUser.class)
-                .setParameter("instructorId", instructorId);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    /**
-     * Find student from Student view
-     */
-    public AppUser findStudentById(int studentId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Student " + "WHERE id = :studentId";
-        Query query = em.createNativeQuery(sql, AppUser.class).setParameter("studentId", studentId);
-
-        return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
-    }
-
-    /**
-     * Find institute from Institute view
-     */
-    public AppUser findInstituteById(int instituteId) {
-        String sql = "SELECT id, username, password, approle FROM Institute WHERE id = :instituteId";
-        Query query = em.createNativeQuery(sql, AppUser.class)
-                .setParameter("instituteId", instituteId);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
@@ -143,19 +108,26 @@ public class AppUserRepository {
     }
 
     public boolean hasCompletedCourse(int studentId, int courseId) {
-        String sql = "SELECT hasCompleted " +
-            "FROM Enroll WHERE studentId =: studentId AND courseId = :courseId";
-        Query query = em.createNativeQuery(sql, Boolean.class);
+        String sql = "SELECT hasCompleted FROM Enroll WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
 
-//        List<?> result = query.getResultList();
-//        if (results.size() == 0 && (boolean)results.get(0)) {
-//
-//        }
-        return false;
+        List<?> result = query.getResultList();
+
+        return result.size() == 1 && (Boolean)result.get(0);
     }
 
     public boolean hasDroppedCourse(int studentId, int courseId) {
-        return false;
+        String sql = "SELECT hasDropped " +
+                "FROM Enroll WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        List<?> result = query.getResultList();
+
+        return result.size() == 1 && (Boolean)result.get(0);
     }
 
     @Transactional
@@ -171,7 +143,9 @@ public class AppUserRepository {
     @Transactional
     public boolean dropCourse(int studentId, int courseId) {
         String sql = "UPDATE Enroll SET hasDropped = true WHERE studentId = :studentId AND courseId = :courseId";
-        Query query = em.createNativeQuery(sql);
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
 
         return query.executeUpdate() == 1;
     }

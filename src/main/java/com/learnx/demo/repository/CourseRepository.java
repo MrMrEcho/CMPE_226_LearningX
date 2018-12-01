@@ -23,11 +23,10 @@ public class CourseRepository {
     public Course save(Course entity) {
         String sql = "INSERT INTO Course (title, description, instructorId) "
                 + "VALUES (:title, :description, :instructorId)";
-        Query query =
-                em.createNativeQuery(sql, Course.class)
-                        .setParameter("title", entity.getTitle())
-                        .setParameter("description", entity.getDescription())
-                        .setParameter("instructorId", entity.getInstructorId());
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("title", entity.getTitle())
+                .setParameter("description", entity.getDescription())
+                .setParameter("instructorId", entity.getInstructorId());
 
         if (query.executeUpdate() == 0) {
             return null;
@@ -126,7 +125,7 @@ public class CourseRepository {
     }
 
     public Course findById(int courseId) {
-        String sql = "SELECT * FROM course " + "WHERE id = :courseId";
+        String sql = "SELECT * FROM course WHERE id = :courseId";
 
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("courseId", courseId);
@@ -147,8 +146,7 @@ public class CourseRepository {
     public List<Course> findOnGoingCourseByStudentId(int studentId) {
         String sql = "SELECT C.*" +
                 "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
-                "WHERE studentId = :studentId AND " +
-                "E.isDropped = false AND E.hasCompleted = false";
+                "WHERE studentId = :studentId AND E.hasDropped = false AND E.hasCompleted = false";
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("studentId", studentId);
 
@@ -158,9 +156,7 @@ public class CourseRepository {
     public List<Course> findFinishedCourseByStudentId(int studentId) {
         String sql = "SELECT C.*" +
                 "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
-                "WHERE studentId = :studentId AND " +
-                "E.hasDropped = false AND E.hasCompleted = true";
-
+                "WHERE studentId = :studentId AND E.hasDropped = false AND E.hasCompleted = true";
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("studentId", studentId);
 
