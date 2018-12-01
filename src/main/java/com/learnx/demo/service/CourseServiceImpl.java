@@ -101,13 +101,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDto create(CourseDto course) {
-        return null;
+    public CourseDto create(CourseDto dto) {
+        Course newEntity = toEntity(dto);
+        Course saveEntity = courseRepository.save(newEntity);
+
+        return toDto(saveEntity);
     }
 
     @Override
-    public CourseDto update(CourseDto newCourse) {
-        return null;
+    public CourseDto update(CourseDto newDto) {
+        Course newEntity = courseRepository.update(toEntity(newDto));
+
+        return toDto(newEntity);
     }
 
     private static CourseDto toDto(Course entity) {
@@ -119,5 +124,4 @@ public class CourseServiceImpl implements CourseService {
 
         return dto;
     }
-
 }

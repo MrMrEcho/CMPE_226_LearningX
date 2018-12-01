@@ -18,9 +18,8 @@ public class HomeworkRepository {
 
     @Transactional
     public Homework save(Homework entity) {
-        String sql =
-                "INSERT INTO Homework (courseId, title, content, type) "
-                        + "VALUES (:courseId, :title, :content, :type)";
+        String sql = "INSERT INTO Homework (courseId, title, content, type) " +
+                "VALUES (:courseId, :title, :content, :type)";
         Query query =
                 em.createNativeQuery(sql)
                         .setParameter("courseId", entity.getCourseId())
@@ -43,10 +42,9 @@ public class HomeworkRepository {
     }
 
     public List<Homework> findByCourseId(int courseId) {
-        String sql =
-                "SELECT H.* "
-                        + "FROM Homework H INNER JOIN Course C ON H.courseId = C.id "
-                        + "WHERE C.id = :courseId";
+        String sql = "SELECT H.* " +
+                "FROM Homework H INNER JOIN Course C ON H.courseId = C.id " +
+                "WHERE C.id = :courseId";
         Query query = em.createNativeQuery(sql, Homework.class)
                 .setParameter("courseId", courseId);
 
@@ -55,10 +53,9 @@ public class HomeworkRepository {
 
     @Transactional
     public Homework update(Homework newEntity) {
-        String sql =
-                "UPDATE Homework SET courseId = :courseId, title = :title, content = :content , type = :type "
-                        +
-                        "WHERE id = :id";
+        String sql = "UPDATE Homework " +
+                "SET courseId = :courseId, title = :title, content = :content , type = :type " +
+                "WHERE id = :id";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", newEntity.getCourseId())
                 .setParameter("title", newEntity.getTitle())

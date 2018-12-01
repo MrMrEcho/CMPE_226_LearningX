@@ -21,10 +21,8 @@ public class SubmissionRepository {
 
     @Transactional
     public Submission save(Submission entity) {
-        // FIXME: This might not correct implementation
-        String sql =
-                "INSERT INTO Submission (studentId, homeworkId) " +
-                        "VALUES (:studentId, :homeworkId)";
+        String sql = "INSERT INTO Submission (studentId, homeworkId) " +
+                "VALUES (:studentId, :homeworkId)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", entity.getStudentId())
                 .setParameter("homeworkId", entity.getHomeworkId());
@@ -44,10 +42,9 @@ public class SubmissionRepository {
 
     @Transactional
     public Submission update(Submission newEntity) {
-        String sql =
-                "UPDATE Submission " +
-                        "SET answer = :answer, grade = :grade, hasGrade = :hasGrade " +
-                        "WHERE studentId = :studentId AND homeworkId = :homeworkId";
+        String sql = "UPDATE Submission " +
+                "SET answer = :answer, grade = :grade, hasGrade = :hasGrade " +
+                "WHERE studentId = :studentId AND homeworkId = :homeworkId";
 
         Query query = em.createNativeQuery(sql)
                 .setParameter("answer", newEntity.getAnswer())

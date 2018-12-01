@@ -10,8 +10,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// FIXME: Current implementation does not include input check let's fix when it comes out
-
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
 

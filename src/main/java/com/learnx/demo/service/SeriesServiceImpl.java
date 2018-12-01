@@ -64,7 +64,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public SeriesDto udpate(SeriesDto dto) {
+    public SeriesDto update(SeriesDto dto) {
         Series newEntity = repository.update(toEntity(dto));
 
         return toDto(newEntity);

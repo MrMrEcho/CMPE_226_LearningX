@@ -20,9 +20,8 @@ public class SeriesRepository {
 
     @Transactional
     public Series save(Series entity) {
-        String sql =
-                "INSERT INTO Series (title, description, instituteId) " +
-                        "VALUES (:title, :description, :instituteId)";
+        String sql = "INSERT INTO Series (title, description, instituteId) " +
+                "VALUES (:title, :description, :instituteId)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("title", entity.getTitle())
                 .setParameter("description", entity.getDescription())
@@ -43,10 +42,9 @@ public class SeriesRepository {
 
     @Transactional
     public Series update(Series newEntity) {
-        String sql =
-                "UPDATE Series SET " +
-                        "title = :title, description = :description, instituteId = :instituteId " +
-                        "WHERE id = :id";
+        String sql = "UPDATE Series " +
+                "SET title = :title, description = :description, instituteId = :instituteId " +
+                "WHERE id = :id";
         Query query = em.createNativeQuery(sql)
                 .setParameter("title", newEntity.getTitle())
                 .setParameter("description", newEntity.getDescription())
@@ -84,12 +82,11 @@ public class SeriesRepository {
     }
 
     public List<Series> findByStudentId(int studentId) {
-        String sql =
-                "SELECT DISTINCT S.id, S.title, S.description, S.instituteId " +
-                        "FROM CourseSeries C " +
-                        "INNER JOIN Enroll E ON E.courseId = C.courseId " +
-                        "INNER JOIN Series S ON S.id = C.seriesId " +
-                        "WHERE E.studentId = :studentId";
+        String sql = "SELECT DISTINCT S.id, S.title, S.description, S.instituteId " +
+                "FROM CourseSeries C " +
+                "INNER JOIN Enroll E ON E.courseId = C.courseId " +
+                "INNER JOIN Series S ON S.id = C.seriesId " +
+                "WHERE E.studentId = :studentId";
         Query query = em.createNativeQuery(sql, Series.class)
                 .setParameter("studentId", studentId);
 
@@ -98,9 +95,8 @@ public class SeriesRepository {
 
     @Transactional
     public void addCourseToSeriesById(int courseId, int seriesId) {
-        String sql =
-                "INSERT INTO CourseSeries (courseId, seriesId) " +
-                        "VALUES (:courseId, :seriesId)";
+        String sql = "INSERT INTO CourseSeries (courseId, seriesId) " +
+                "VALUES (:courseId, :seriesId)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", courseId)
                 .setParameter("seriesId", seriesId);

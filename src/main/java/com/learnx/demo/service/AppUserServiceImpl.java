@@ -5,8 +5,11 @@ import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
 import com.learnx.demo.repository.CourseRepository;
 import java.util.List;
+<<<<<<< HEAD
+=======
 
 //import com.sun.xml.internal.bind.v2.TODO;
+>>>>>>> 375a3442a7bb953773addce5367d1beba9d3de26
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

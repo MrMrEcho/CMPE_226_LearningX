@@ -24,15 +24,13 @@ public class AppUserRepository {
 
     @Transactional
     public AppUser save(AppUser entity) {
-        String sql =
-                "INSERT INTO AppUser (username, password, approle) "
-                        + "VALUES (:username, :password, :role)";
+        String sql = "INSERT INTO AppUser (username, password, approle) " +
+                "VALUES (:username, :password, :role)";
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-        Query query =
-                em.createNativeQuery(sql)
-                        .setParameter("username", entity.getUsername())
-                        .setParameter("password", entity.getPassword())
-                        .setParameter("role", entity.getAppRole());
+        Query query = em.createNativeQuery(sql)
+                .setParameter("username", entity.getUsername())
+                .setParameter("password", entity.getPassword())
+                .setParameter("role", entity.getAppRole());
 
         if (query.executeUpdate() == 0) {
             return null;
@@ -49,9 +47,9 @@ public class AppUserRepository {
 
     @Transactional
     public AppUser update(AppUser entity, boolean hasUpdatePassword) {
-        String sql =
-                "UPDATE AppUser U SET username = :username, password = :password, appRole = :appRole "
-                        + "WHERE U.id = :id ";
+        String sql = "UPDATE AppUser U " +
+                "SET username = :username, password = :password, appRole = :appRole " +
+                "WHERE U.id = :id ";
         if (hasUpdatePassword) {
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         }
@@ -80,8 +78,7 @@ public class AppUserRepository {
     }
 
     public AppUser findByName(String username) {
-        String sql =
-                "SELECT id, username, password, approle FROM AppUser " + "WHERE username = :name";
+        String sql = "SELECT id, username, password, approle FROM AppUser WHERE username = :name";
         Query query = em.createNativeQuery(sql, AppUser.class).setParameter("name", username);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
@@ -93,11 +90,9 @@ public class AppUserRepository {
      * @return Instructor(AppUser)
      */
     public AppUser findInstructorById(int instructorId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Instructor "
-                        + "WHERE id = :instructorId";
-        Query query =
-                em.createNativeQuery(sql, AppUser.class).setParameter("instructorId", instructorId);
+        String sql = "SELECT id, username, password, approle FROM Instructor WHERE id = :instructorId";
+        Query query = em.createNativeQuery(sql, AppUser.class)
+                .setParameter("instructorId", instructorId);
 
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
@@ -117,9 +112,7 @@ public class AppUserRepository {
      * Find institute from Institute view
      */
     public AppUser findInstituteById(int instituteId) {
-        String sql =
-                "SELECT id, username, password, approle FROM Institute "
-                        + "WHERE id = :instituteId";
+        String sql = "SELECT id, username, password, approle FROM Institute WHERE id = :instituteId";
         Query query = em.createNativeQuery(sql, AppUser.class)
                 .setParameter("instituteId", instituteId);
 
@@ -127,10 +120,9 @@ public class AppUserRepository {
     }
 
     public boolean isEnrollByCourseId(int studentId, int courseId) {
-        String sql =
-                "SELECT E.studentId "
-                        + "FROM Enroll E "
-                        + "WHERE E.studentId = :studentId AND E.courseId = :courseId";
+        String sql = "SELECT E.studentId " +
+                "FROM Enroll E " +
+                "WHERE E.studentId = :studentId AND E.courseId = :courseId";
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", studentId)
                 .setParameter("courseId", courseId);

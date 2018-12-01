@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,51 +14,52 @@ public class CourseRepository {
 
     private final EntityManager em;
 
+    @Autowired
     public CourseRepository(EntityManager em) {
         this.em = em;
     }
 
-    /**
-     * Save course
-     */
-    public Course save(Course course) {
-        int n = 0;
-        if (course.getInstructorId() == null) {
-            n = save(course.getTitle(), course.getDescription());
-        } else {
-            n = save(course.getTitle(), course.getDescription(), course.getInstructorId());
-        }
+    @Transactional
+    public Course save(Course entity) {
+        String sql = "INSERT INTO Course (title, description, instructorId) "
+                + "VALUES (:title, :description, :instructorId)";
+        Query query =
+                em.createNativeQuery(sql, Course.class)
+                        .setParameter("title", entity.getTitle())
+                        .setParameter("description", entity.getDescription())
+                        .setParameter("instructorId", entity.getInstructorId());
 
-        if (n == 0) {
+        if (query.executeUpdate() == 0) {
             return null;
         }
-        course.setId(RepositoryUtil.getLastInsertId(em));
 
-        return course;
+        Course saveEntity = new Course();
+        saveEntity.setId(RepositoryUtil.getLastInsertId(em));
+        saveEntity.setTitle(entity.getTitle());
+        saveEntity.setDescription(entity.getDescription());
+        saveEntity.setInstructorId(entity.getInstructorId());
+
+        return saveEntity;
     }
 
     @Transactional
-    protected int save(String title, String description, int instructorId) {
-        String sql =
-                "INSERT INTO Course (title, description, instructorId) "
-                        + "VALUES (:title, :description, :instructorId)";
-        Query query =
-                em.createNativeQuery(sql, Course.class)
-                        .setParameter("title", title)
-                        .setParameter("description", description)
-                        .setParameter("instructorId", instructorId);
-        return query.executeUpdate();
+    public Course update(Course newEntity) {
+        String sql = "UPDATE Course " +
+                "SET title = :title, description = :description, instructorId = :instructorId " +
+                "WHERE id = :id";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("title", newEntity.getTitle())
+                .setParameter("description", newEntity.getDescription())
+                .setParameter("instructorId", newEntity.getInstructorId())
+                .setParameter("id", newEntity.getId());
+
+        if(query.executeUpdate() == 0) {
+            return null;
+        }
+
+        return newEntity;
     }
 
-    @Transactional
-    protected int save(String title, String description) {
-        String sql = "INSERT INTO Course (title, description) " + "VALUES (:title, :description)";
-        Query query =
-                em.createNativeQuery(sql, Course.class)
-                        .setParameter("title", title)
-                        .setParameter("description", description);
-        return query.executeUpdate();
-    }
 
     public List<Course> findAll() {
         String sql = "SELECT * FROM Course";
@@ -67,10 +69,9 @@ public class CourseRepository {
     }
 
     public List<Course> findCourseByStudentId(int studentId) {
-        String sql =
-                "SELECT C.* " +
-                        "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
-                        "WHERE E.studentId = :studentId";
+        String sql = "SELECT C.* " +
+                "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
+                "WHERE E.studentId = :studentId";
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("studentId", studentId);
 
@@ -78,7 +79,7 @@ public class CourseRepository {
     }
 
     public List<Course> findByTitle(String title) {
-        String sql = "select * from Course where title = :title";
+        String sql = "SELECT * FROM Course WHERE title = :title";
         Query query = em.createNativeQuery(sql, Course.class);
         query.setParameter("title", title);
 
@@ -138,10 +139,9 @@ public class CourseRepository {
     }
 
     public List<Course> findCourseOrderByRating(boolean ascending) {
-        String sql =
-                "SELECT C.* " +
-                        "FROM Course C INNER JOIN AverageRating R ON C.id = R.id " +
-                        "ORDER BY R.rate ";
+        String sql = "SELECT C.* " +
+                "FROM Course C INNER JOIN AverageRating R ON C.id = R.id " +
+                "ORDER BY R.rate ";
         sql = sql + (ascending ? "ASC" : "DESC");
         Query query = em.createNativeQuery(sql, Course.class);
 

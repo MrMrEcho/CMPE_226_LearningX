@@ -21,9 +21,8 @@ public class RatingRepository {
 
     @Transactional
     public Rating save(Rating entity) {
-        String sql =
-                "INSERT INTO Rating(studentId, courseId, rate) " +
-                        "VALUES( :studentId,  :courseId, :rate)";
+        String sql = "INSERT INTO Rating(studentId, courseId, rate) " +
+                "VALUES( :studentId,  :courseId, :rate)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", entity.getStudentId())
                 .setParameter("courseId", entity.getCourseId())
@@ -43,9 +42,8 @@ public class RatingRepository {
 
     @Transactional
     public Rating update(Rating newEntity) {
-        String sql =
-                "UPDATE Rating SET rate =:rate " +
-                        "WHERE studentId = :studentId AND courseId = :courseId";
+        String sql = "UPDATE Rating SET rate =:rate " +
+                "WHERE studentId = :studentId AND courseId = :courseId";
         Query query = em.createNativeQuery(sql)
                 .setParameter("rate", newEntity.getRate())
                 .setParameter("studentId", newEntity.getStudentId())
@@ -54,20 +52,20 @@ public class RatingRepository {
         if (query.executeUpdate() == 0) {
             return null;
         }
+
         return newEntity;
     }
 
     public int getAvgRatingByCourseId(int courseId) {
-        String sql =
-                "SELECT rate FROM AverageRating WHERE id = :courseId";
+        String sql = "SELECT rate FROM AverageRating WHERE id = :courseId";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", courseId);
+        
         return RepositoryUtil.findOneResult(query.getResultList(), BigDecimal.class).intValue();
     }
 
     public List<Rating> findRatingByCourseId(int courseId) {
-        String sql =
-                "SELECT R.* FROM Rating R WHERE R.courseId = :courseId";
+        String sql = "SELECT R.* FROM Rating R WHERE R.courseId = :courseId";
         Query query = em.createNativeQuery(sql, Rating.class)
                 .setParameter("courseId", courseId);
 
