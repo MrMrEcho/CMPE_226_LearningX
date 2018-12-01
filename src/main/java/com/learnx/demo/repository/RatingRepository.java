@@ -32,12 +32,12 @@ public class RatingRepository {
             return null;
         }
 
-        Rating saveRating = new Rating();
-        saveRating.setCourseId(entity.getCourseId());
-        saveRating.setStudentId(entity.getStudentId());
-        saveRating.setRate(entity.getRate());
+        Rating saveEntity = new Rating();
+        saveEntity.setCourseId(entity.getCourseId());
+        saveEntity.setStudentId(entity.getStudentId());
+        saveEntity.setRate(entity.getRate());
 
-        return saveRating;
+        return saveEntity;
     }
 
     @Transactional

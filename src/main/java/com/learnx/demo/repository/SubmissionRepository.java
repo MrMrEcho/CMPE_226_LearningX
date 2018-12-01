@@ -21,11 +21,15 @@ public class SubmissionRepository {
 
     @Transactional
     public Submission save(Submission entity) {
-        String sql = "INSERT INTO Submission (studentId, homeworkId) " +
-                "VALUES (:studentId, :homeworkId)";
+        String sql = "INSERT INTO Submission (studentId, homeworkId, answer, grade, hasGrade) " +
+                "VALUES (:studentId, :homeworkId, :answer, :grade, :hasGrade)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("studentId", entity.getStudentId())
-                .setParameter("homeworkId", entity.getHomeworkId());
+                .setParameter("homeworkId", entity.getHomeworkId())
+                .setParameter("answer", entity.getAnswer())
+                .setParameter("grade", entity.getGrade())
+                .setParameter("hasGrade", entity.isHasGrade());
+
         if (query.executeUpdate() == 0) {
             return null;
         }
@@ -33,9 +37,9 @@ public class SubmissionRepository {
         Submission saveEntity = new Submission();
         saveEntity.setStudentId(entity.getStudentId());
         saveEntity.setHomeworkId(entity.getHomeworkId());
-        saveEntity.setAnswer(saveEntity.getAnswer());
-        saveEntity.setGrade(saveEntity.getGrade());
-        saveEntity.setHasGrade(saveEntity.isHasGrade());
+        saveEntity.setAnswer(entity.getAnswer());
+        saveEntity.setGrade(entity.getGrade());
+        saveEntity.setHasGrade(entity.isHasGrade());
 
         return saveEntity;
     }
