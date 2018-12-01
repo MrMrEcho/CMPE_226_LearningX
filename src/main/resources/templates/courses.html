@@ -28,9 +28,9 @@
     <div class="section-title">
       <h4  style="color:#878787;">All Courses</h4>
     </div>
-    <div class="row" >
-      <div th:each="course: ${courseList}">
-        <div class="col-lg-auto col-md-auto">
+    <div class="row row.row-eq-height" >
+      <div th:each="course: ${courseList}" class="w-50" >
+        <div class="col-lg-auto col-sm-auto">
           <div class="categorie-item">
             <div class="ci-text">
               <h5 th:text="${course.title}"></h5>
@@ -51,7 +51,7 @@
     <div class="section-title">
       <h4  style="color:#878787;">Most Popular Courses</h4>
     </div>
-    <div class="row" th:each="most: ${mostPopList}">
+    <div class="row row.row-eq-height" th:each="most: ${mostPopList}">
       <div class="col-lg-auto col-md-auto">
         <div class="categorie-item">
           <div class="ci-text">
@@ -73,7 +73,7 @@
     <div class="section-title">
       <h4  style="color:#878787;">Least Popular Courses</h4>
     </div>
-    <div class="row" th:each="least: ${leastPopList}">
+    <div class="row row.row-eq-height" th:each="least: ${leastPopList}">
       <div class="col-lg-auto col-md-auto">
         <div class="categorie-item">
           <div class="ci-text">
