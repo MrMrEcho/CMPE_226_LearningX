@@ -26,7 +26,7 @@
             <tr th:each="singleCourse : ${courses_ongoing}">
                 <td th:text="${singleCourse.getTitle()}">Text..</td>
                 <td th:text="${singleCourse.getDescription()}">Text..</td>
-                <td>+++
+                <td>
                     <form th:action="@{/courses/details/{path}(path=${singleCourse.getId()})}" method="post">
                     <input type="hidden" name="id" id="idOngoingCourse" th:value="${singleCourse.getId()}"/>
                     <button id="scbutton1" type="submit" class="link-button">Go to this course</button>
