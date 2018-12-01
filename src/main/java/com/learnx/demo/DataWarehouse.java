@@ -28,7 +28,8 @@ public class DataWarehouse {
     private static final int INSTRUCTOR_OFFSET = ADMIN_NUMBER + INSTITUTE_NUMBER;
     private static final int STUDENT_OFFSET = INSTRUCTOR_OFFSET + ADMIN_NUMBER * INSTITUTE_NUMBER * INSTRUCTOR_NUMBER_PER_INSTITUTE;
 
-    public static final int COURSE_NUMBER = 8;
+    private static final int COURSE_NUMBER = 8;
+    private static final int MATERIAL_PER_COURSE = 2;
 
     @Autowired
     AppUserRepository userRepository;
@@ -48,7 +49,27 @@ public class DataWarehouse {
         generateWorkFor();
         generateCourses();
         generateHomeworks();   
-        
+        generateMaterials();
+    }
+
+    private void generateMaterials() {
+        for (int i = 0; i < COURSE_NUMBER; i++) {
+            for (int j = 0; j < MATERIAL_PER_COURSE; j++) {
+                generateMaterials(i + 1, j + 1);
+            }
+        }
+    }
+
+    private void generateMaterials(int courseId, int materialNo) {
+        String sql =
+                "INSERT INTO Material (courseId, title, url) "
+                        + "VALUES (:courseId, :title, :url)";
+        Query query =
+                em.createNativeQuery(sql)
+                        .setParameter("courseId", courseId)
+                        .setParameter("title", "title " + materialNo)
+                        .setParameter("url", "url " + materialNo);
+        query.executeUpdate();
     }
 
     private void generateHomeworks() {
