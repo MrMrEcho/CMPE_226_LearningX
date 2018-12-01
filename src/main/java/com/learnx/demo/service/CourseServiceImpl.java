@@ -55,10 +55,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listCourseByStudentId(int studentId) {
-        if (!userRepository.exists(studentId)) {
-            throw new IllegalArgumentException("Student not exist");
-        }
-
         return RepositoryUtil.mapAll(
                 courseRepository.findCourseByStudentId(studentId),
                 CourseServiceImpl::toDto);
@@ -66,12 +62,16 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseDto> listOnGoingCoursesByStudentId(int studentId) {
-        return null;
+        return RepositoryUtil.mapAll(
+                courseRepository.findOnGoingCourseByStudentId(studentId),
+                CourseServiceImpl::toDto);
     }
 
     @Override
     public List<CourseDto> listFinishedCoursesByStudentId(int studentId) {
-        return null;
+        return RepositoryUtil.mapAll(
+                courseRepository.findFinishedCourseByStudentId(studentId),
+                CourseServiceImpl::toDto);
     }
 
     @Override

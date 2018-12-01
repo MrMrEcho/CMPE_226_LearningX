@@ -60,7 +60,6 @@ public class CourseRepository {
         return newEntity;
     }
 
-
     public List<Course> findAll() {
         String sql = "SELECT * FROM Course";
         Query query = em.createNativeQuery(sql, Course.class);
@@ -122,11 +121,8 @@ public class CourseRepository {
                 .format("select * from Course where description like '%%%s%%'", keyword));
         String sql = RepositoryUtil.unionQuery(queryList);
         Query query = em.createNativeQuery(sql, Course.class);
-        return RepositoryUtil.castAll(query.getResultList(), Course.class);
-    }
 
-    public boolean exists(int courseId) {
-        return findById(courseId) != null;
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
 
     public Course findById(int courseId) {
@@ -144,6 +140,29 @@ public class CourseRepository {
                 "ORDER BY R.rate ";
         sql = sql + (ascending ? "ASC" : "DESC");
         Query query = em.createNativeQuery(sql, Course.class);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public List<Course> findOnGoingCourseByStudentId(int studentId) {
+        String sql = "SELECT C.*" +
+                "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
+                "WHERE studentId = :studentId AND " +
+                "E.isDropped = false AND E.isCompleted = false";
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("studentId", studentId);
+
+        return RepositoryUtil.castAll(query.getResultList(), Course.class);
+    }
+
+    public List<Course> findFinishedCourseByStudentId(int studentId) {
+        String sql = "SELECT C.*" +
+                "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
+                "WHERE studentId = :studentId AND " +
+                "E.isDropped = false AND E.isCompleted = true";
+
+        Query query = em.createNativeQuery(sql, Course.class)
+                .setParameter("studentId", studentId);
 
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }

@@ -72,7 +72,6 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto update(AppUserDto newDto) {
-        existUser(newDto.getId());
         AppUser newEntity = userRepository.update(toEntity(newDto), false);
 
         return toDto(newEntity);
@@ -80,7 +79,6 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto update(AppUserDto newDto, boolean passwordUpdate) {
-        existUser(newDto.getId());
         AppUser newEntity = userRepository.update(toEntity(newDto), true);
 
         return toDto(newEntity);
@@ -88,39 +86,21 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public boolean hasEnrolled(int studentId, int courseId) {
-        existUser(studentId);
-        existCourse(courseId);
-
         return userRepository.isEnrollByCourseId(studentId, courseId);
-    }
-
-    private void existCourse(int courseId) {
-        if (!courseRepository.exists(courseId)) {
-            throw new IllegalArgumentException("Course not exist");
-        }
     }
 
     @Override
     public boolean hasCompleted(int studentId, int courseId) {
-        existUser(studentId);
-        existCourse(courseId);
-
         return false;
     }
 
     @Override
     public boolean enrollCourse(int studentId, int courseId) {
-        existUser(studentId);
-        existCourse(courseId);
-
         return false;
     }
 
     @Override
     public boolean dropCourse(int studentId, int courseId) {
-        existUser(studentId);
-        existCourse(courseId);
-
         return false;
     }
 
@@ -132,11 +112,5 @@ public class AppUserServiceImpl implements AppUserService {
         entity.setAppRole(dto.getRole().getValue());
 
         return entity;
-    }
-
-    private void existUser(int userId) {
-        if (!userRepository.exists(userId)) {
-            throw new IllegalArgumentException("User not exist");
-        }
     }
 }
