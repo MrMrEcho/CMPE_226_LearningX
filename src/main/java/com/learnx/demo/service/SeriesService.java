@@ -15,7 +15,7 @@ public interface SeriesService {
 
     SeriesDto update(SeriesDto newSeriesDto);
 
-    void addCourseBySeriesId(int courseId, int seriesId);
+    boolean addCourseBySeriesId(int courseId, int seriesId);
 
     SeriesDto getSeriesById(int seriesId);
 }

@@ -71,8 +71,8 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public void addCourseBySeriesId(int courseId, int seriesId) {
-        repository.addCourseToSeriesById(courseId, seriesId);
+    public boolean addCourseBySeriesId(int courseId, int seriesId) {
+        return repository.addCourseToSeriesById(courseId, seriesId);
     }
 
     @Override

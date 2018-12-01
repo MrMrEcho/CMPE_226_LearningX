@@ -52,7 +52,7 @@ public class SeriesRepository {
                 .setParameter("id", newEntity.getId());
 
         if (query.executeUpdate() == 0) {
-            return newEntity;
+            return null;
         }
 
         return newEntity;
@@ -94,15 +94,13 @@ public class SeriesRepository {
     }
 
     @Transactional
-    public void addCourseToSeriesById(int courseId, int seriesId) {
+    public boolean addCourseToSeriesById(int courseId, int seriesId) {
         String sql = "INSERT INTO CourseSeries (courseId, seriesId) " +
                 "VALUES (:courseId, :seriesId)";
         Query query = em.createNativeQuery(sql)
                 .setParameter("courseId", courseId)
                 .setParameter("seriesId", seriesId);
 
-        if (query.executeUpdate() == 0) {
-            return;
-        }
+        return query.executeUpdate() == 1;
     }
 }

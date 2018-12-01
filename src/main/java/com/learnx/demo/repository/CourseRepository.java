@@ -126,7 +126,6 @@ public class CourseRepository {
 
     public Course findById(int courseId) {
         String sql = "SELECT * FROM course WHERE id = :courseId";
-
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("courseId", courseId);
 
@@ -175,7 +174,6 @@ public class CourseRepository {
         String sql = "SELECT C.* " +
                 "FROM Course C INNER JOIN WorkFor W ON C.instructorId = W.instructorId " +
                 "WHERE W.instituteId = :instituteId";
-
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("instituteId", instituteId);
 

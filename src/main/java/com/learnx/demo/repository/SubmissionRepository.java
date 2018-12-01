@@ -78,7 +78,6 @@ public class SubmissionRepository {
         String sql = "SELECT S.*" +
                 "FROM Submission S INNER JOIN Homework H ON S.homeworkId = H.id " +
                 "WHERE courseId =:courseId AND hasGrade = :hasGrade AND H.type = :type";
-
         Query query = em.createNativeQuery(sql, Submission.class)
                 .setParameter("courseId", courseId)
                 .setParameter("hasGrade", hasGrade)
