@@ -15,6 +15,8 @@ import com.learnx.demo.service.HomeworkService;
 import com.learnx.demo.service.MaterialService;
 import com.learnx.demo.service.RatingService;
 import com.learnx.demo.service.SeriesService;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -209,12 +211,24 @@ public class AppController {
     public ModelAndView allCourses(ModelMap modelMap) {
         List<CourseDto> courseList = courseService.listCourses();
         List<CourseDto> mostPopList = courseService.listCoursesSortedByRating(false);
+
         List<CourseDto> leastPopList = courseService.listCoursesSortedByRating(true);
         modelMap.put("search", new SearchDto());
         modelMap.put("courseList", courseList);
-        modelMap.put("mostPopList", mostPopList);
-        modelMap.put("leastPopList", leastPopList);
+        modelMap.put("mostPopList", getTop(mostPopList, 2));
+        modelMap.put("leastPopList", getTop(leastPopList, 2));
         return new ModelAndView("courses", modelMap);
+    }
+
+    private List<CourseDto> getTop(List<CourseDto> list, int maxCount) {
+        if(list == null || list.size() <= maxCount){
+            return list;
+        }
+        List<CourseDto> top = new ArrayList<>();
+        for (int i = 0; i < maxCount; i++) {
+            top.add(list.get(i));
+        }
+        return top;
     }
 
     //  ======================
