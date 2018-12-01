@@ -76,12 +76,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="series : ${certificates}">
-                <td th:text="${series.getTitle()}">Text..</td>
-                <td th:text="${series.getDescription()}">Text..</td>
+            <tr th:each="singleSeries : ${certificates}">
+                <td th:text="${singleSeries.getTitle()}">Text..</td>
+                <td th:text="${singleSeries.getDescription()}">Text..</td>
                 <td>
-                    <form th:action="@{/search_result}" method="post">
-                        <input type="hidden" name="id" id="seriesId" th:value="${series.getId()}"/>
+                    <form th:action="@{/singleSeries/gotoThisPage/{seriesId}(seriesId=${singleSeries.getId()})}" method="post">
+                        <input type="hidden" name="id" id="seriesId" th:value="${singleSeries.getId()}"/>
                         <button id="scbutton3" type="submit" class="link-button">Go to this series</button>
                     </form>
                 </td>

@@ -29,4 +29,10 @@ public class RedirectController {
         return mav;
     }
 
+    @PostMapping("/singleSeries/gotoThisPage/{seriesId}")
+    public ModelAndView redirectFromStudentToSeriesPage(@PathVariable int seriesId){
+        String targetUrl="redirect:/singleSeries/"+seriesId;
+        ModelAndView mav = new ModelAndView(targetUrl);
+        return mav;
+    }
 }
