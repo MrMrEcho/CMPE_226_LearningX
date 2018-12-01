@@ -1,7 +1,5 @@
 package com.learnx.demo;
 
-import com.learnx.demo.entity.AppUser;
-import com.learnx.demo.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,10 +20,10 @@ import javax.sql.DataSource;
 public class DemoApplication {
 
     @Autowired
-    AppUserRepository userRepository;
+    DataSource dataSource;
 
     @Autowired
-    DataSource dataSource;
+    DataWarehouse dataWarehouse;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -36,10 +34,8 @@ public class DemoApplication {
         return args -> {
             //Run code to run after initialization
             System.out.println("starting spring");
-            userRepository.save(new AppUser("student", "student", AppUser.STUDENT));
-            userRepository.save(new AppUser("instructor", "instructor", AppUser.INSTRUCTOR));
-            userRepository.save(new AppUser("institute", "institute", AppUser.INSTITUTE));
-            userRepository.save(new AppUser("admin", "admin", AppUser.ADMIN));
+
+            dataWarehouse.generate();
 
             Resource initData = new ClassPathResource("import-data.sql");
             DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
