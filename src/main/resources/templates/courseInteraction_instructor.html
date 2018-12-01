@@ -65,7 +65,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="subs, itemStat : *{submissions}">
-                        <td th:text="${subs.getAnswer()}"></td>
+                        <input type="hidden" th:value="${subs.getHomeworkId()}">
+                        <input type="hidden" th:value="${subs.getStudentId()}">
+                        <td th:text="${subs.getAnswer()}" th:value="${subs.getAnswer()}"></td>
                         <td><input th:field="*{submissions[__${itemStat.index}__].grade}"></td>
                         <!--<td>-->
                         <!--<input type="text" th:field="${sub.grade}"/>-->
