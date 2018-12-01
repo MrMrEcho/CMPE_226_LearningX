@@ -279,14 +279,14 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
-    public ModelAndView postDiscussion(HttpServletRequest request, @PathVariable(value="id") String id,
+    public ModelAndView postDiscussion(HttpServletRequest request, @PathVariable(value="id") int id,
                                        @ModelAttribute("question") DiscussionDto newDiscussion, ModelMap modelMap) {
         System.out.println(newDiscussion.getCourseId());
         System.out.println(newDiscussion.getUserId());
         System.out.println(newDiscussion.getTitle());
         System.out.println(newDiscussion.getContent());
         CourseDto course = courseService.getCourseById(newDiscussion.getCourseId());
-        int  courseId = course.getId();
+        int courseId = course.getId();
         int userId = newDiscussion.getCourseId();
 
         discussionService.create(newDiscussion);
@@ -310,7 +310,8 @@ public class AppController {
         modelMap.put("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         modelMap.put("discussionList", discussionList);
         modelMap.put("average_rating", rateService.getAverageRatingByCourseId(courseId));
-        return new ModelAndView("single_course", modelMap);
+        String targetUrl = "redirect:/courses/"+id;
+        return new ModelAndView(targetUrl, modelMap);
     }
 
     //  ======================
