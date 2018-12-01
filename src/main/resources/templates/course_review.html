@@ -44,7 +44,11 @@
               </div>
             </div>
           </div>
-          <a th:href="@{/courseInteraction/} + ${course.id}">Manage Rating</a>
+          <div>
+            <form th:action="@{/courseInteraction/gotoThisPage/{path}(path=${course.getId()})}" method="post">
+              <input type="submit" value="Manage Rating"/>
+            </form>
+          </div>
             <h5 align="center" style="color:#878787;">Rating</h5>
 
           <div th:if="${rateList == null || rateList.isEmpty()}">

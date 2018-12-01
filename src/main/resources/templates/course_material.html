@@ -35,7 +35,11 @@
               </div>
             </div>
           </div>
-          <a th:href="@{/courseInteraction/} + ${course.id}">Manage Material</a>
+          <div>
+            <form th:action="@{/courseInteraction/gotoThisPage/{path}(path=${course.getId()})}" method="post">
+              <input type="submit" value="Manage Material"/>
+            </form>
+          </div>
           <div class="course-meta">
             <h5 align="center" style="color:#878787;"> Material</h5>
 

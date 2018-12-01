@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <div th:include="index :: head"></div>
 
 <body>
@@ -35,7 +36,11 @@
               </div>
             </div>
           </div>
-          <a th:href="@{/courseInteraction/} + ${course.id}">Manage Homework</a>
+          <div>
+            <form th:action="@{/courseInteraction/gotoThisPage/{path}(path=${course.getId()})}" method="post">
+              <input type="submit" value="Manage Homework"/>
+            </form>
+          </div>
           <div class="course-meta">
             <h5 align="center" style="color:#878787;"> Homework</h5>
 

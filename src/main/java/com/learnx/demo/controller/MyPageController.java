@@ -71,7 +71,7 @@ public class MyPageController {
                 mav = new ModelAndView("myPage_institute");
                 mav.addObject("institute", appUserDto);
                 //add instructor
-                mav.addObject("instructor", new AppUserDto());
+                mav.addObject("newInstructor", new AppUserDto());
                 //add new course
                 mav.addObject("course", new CourseDto());
                 //update course (assign instructor/update description)
@@ -186,11 +186,8 @@ public class MyPageController {
 
     @PostMapping("/addInstructor")
     public ModelAndView addInstructor(HttpServletRequest request, HttpServletResponse response,
-                                      @ModelAttribute("instructor") AppUserDto instructor) {
+                                      @ModelAttribute("newInstructor") AppUserDto newInstructor) {
         ModelAndView mav = null;
-        AppUserDto newInstructor = new AppUserDto();
-        newInstructor.setUsername(instructor.getUsername());
-        newInstructor.setPassword(instructor.getPassword());
         newInstructor.setRole(AppUser.Role.INSTRUCTOR);
 
         try {
@@ -198,6 +195,7 @@ public class MyPageController {
             newInstructor = appUserService.create(newInstructor);
             // set work for relationship
             //appUserService.workFor(newInstructor.getId(), instituteId);
+
 
         } catch (Exception e) {
 //            TODO: check if error is handled later

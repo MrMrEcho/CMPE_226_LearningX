@@ -22,4 +22,11 @@ public class RedirectController {
         return mav;
     }
 
+    @PostMapping("/courseInteraction/gotoThisPage/{courseId}")
+    public ModelAndView redirectFromHomeworkToCoursePage(@PathVariable int courseId){
+        String targetUrl="redirect:/courseInteraction/"+courseId;
+        ModelAndView mav = new ModelAndView(targetUrl);
+        return mav;
+    }
+
 }
