@@ -85,8 +85,8 @@ CREATE TABLE Enroll
 (
     studentId   INT NOT NULL,
     courseId    INT NOT NULL,
-    isCompleted BOOLEAN DEFAULT FALSE,
-    isDropped   BOOLEAN DEFAULT FALSE,
+    hasCompleted BOOLEAN DEFAULT FALSE,
+    hasDropped   BOOLEAN DEFAULT FALSE,
 
     PRIMARY KEY (studentId, courseId),
 
@@ -239,7 +239,7 @@ DROP PROCEDURE IF EXISTS completeEnroll ;$
 CREATE PROCEDURE `completeEnroll`(studentId INT, cid INT)
 BEGIN
     UPDATE Enroll E
-    SET isCompleted = TRUE
+    SET hasCompleted = TRUE
     WHERE E.studentId = studentId
       AND E.courseId = cid;
 END ;$

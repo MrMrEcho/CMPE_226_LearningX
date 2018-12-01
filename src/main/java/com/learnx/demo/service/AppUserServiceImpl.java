@@ -3,6 +3,7 @@ package com.learnx.demo.service;
 import com.learnx.demo.entity.AppUser;
 import com.learnx.demo.model.AppUserDto;
 import com.learnx.demo.repository.AppUserRepository;
+import com.learnx.demo.repository.RepositoryUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +42,9 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public List<AppUserDto> listInstructorsByInstituteId(int instituteId) {
-        return null;
+        return RepositoryUtil.mapAll(
+                repository.findInstructorByInstituteId(instituteId),
+                AppUserServiceImpl::toDto);
     }
 
     @Override
@@ -81,22 +84,37 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public boolean hasEnrolled(int studentId, int courseId) {
-        return repository.isEnrollByCourseId(studentId, courseId);
+        return repository.hasEnrollCourse(studentId, courseId);
     }
 
     @Override
     public boolean hasCompleted(int studentId, int courseId) {
-        return false;
+        return repository.hasCompletedCourse(studentId, courseId);
+    }
+
+    @Override
+    public boolean hasDropped(int studentId, int courseId) {
+        return repository.hasDroppedCourse(studentId, courseId);
     }
 
     @Override
     public boolean enrollCourse(int studentId, int courseId) {
-        return false;
+
+        if(hasEnrolled(studentId, courseId)) {
+            throw new IllegalArgumentException("Student already enrolled course");
+        }
+
+        return repository.enrollCourse(studentId, courseId);
     }
 
     @Override
     public boolean dropCourse(int studentId, int courseId) {
-        return false;
+
+        if(hasEnrolled(studentId, courseId)) {
+            throw new IllegalArgumentException("Student had not enrolled course");
+        }
+
+        return repository.dropCourse(studentId, courseId);
     }
 
     private static AppUser toEntity(AppUserDto dto) {

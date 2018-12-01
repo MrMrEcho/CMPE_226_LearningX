@@ -21,6 +21,8 @@ public interface AppUserService {
 
     boolean hasCompleted(int studentId, int courseId);
 
+    boolean hasDropped(int studentId, int courseId);
+
     boolean enrollCourse(int studentId, int courseId);
 
     boolean dropCourse(int studentId, int courseId);

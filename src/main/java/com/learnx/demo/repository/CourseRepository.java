@@ -148,7 +148,7 @@ public class CourseRepository {
         String sql = "SELECT C.*" +
                 "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
                 "WHERE studentId = :studentId AND " +
-                "E.isDropped = false AND E.isCompleted = false";
+                "E.isDropped = false AND E.hasCompleted = false";
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("studentId", studentId);
 
@@ -159,7 +159,7 @@ public class CourseRepository {
         String sql = "SELECT C.*" +
                 "FROM Course C INNER JOIN Enroll E ON C.id = E.courseId " +
                 "WHERE studentId = :studentId AND " +
-                "E.isDropped = false AND E.isCompleted = true";
+                "E.hasDropped = false AND E.hasCompleted = true";
 
         Query query = em.createNativeQuery(sql, Course.class)
                 .setParameter("studentId", studentId);
@@ -168,9 +168,9 @@ public class CourseRepository {
     }
 
     public List<Course> findCourseByInstructorId(int instructorId) {
-        String sql = "SELECT C.* FROM Course WHERE instructorId = :instructorId";
+        String sql = "SELECT C.* FROM Course C WHERE instructorId = :instructorId";
         Query query = em.createNativeQuery(sql, Course.class)
-                .setParameter(instructorId, instructorId);
+                .setParameter("instructorId", instructorId);
 
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }

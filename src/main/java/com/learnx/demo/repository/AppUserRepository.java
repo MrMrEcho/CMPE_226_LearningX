@@ -119,7 +119,7 @@ public class AppUserRepository {
         return RepositoryUtil.findOneResult(query.getResultList(), AppUser.class);
     }
 
-    public boolean isEnrollByCourseId(int studentId, int courseId) {
+    public boolean hasEnrollCourse(int studentId, int courseId) {
         String sql = "SELECT E.studentId " +
                 "FROM Enroll E " +
                 "WHERE E.studentId = :studentId AND E.courseId = :courseId";
@@ -130,5 +130,49 @@ public class AppUserRepository {
         List<?> results = query.getResultList();
 
         return results.size() == 1;
+    }
+
+    public List<AppUser> findInstructorByInstituteId(int instituteId) {
+        String sql = "SELECT T.* " +
+                "FROM Instructor T INNER JOIN WorkFor W ON T.id = W.instructorId " +
+                "WHERE W.instituteId = :instituteId";
+        Query query = em.createNativeQuery(sql, AppUser.class)
+                .setParameter("instituteId", instituteId);
+
+        return RepositoryUtil.castAll(query.getResultList(), AppUser.class);
+    }
+
+    public boolean hasCompletedCourse(int studentId, int courseId) {
+        String sql = "SELECT hasCompleted " +
+            "FROM Enroll WHERE studentId =: studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql, Boolean.class);
+
+//        List<?> result = query.getResultList();
+//        if (results.size() == 0 && (boolean)results.get(0)) {
+//
+//        }
+        return false;
+    }
+
+    public boolean hasDroppedCourse(int studentId, int courseId) {
+        return false;
+    }
+
+    @Transactional
+    public boolean enrollCourse(int studentId, int courseId) {
+        String sql = "INSERT INTO Enroll (studentId, courseId) VALUES (:studentId, :courseId)";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        return query.executeUpdate() == 1;
+    }
+
+    @Transactional
+    public boolean dropCourse(int studentId, int courseId) {
+        String sql = "UPDATE Enroll SET hasDropped = true WHERE studentId = :studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql);
+
+        return query.executeUpdate() == 1;
     }
 }
