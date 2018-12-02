@@ -30,7 +30,7 @@
 <!--delete material-->
 <section class="single-course spad pb-0">
     <div class="container">
-        <form method="post" th:action="@{/courseInteraction/deleteMaterial}" th:object="*{material}">
+        <form method="post" th:action="@{/courseInteraction/deleteMaterial}" th:object="${material}">
             <h3>Delete an existing material for this course</h3>
             <div>
                 <label for="title">Select Material</label>
@@ -42,7 +42,8 @@
                 </select>
             </div>
             <div>
-                <input type="submit" value="Delete this material">
+                <input th:field="*{courseId}" hidden>
+                <input type="submit" value="Delete this material"/>
             </div>
         </form>
     </div>
