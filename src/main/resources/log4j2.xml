@@ -14,7 +14,7 @@
         <Root level="warn">
             <AppenderRef ref="databaseAppender" />
         </Root>
-        <Logger name="com.learnx.demo" level="warn">
+        <Logger name="com.learnx.demo" level="trace">
             <AppenderRef ref="Console"/>
         </Logger>
     </Loggers>
