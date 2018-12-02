@@ -146,6 +146,7 @@ public class CourseInteractionController {
                                    @PathVariable int courseId){
        List<SubmissionDto> submissionDtos=examSubmissions.getSubmissions();
        for(SubmissionDto sub:submissionDtos){
+           sub.setHasGrade(true);
            submissionService.update(sub);
        }
 
