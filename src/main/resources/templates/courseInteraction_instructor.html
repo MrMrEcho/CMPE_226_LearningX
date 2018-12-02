@@ -27,6 +27,28 @@
         </form>
     </div>
 </section>
+<!--delete material-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/deleteMaterial}" th:object="*{material}">
+            <h3>Delete an existing material for this course</h3>
+            <div>
+                <label for="title">Select Material</label>
+                <select th:field="*{id}">
+                    <option value=""> -- </option>
+                    <option th:each="singleMaterial : ${materials}"
+                            th:value="${singleMaterial.getId()}"
+                            th:text="${singleMaterial.getTitle()}">Text..</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Delete this material">
+            </div>
+        </form>
+    </div>
+</section>
+
+
 <!--add homework-->
 <section class="single-course spad pb-0">
     <div class="container">
@@ -50,7 +72,7 @@
         </form>
     </div>
 </section>
-<!--Show submission lists and the link with that-->
+<!--Show submission lists and a input box for grade-->
 <section class="single-course spad pb-0">
     <div class="container" th:if="${not #lists.isEmpty(examSubmissions)}">
         <h3>The current exam answers</h3>

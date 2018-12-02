@@ -61,6 +61,9 @@ public class CourseInteractionController {
                 MaterialDto materialDto = new MaterialDto();
                 materialDto.setCourseId(courseId);
                 mav.addObject("material", materialDto);
+                //delete material
+                List<MaterialDto> materialDtos = materialService.listMaterialsByCourseId(courseId);
+                mav.addObject("materials",materialDtos);
                 //add homework
                 HomeworkDto homeworkDto = new HomeworkDto();
                 homeworkDto.setCourseId(courseId);
@@ -128,6 +131,15 @@ public class CourseInteractionController {
         int courseId=material.getCourseId();
         String targetUrl="redirect:/courseInteraction/"+courseId;
         materialService.create(material);
+        ModelAndView mav=new ModelAndView(targetUrl);
+        return mav;
+    }
+
+    @PostMapping("deleteMaterial")
+    public ModelAndView deleteMaterial(@ModelAttribute("material") MaterialDto material){
+        int courseId=material.getCourseId();
+        String targetUrl="redirect:/courseInteraction/"+courseId;
+        materialService.delete(material.getId());
         ModelAndView mav=new ModelAndView(targetUrl);
         return mav;
     }
