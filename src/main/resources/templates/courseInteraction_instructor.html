@@ -69,6 +69,10 @@
                         <input type="hidden" th:value="${subs.getStudentId()}">
                         <td th:text="${subs.getAnswer()}" th:value="${subs.getAnswer()}"></td>
                         <td><input th:field="*{submissions[__${itemStat.index}__].grade}"></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].studentId}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].homeworkId}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].answer}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].hasGrade}" hidden></td>
                         <!--<td>-->
                         <!--<input type="text" th:field="${sub.grade}"/>-->
                         <!--</td>-->
