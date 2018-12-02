@@ -2,20 +2,24 @@
 <Configuration name="Log4jConfiguration" status="warn"
                strict="true" schema="Log4J-V2.0.xsd">
     <Appenders>
-        <NoSql name="databaseAppender">
-            <MongoDb databaseName="myapp" collectionName="LearningX" server="ds141932.mlab.com" port="41932" username="bofan" password="bofan1993" />
-        </NoSql>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - ==>[%msg]%n"/>
         </Console>
+
+        <File name="logFile" fileName="./log/output.log" bufferedIO="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - ==>[%msg]%n"/>
+        </File>
+
     </Appenders>
 
     <Loggers>
         <Root level="warn">
-            <AppenderRef ref="databaseAppender" />
+            <AppenderRef ref="Console" />
         </Root>
+
         <Logger name="com.learnx.demo" level="trace">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="logFile"/>
         </Logger>
+
     </Loggers>
 </Configuration>
