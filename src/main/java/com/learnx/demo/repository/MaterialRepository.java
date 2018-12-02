@@ -67,4 +67,15 @@ public class MaterialRepository {
 
         return newEntity;
     }
+
+    @Transactional
+    public void delete(int id) {
+        String sql = "DELETE FROM Material WHERE id = :id";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("id", id);
+
+        if(query.executeUpdate() == 0)  {
+            return;
+        }
+    }
 }

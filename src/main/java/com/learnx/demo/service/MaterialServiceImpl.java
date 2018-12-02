@@ -58,4 +58,8 @@ public class MaterialServiceImpl implements MaterialService {
 
         return toDto(newEntity);
     }
+
+    public void delete(int id) {
+        repository.delete(id);
+    }
 }

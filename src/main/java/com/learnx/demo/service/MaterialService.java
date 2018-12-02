@@ -10,4 +10,6 @@ public interface MaterialService {
     MaterialDto create(MaterialDto material);
 
     MaterialDto update(MaterialDto material);
+
+    void delete(int id);
 }
