@@ -103,4 +103,13 @@ public class SeriesRepository {
 
         return query.executeUpdate() == 1;
     }
+
+    @Transactional
+    public void delete(int id) {
+        String sql = "DELETE FROM Series WHERE id = :id";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("id", id);
+
+        query.executeUpdate();
+    }
 }

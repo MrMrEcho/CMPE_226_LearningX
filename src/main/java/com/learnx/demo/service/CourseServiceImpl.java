@@ -117,6 +117,11 @@ public class CourseServiceImpl implements CourseService {
         return toDto(newEntity);
     }
 
+    @Override
+    public void delete(int id) {
+        repository.delete(id);
+    }
+
     private static CourseDto toDto(Course entity) {
         CourseDto dto = new CourseDto();
         dto.setId(entity.getId());

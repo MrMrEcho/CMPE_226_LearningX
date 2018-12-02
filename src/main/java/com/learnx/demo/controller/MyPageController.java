@@ -185,17 +185,17 @@ public class MyPageController {
     }
 
     @PostMapping("/addInstructor")
-    public ModelAndView addInstructor(HttpServletRequest request, HttpServletResponse response,
+    public ModelAndView addInstructor(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                                       @ModelAttribute("newInstructor") AppUserDto newInstructor) {
         ModelAndView mav = null;
         newInstructor.setRole(AppUser.Role.INSTRUCTOR);
 
         try {
-//            appUserService.save(instructor.getUsername(), instructor.getPassword(), AppUserDto.Role.INSTRUCTOR);
-            newInstructor = appUserService.create(newInstructor);
-            // set work for relationship
-            //appUserService.workFor(newInstructor.getId(), instituteId);
-
+                Object instituteId = session.getAttribute("userid");
+                newInstructor = appUserService.create(newInstructor);
+                int userid = Integer.valueOf(String.valueOf(instituteId));
+                // set work for relationship
+                appUserService.workFor(newInstructor.getId(), userid);
 
         } catch (Exception e) {
 //            TODO: check if error is handled later

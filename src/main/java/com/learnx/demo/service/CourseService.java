@@ -29,4 +29,5 @@ public interface CourseService {
 
     CourseDto update(CourseDto newCourse);
 
+    void delete(int id);
 }

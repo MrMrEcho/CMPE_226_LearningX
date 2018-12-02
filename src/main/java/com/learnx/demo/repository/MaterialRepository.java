@@ -74,8 +74,6 @@ public class MaterialRepository {
         Query query = em.createNativeQuery(sql)
                 .setParameter("id", id);
 
-        if(query.executeUpdate() == 0)  {
-            return;
-        }
+        query.executeUpdate();
     }
 }

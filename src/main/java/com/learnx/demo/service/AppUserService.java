@@ -11,6 +11,8 @@ public interface AppUserService {
 
     boolean workFor(int instructorId, int instituteId);
 
+    void delete(int id);
+
     AppUserDto authenticate(AppUserDto dto);
 
     AppUserDto create(AppUserDto dto);

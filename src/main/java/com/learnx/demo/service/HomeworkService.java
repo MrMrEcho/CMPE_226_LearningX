@@ -17,4 +17,6 @@ public interface HomeworkService {
     HomeworkDto create(HomeworkDto homework);
 
     HomeworkDto update(HomeworkDto newHomework);
+
+    void delete(int id);
 }

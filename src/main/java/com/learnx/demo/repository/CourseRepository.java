@@ -190,4 +190,13 @@ public class CourseRepository {
 
         return RepositoryUtil.castAll(query.getResultList(), Course.class);
     }
+
+    @Transactional
+    public void delete(int id) {
+        String sql = "DELETE FROM Course WHERE id = :id";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("id", id);
+
+        query.executeUpdate();
+    }
 }

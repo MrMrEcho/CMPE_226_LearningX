@@ -17,4 +17,6 @@ public interface SubmissionService {
 
     // Student submit and instructor grade all the same thing for insert operation
     SubmissionDto update(SubmissionDto submissionDto);
+
+    void delete(int studentId, int homeworkId);
 }

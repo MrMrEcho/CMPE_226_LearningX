@@ -42,6 +42,11 @@ public class DiscussionServiceImpl implements DiscussionService {
         return toDto(saveEntity);
     }
 
+    @Override
+    public void delete(int id) {
+        repository.delete(id);
+    }
+
     private static Discussion toEntity(DiscussionDto dto) {
         Discussion entity = new Discussion();
         entity.setId(dto.getId());

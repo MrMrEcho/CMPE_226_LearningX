@@ -78,4 +78,9 @@ public class HomeworkServiceImpl implements HomeworkService {
 
         return toDto(newEntity);
     }
+
+    @Override
+    public void delete(int id) {
+        repository.delete(id);
+    }
 }

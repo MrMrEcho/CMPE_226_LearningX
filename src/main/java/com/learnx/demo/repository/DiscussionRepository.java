@@ -51,4 +51,13 @@ public class DiscussionRepository {
 
         return newEntity;
     }
+
+    @Transactional
+    public void delete(int id) {
+        String sql = "DELETE FROM Discussion WHERE id = :id";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("id", id);
+
+        query.executeUpdate();
+    }
 }

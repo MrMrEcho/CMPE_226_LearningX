@@ -18,4 +18,6 @@ public interface SeriesService {
     boolean addCourseBySeriesId(int courseId, int seriesId);
 
     SeriesDto getSeriesById(int seriesId);
+
+    void delete(int id);
 }

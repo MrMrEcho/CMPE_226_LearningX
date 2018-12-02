@@ -8,4 +8,6 @@ public interface DiscussionService {
     List<DiscussionDto> listDiscussionsByCourseId(int courseId);
 
     DiscussionDto create(DiscussionDto newDiscussion);
+
+    void delete(int id);
 }

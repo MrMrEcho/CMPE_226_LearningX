@@ -101,4 +101,13 @@ public class SubmissionRepository {
 
         return RepositoryUtil.castAll(query.getResultList(), Submission.class);
     }
+
+    public void delete(int studentId, int homeworkId) {
+        String sql = "DELETE FROM Submission WHERE studentId = :studentId AND homeworkId = :homeworkId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("homeworkId", homeworkId);
+
+        query.executeUpdate();
+    }
 }

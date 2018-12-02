@@ -65,7 +65,7 @@ public class RatingRepository {
         if (result.size() != 1) {
             return 0;
         }
-        BigDecimal bi = (BigDecimal)result.get(0);
+        BigDecimal bi = (BigDecimal) result.get(0);
 
         return bi.intValue();
     }
@@ -76,5 +76,15 @@ public class RatingRepository {
                 .setParameter("courseId", courseId);
 
         return RepositoryUtil.castAll(query.getResultList(), Rating.class);
+    }
+
+    @Transactional
+    public void delete(int studentId, int courseId) {
+        String sql = "DELETE FROM Rating WHERE studeutId =:studentId AND courseId = :courseId";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("studentId", studentId)
+                .setParameter("courseId", courseId);
+
+        query.executeUpdate();
     }
 }

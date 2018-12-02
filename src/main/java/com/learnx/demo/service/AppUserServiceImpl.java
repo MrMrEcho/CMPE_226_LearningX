@@ -53,6 +53,11 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
+    public void delete(int id) {
+        repository.delete(id);
+    }
+
+    @Override
     public AppUserDto authenticate(AppUserDto dto) {
         AppUser user = repository.findByName(dto.getUsername());
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
@@ -105,7 +110,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public boolean enrollCourse(int studentId, int courseId) {
 
-        if(hasEnrolled(studentId, courseId)) {
+        if (hasEnrolled(studentId, courseId)) {
             throw new IllegalArgumentException("Student already enrolled course");
         }
 
@@ -115,7 +120,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public boolean dropCourse(int studentId, int courseId) {
 
-        if(hasEnrolled(studentId, courseId)) {
+        if (hasEnrolled(studentId, courseId)) {
             throw new IllegalArgumentException("Student had not enrolled course");
         }
 

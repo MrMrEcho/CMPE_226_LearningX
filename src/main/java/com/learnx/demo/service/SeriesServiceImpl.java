@@ -84,4 +84,9 @@ public class SeriesServiceImpl implements SeriesService {
 
         return toDto(entity);
     }
+
+    @Override
+    public void delete(int id) {
+        repository.delete(id);
+    }
 }
