@@ -21,6 +21,16 @@
             <label for="description">Description:</label>
             <input type="text" th:field="*{description}" />
             <br/>
+            <div>
+                <label for="instructor">Select Instructor</label>
+                <select th:field="*{instructorId}">
+                    <option value=""> -- </option>
+                    <option th:each="singleInstructor : ${instructorsByInstitute}"
+                            th:value="${singleInstructor.getId()}"
+                            th:text="${singleInstructor.getUsername()}">Text..</option>
+                </select>
+            </div>
+
             <input type="submit" value="Add Course">
         </form>
     </div>
@@ -28,7 +38,7 @@
 <!--For Assigning instructor to Course -->
 <section class="container">
     <form method="post" th:action="@{me/updateCourseInstructor}" th:object="${newCourse}">
-        <h3>Assign/Change a instructor to existing course</h3>
+        <h3>Change a instructor to existing course</h3>
         <div>
             <label for="title">Select Course by title</label>
             <select th:field="*{title}">
