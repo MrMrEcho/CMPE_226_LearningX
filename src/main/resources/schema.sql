@@ -29,7 +29,7 @@ CREATE TABLE Course
     id           INT AUTO_INCREMENT,
     title        VARCHAR(128) NOT NULL UNIQUE,
     description  VARCHAR(1024),
-    instructorId INT,
+    instructorId INT NOT NULL,
 
     PRIMARY KEY (id),
 
@@ -43,8 +43,8 @@ CREATE TABLE Course
 
 CREATE TABLE WorkFor
 (
-    instructorId INT,
-    instituteId  INT,
+    instructorId INT NOT NULL,
+    instituteId  INT NOT NULL,
 
     PRIMARY KEY (instructorId, instituteId),
 
