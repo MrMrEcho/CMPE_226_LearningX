@@ -201,7 +201,7 @@ WHERE appRole = 3;$
 
 CREATE OR REPLACE VIEW AverageRating
 AS
-SELECT C.id AS id, C.title AS title, avg(R.rate) AS rate, count(DISTINCT R.studentId) AS count
+SELECT C.id AS id, C.title AS title, ifnull(avg(R.rate), 0), count(DISTINCT R.studentId) AS count
 FROM Course C
          LEFT JOIN Rating R ON C.id = R.courseId
 GROUP BY C.id;$
