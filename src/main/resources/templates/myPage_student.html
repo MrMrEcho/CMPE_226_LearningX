@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">My Page for <span>student</span></h4>
+    </div>
+</section>
+
+<section class="single-course spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(courses_ongoing)}">
+        <h3>The courses you are taking now:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="singleCourse : ${courses_ongoing}">
+                <td th:text="${singleCourse.getTitle()}">Text..</td>
+                <td th:text="${singleCourse.getDescription()}">Text..</td>
+                <td>
+                    <form th:action="@{/courses/details/{path}(path=${singleCourse.getId()})}" method="post">
+                    <input type="hidden" name="id" id="idOngoingCourse" th:value="${singleCourse.getId()}"/>
+                    <button id="scbutton1" type="submit" class="link-button">Go to this course</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="course-list spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(courses_past)}">
+        <h3>The courses you have completed</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pastCourse : ${courses_past}">
+                <td th:text="${pastCourse.getTitle()}">Text..</td>
+                <td th:text="${pastCourse.getDescription()}">Text..</td>
+                <td>
+                    <form th:action="@{/courses/details/{path}(path=${pastCourse.getId()})}" method="post">
+                        <input type="hidden" name="id" id="idPastCourse" th:value="${pastCourse.getId()}"/>
+                        <button id="scbutton2" type="submit" class="link-button">Go to this course</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="series-list spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(certificates)}">
+        <h3>The certificates you have earned</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="singleSeries : ${certificates}">
+                <td th:text="${singleSeries.getTitle()}">Text..</td>
+                <td th:text="${singleSeries.getDescription()}">Text..</td>
+                <td>
+                    <form th:action="@{/singleSeries/gotoThisPage/{seriesId}(seriesId=${singleSeries.getId()})}" method="post">
+                        <input type="hidden" name="id" id="seriesId" th:value="${singleSeries.getId()}"/>
+                        <button id="scbutton3" type="submit" class="link-button">Go to this series</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

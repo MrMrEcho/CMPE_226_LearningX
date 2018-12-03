@@ -1,73 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>LearningX</title>
+  <meta charset="UTF-8">
+  <style>
+  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+  <script  th:inline="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
 
 <body>
-<!-- Header section -->
-<header class="header-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-3">
-        <h2>Learning X</h2>
-      </div>
-      <div class="col-lg-9 col-md-9">
-        <a th:href="@{/login}" class="site-btn header-btn" id="account">Login</a>
-        <nav class="main-menu">
-          <ul>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/courses}">Courses</a></li>
-            <li><a href="#">About us</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-<!-- Header section end -->
+<div th:replace="index :: header">...</div>
 
-<p id="read" style="color:white;">C Paragraph</p>
-
-<script th:src="@{/js/myScript.js}"></script>
-<script th:inline="javascript">
-    var cookieuser = getCookie("username");
-
-    document.getElementById("read").innerHTML = cookieuser;
-
-    var link = document.getElementById("account");
-    if (cookieuser != "") {
-        link.innerHTML = "Myaccount: " + cookieuser;
-        link.setAttribute('href', "logout");
-    } else {
-        link.innerHTML = "Login";
-        link.setAttribute('href', "login");
-    }
-</script>
-
-<!-- search section -->
-<section class="login-section">
-  <div class="container center">
-    <div class="row">
-      <div class="col-md-10  offset-md-1">
-        <!-- search form -->
-        <form id="searchform" action="search" method="post">
-          <input type="text" name="name" placeholder="Enter course" required>
-          <select name="type">
-            <option value="title">title</option>
-            <option value="series">series</option>
-            <option value="category">category</option>
-          </select>
-          <button class="site-btn">Search Course</button>
-        </form>
-      </div>
+<section class="hero-section">
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>The best online learning online platform</h1>
     </div>
   </div>
 </section>
-<!-- search section end -->
 
+<script th:inline="javascript">
+    $(document).ready(function(){
+        $("#enrollsubmit").click(function(){
+
+            $.ajax({
+                url : 'http://localhost:8080/enrollCourse',
+                data : {
+                    euserid : $('#euserid').val(),
+                    ecourseid : $('#ecourseid').val()
+                },
+                success : function(responseText) {
+
+                    if(responseText == "true") {
+                        $("#enrollsubmit").attr("disabled", true);
+                        $("#enrollsubmit").val("Already Enroll");
+                    } else {
+                        $('#enrollStatus').text("enroll error!!");
+                    }
+                },
+            });
+        });
+    });
+</script>
 
 <!-- single course section -->
 <section class="single-course spad pb-0">
@@ -76,73 +53,72 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <div class="course-note">Featured Course</div>
-          <h3 th:text="${course.coursename}"></h3>
+          <h3 th:text="${course.title}"></h3>
           <div class="course-metas">
-            <!-- 							<div class="course-meta">
-                            <div class="course-author">
-                              <h6>Teacher</h6>
-                              <p>William Parker, <span>Developer</span></p>
-                            </div>
-                          </div>
-                          <div class="course-meta">
-                            <div class="cm-info">
-                              <h6>Category</h6>
-                              <p>Development</p>
-                            </div>
-                          </div> -->
             <div class="course-meta">
               <div class="cm-info">
-                <h6>ID</h6>
-                <p th:text="${course.ID}"></p>
+                <h6>Instructor</h6>
+                <p th:text="${instructor}"></p>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <h6>Session</h6>
-                <p th:text="${course.Session}"></p>
+                <h6>Description</h6>
+                <p th:text="${course.description}"></p>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <a href="reviews">See Course's Ratings</a>
+                <h6>Average Rating</h6>
+                <p th:text="${average_rating}"></p>
+              </div>
+            </div>
+            <br><br>
+            <div class="course-meta">
+              <div class="cm-info">
+                <a th:href="@{/courses/rating/} + ${course.id}" >See Course's Ratings</a>
               </div>
             </div>
             <div class="course-meta">
               <div class="cm-info">
-                <a href="homework">See Course's Homework</a>
+                <a th:href="@{/courses/homework/} + ${course.id}" >See Course's Homework</a>
+              </div>
+            </div>
+            <div class="course-meta">
+              <div class="cm-info">
+                <a th:href="@{/courses/material/} + ${course.id}" >See Course's Materials</a>
               </div>
             </div>
             <br>
             <br>
           </div>
-          <a href="#" class="site-btn price-btn">Enroll</a>
+          <div th:if="${session.userid != null}">
+            <div th:if="${enroll == false and complete == false }">
+              <form>
+                <input id="euserid" name="euserid" th:type="hidden"  th:value="${session.userid}" readonly/>
+                <input id="ecourseid" name="ecourseid" th:type="hidden"  th:value="${course.id}" readonly/>
+                <input id="enrollsubmit" type="button" class="site-btn price-btn" value="Enroll" />
+              </form>
+              <br>
+              <h6 id="enrollStatus" style="color:tomato"></h6>
+            </div>
+            <div th:if="${enroll == true  and complete == false}">
+              <h6  class="signup-btn">Already Enrolled</h6>
+            </div>
+            <div th:if="${complete == true}">
+              <h6 class="signup-btn">Complete</h6>
+            </div>
+          </div>
+          <div th:if="${session.userid == null}">
+            <h6  class="signup-btn">Login to Enroll</h6>
+          </div>
+
           <br><br>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/v4oN4DuR7YU" frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
 
         </div>
       </div>
     </div>
     <br>
-
-
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1 course-list">
-        <div class="cl-item">
-          <h4>Course Description</h4>
-          <p th:text="${course.description}"></p>
-        </div>
-        <!-- 					<div class="cl-item">
-                    <h4>Certification</h4>
-                    <p>Phasellus sollicitudin et nunc </p>
-                  </div>
-                  <div class="cl-item">
-                    <h4>The Instructor</h4>
-                    <p>Sed ligula nulla</p>
-                    </div> -->
-      </div>
-    </div>
   </div>
 </section>
 
@@ -153,37 +129,42 @@
       <div class="row">
         <div class="col-lg-10 offset-lg-1">
           <div class="course-metas">
-            <h5 style="color:#C55F5F;">Ask questions:</h5>
-            <p id="showuser">Guess</p>
-            <form action="#" th:object="${question}" th:action="@{/QuestionProcess}" method="post">
-						 	  <textarea name="question" rows="3" cols="80">
-						 	  </textarea><br>
-              <input type="submit" value="Submit">
-            </form>
+            <h5>Post discussion:</h5>
+            <p th:text="${session.username != null} ? ${session.username} : 'You have to login first!'" style="color:tomato"></p>
+              <form action="#" th:object="${question}" th:action="@{/courses/} + ${course.id}" method="post">
+                <label> Title </label><br>
+                <textarea name="title" rows="1" cols="80" th:value="*{title}" required></textarea><br>
+                <label> Content </label><br>
+                <textarea name="content" rows="2" cols="80" th:value="*{content}" required> </textarea><br><br>
+                <input type="hidden" id="userId" name="userId" th:value="*{userId}" readonly/>
+                <input type="hidden" id="courseId" name="courseId" th:value="*{courseId}" readonly>
+                <div th:if="${session.userid != null}">
+                  <input id="discussSubmit" type="submit" class="site-btn price-btn" value="Submit" />
+                </div>
+                <div th:if="${session.userid == null}">
+                  <h6 class="signup-btn">Please Login</h6>
+                </div>
+              </form>
           </div>
           <br><br>
           <div class="course-metas">
+            <h6 align="center" style="color:#878787;">Discussion:</h6>
+            <div th:if="${discussionList == null || discussionList.isEmpty()}">
+              <h4 align="center" style="color:tomato"> No Discussion Available</h4>
+            </div>
             <table>
-              <tr th:if="${questionlist.empty}">
-                <td colspan="2"> No Questions Available</td>
-              </tr>
-
               <tr>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Post_date</th>
-                <th>Reply</th>
-                <th>Reply_date</th>
+                <th>User</th>
               </tr>
-
-              <tr th:each="q : ${questionlist}">
-                <td><span th:text="${q.title}"> Course </span></td>
-                <td><span th:text="${q.content}"> Teacher </span></td>
-                <td><span th:text="${q.date}"> Teacher </span></td>
-                <td><span th:text="${q.reply}"> Teacher </span></td>
-                <td><span th:text="${q.rdate}"> Teacher </span></td>
+              <tr th:each="q : ${discussionList}">
+                <td><span th:text="${q.title}"> title </span></td>
+                <td><span th:text="${q.content}"> content </span></td>
+                <td><span th:text="${nameMap.get(q.userId)}"> username </span></td>
               </tr>
             </table>
+            <br><br>
           </div>
         </div>
       </div>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">My Page for <span>instructor</span></h4>
+    </div>
+</section>
+
+<section class="single-course spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(courses)}">
+        <h3>The course taught by you:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="singleCourse : ${courses}">
+                <td th:text="${singleCourse.getTitle()}">Text..</td>
+                <td th:text="${singleCourse.getDescription()}">Text..</td>
+                <td>
+                    <form th:action="@{/courses/details/{path}(path=${singleCourse.getId()})}" method="post">
+                        <input type="hidden" name="id" id="idPastCourse" th:value="${singleCourse.getId()}"/>
+                        <button id="scbutton2" type="submit" class="link-button">Go to this course</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

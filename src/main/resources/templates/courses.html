@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<div th:include="index :: head">
+  <style>
+    .limit-chars {
+      width: 50ch;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
+</div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="hero-section">
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>The best online learning online platform</h1>
+    </div>
+  </div>
+</section>
+
+<!-- all course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h4  style="color:#878787;">All Courses</h4>
+    </div>
+    <div class="row row.row-eq-height" >
+      <div th:each="course: ${courseList}" class="w-50" >
+        <div class="col-lg-auto col-sm-auto">
+          <div class="categorie-item">
+            <div class="ci-text">
+              <h5 th:text="${course.title}"></h5>
+              <p th:text="${#strings.abbreviate(course.description, 60)}"></p>
+              <!--<span th:text="${course.instructor.username}"></span>-->
+              <a th:href="@{/courses/} + ${course.id}" >Click here to view course details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Most Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h4  style="color:#878787;">Most Popular Courses</h4>
+    </div>
+    <div class="row row.row-eq-height" th:each="most: ${mostPopList}">
+      <div class="col-lg-auto col-md-auto">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${most.title}"></h5>
+            <p th:text="${#strings.abbreviate(most.description, 60)}"></p>
+            <!--<span th:text="${course.instructor.username}"></span>-->
+            <br>
+            <a th:href="@{/courses/} + ${most.id}" >Click here to view course details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Least Pop course section -->
+<section class="categories-section spad">
+  <div class="container">
+    <div class="section-title">
+      <h4  style="color:#878787;">Least Popular Courses</h4>
+    </div>
+    <div class="row row.row-eq-height" th:each="least: ${leastPopList}">
+      <div class="col-lg-auto col-md-auto">
+        <div class="categorie-item">
+          <div class="ci-text">
+            <h5 th:text="${least.title}"></h5>
+            <p th:text="${#strings.abbreviate(least.description, 60)}"></p>
+            <!--<span th:text="${course.instructor.username}"></span>-->
+            <a th:href="@{/courses/} + ${least.id}" >Click here to view course details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

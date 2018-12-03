@@ -44,12 +44,18 @@ h6 {
 p {
   font-size: 14.1px;
   color: #878787;
-  line-height: 2.2;
+  line-height: 1.4;
   font-weight: 500;
 }
 
 img {
   max-width: 100%;
+}
+
+.login-section span {
+  font-size: 24px;
+  font-weight: 600;
+  color: #d82a4e;
 }
 
 input:focus,
@@ -77,10 +83,9 @@ ol {
 
 table {
   margin: 0 auto;
-  text-align: center;
   border-collapse: collapse;
   border: 1px solid #d4d4d4;
-  font-size: 20px;
+  font-size: 18px;
   background: #fff;
 }
  
@@ -96,23 +101,7 @@ table td {
 table th {
   border-bottom: 1px solid #d4d4d4;
 }
-.star-ratings-sprite {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
-  font-size: 0;
-  height: 21px;
-  line-height: 0;
-  overflow: hidden;
-  text-indent: -999em;
-  width: 110px;
-  margin: 0 auto;  
-}
-.star-ratings-sprite-rating {
-	background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
-    background-position: 0 100%;
-    float: left;
-    height: 21px;
-    display:block;
-}
+
 /*---------------------
   Helper CSS
 -----------------------*/
@@ -194,7 +183,7 @@ table th {
 
 .hero-image {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("img/study1.jpg");
+    url("../img/study.jpg");
 
   /* Set a specific height */
   height: 100%;

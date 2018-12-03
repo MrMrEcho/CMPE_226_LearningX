@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Login</title>
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<div th:include="index :: head"></div>
+
 <body>
 <!-- search section -->
 <section class="login-section">
   <div class="container center">
     <h2>Login</h2>
 
-    <form id="loginForm" action="#" th:object="${login}" th:action="@{/loginProcess}" method="post">
+    <form id="loginForm" action="#" th:action="@{/login}" th:object="${user}" method="post">
       <br>
       <input type="text" placeholder="Enter Username" id="username" name="username" th:value="*{username}" required>
       <br>

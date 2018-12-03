@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">Manage Course for <span>student</span></h4>
+    </div>
+</section>
+<!--Display homework lists-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <h3>The homework list</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each=" hw : ${homeworks}">
+                <td th:text="${hw.getTitle()}">txt</td>
+                <td th:text="${hw.getContent()}">txt</td>
+                <td th:text="${hw.getType()}">txt</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<!--Add submission for exam-->
+<section class="single-course spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(examsOfCurrentCourse)}">
+        <h3>Submit your answer for the exam</h3>
+        <h4>The Exam Question</h4>
+        <div th:text="${theExam.getTitle()}">Title</div>
+        <div th:text="${theExam.getContent()}" >Question</div>
+        <form th:action="@{/courseInteraction/addExamSubmission/{path}(path=${currentCourseId})}" th:object="${submissionForExam}" method="post">
+            <input name="homeworkId" th:field="*{homeworkId}" hidden />
+            <input name="studentId" th:field="*{studentId}" hidden />
+            <label for="answer">Your answer</label>
+            <input type="text" th:field="*{answer}"/>
+            <br/>
+            <input type="submit" th:value="Submit">
+            <input type="reset" th:value="Reset"/>
+        </form>
+    </div>
+</section>
+<!--Add rating for this course-->
+<!--<section class="single-course spad pb-0">-->
+    <!--<div class="container">-->
+        <!--<h3>Rate this course!(0-5)</h3>-->
+    <!--</div>-->
+<!--</section>-->
+
+</body>
+</html>

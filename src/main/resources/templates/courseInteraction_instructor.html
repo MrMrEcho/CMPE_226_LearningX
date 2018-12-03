@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">Manage Course for <span>instructor</span></h4>
+    </div>
+</section>
+
+<!--add material-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/addMaterial}" th:object="${material}">
+            <h3>Add a new material for this course</h3>
+            <input name="courseId" th:field="*{courseId}" hidden />
+            <label for="title">Material Title</label>
+            <input type="text" th:field="*{title}"/>
+            <br/>
+            <label for="url">Material Url</label>
+            <input type="text" th:field="*{url}"/>
+            <br/>
+            <input type="submit" value="Add Material"/>
+        </form>
+    </div>
+</section>
+<!--delete material-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/deleteMaterial}" th:object="${material}">
+            <h3>Delete an existing material for this course</h3>
+            <div>
+                <label for="title">Select Material</label>
+                <select th:field="*{id}">
+                    <option value=""> -- </option>
+                    <option th:each="singleMaterial : ${materials}"
+                            th:value="${singleMaterial.getId()}"
+                            th:text="${singleMaterial.getTitle()}">Text..</option>
+                </select>
+            </div>
+            <div>
+                <input th:field="*{courseId}" hidden>
+                <input type="submit" value="Delete this material"/>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<!--add homework-->
+<section class="single-course spad pb-0">
+    <div class="container">
+        <form method="post" th:action="@{/courseInteraction/addHomework}" th:object="${homework}">
+            <h3>Add a new homework/exam for this course (Only 1 exam allowed for 1 course)</h3>
+            <input name="courseId" th:field="*{courseId}" hidden />
+            <label for="title">Homework Title</label>
+            <input id="title" type="text" name="title" th:field="*{title}"/>
+            <br/>
+            <label for="content">Content</label>
+            <input id="content" type="text" name="content" th:field="*{content}"/>
+            <br/>
+            <label for="type">Type</label>
+            <select id="type" name="type" th:field="*{type}">
+                <option th:each="htype : ${htypelist}"
+                        th:value="${htype}"
+                        th:text="${htype}">Text..</option>
+            </select>
+            <br/>
+            <input type="submit" value="Add Homework"/>
+        </form>
+    </div>
+</section>
+<!--Show submission lists and a input box for grade-->
+<section class="single-course spad pb-0">
+    <div class="container" th:if="${not #lists.isEmpty(examSubmissions)}">
+        <h3>The current exam answers</h3>
+        <form th:action="@{/courseInteraction/gradeExams/{path}(path=${currentCourseId})}" th:object="${examSubmissions}" method="post">
+            <fieldset>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Answer</th>
+                        <th>Grade(>=60 to pass this course)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="subs, itemStat : *{submissions}">
+                        <input type="hidden" th:value="${subs.getHomeworkId()}">
+                        <input type="hidden" th:value="${subs.getStudentId()}">
+                        <td th:text="${subs.getAnswer()}" th:value="${subs.getAnswer()}"></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].grade}"></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].studentId}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].homeworkId}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].answer}" hidden></td>
+                        <td><input th:field="*{submissions[__${itemStat.index}__].hasGrade}" hidden></td>
+                        <!--<td>-->
+                        <!--<input type="text" th:field="${sub.grade}"/>-->
+                        <!--</td>-->
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit" id="submitB" th:value="Save">
+                <input type="reset" id="resetB" th:value="Reset"/>
+            </fieldset>
+        </form>
+    </div>
+</section>
+</body>
+</html>

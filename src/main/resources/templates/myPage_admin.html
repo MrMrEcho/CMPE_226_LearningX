@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:include="index :: head"></div>
+<body>
+<div th:replace="index :: header">...</div>
+
+<section class="login-section">
+    <div class="container center">
+        <h4 style="color:#878787;">My Page for <span>admin</span></h4>
+    </div>
+</section>
+
+<section class="single-course spad pb-0">
+    <div class="container center">
+        <form method="post" action="#" th:object="${newInstitute}" th:action="@{/me/addInstitute}">
+            <h3>Add a new institute</h3>
+
+            <label for="username">Username: </label>
+            <input type="text" th:field="*{username}"/>
+            <br/>
+            <label for="password">Password: </label>
+            <input type="text" th:field="*{password}" />
+            <br/>
+            <input type="submit" value="Add">
+        </form>
+    </div>
+</section>
+</body>
+</html>

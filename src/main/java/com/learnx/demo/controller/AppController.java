@@ -1,29 +1,70 @@
 package com.learnx.demo.controller;
 
-import com.learnx.demo.model.*;
-import com.learnx.demo.service.UserService;
+import com.learnx.demo.entity.AppUser.Role;
+import com.learnx.demo.model.AppUserDto;
+import com.learnx.demo.model.CourseDto;
+import com.learnx.demo.model.DiscussionDto;
+import com.learnx.demo.model.HomeworkDto;
+import com.learnx.demo.model.MaterialDto;
+import com.learnx.demo.model.RatingDto;
+import com.learnx.demo.model.SearchDto;
+import com.learnx.demo.service.AppUserService;
+import com.learnx.demo.service.CourseService;
+import com.learnx.demo.service.DiscussionService;
+import com.learnx.demo.service.HomeworkService;
+import com.learnx.demo.service.MaterialService;
+import com.learnx.demo.service.RatingService;
+import com.learnx.demo.service.SeriesService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.ServletException;
+import java.io.IOException;
+
 
 @Controller
 @RequestMapping("/")
 public class AppController {
 
     @Autowired
-    UserService userService;
+    AppUserService userService;
+
+    @Autowired
+    SeriesService seriesService;
+
+    @Autowired
+    CourseService courseService;
+
+    @Autowired
+    RatingService rateService;
+
+    @Autowired
+    DiscussionService discussionService;
+
+    @Autowired
+    MaterialService materialService;
+
+    @Autowired
+    HomeworkService homeworkService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView showIndex(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showIndex() {
         ModelAndView mav = new ModelAndView("index");
+        mav.addObject("seriesList", seriesService.listSeries());
         return mav;
     }
 
@@ -32,57 +73,58 @@ public class AppController {
     //  ======================
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView showLogin(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("login");
-        mav.addObject("login", new User());
-        return mav;
+    public ModelAndView showLogin(ModelMap modelMap) {
+        modelMap.put("user", new AppUserDto());
+        return new ModelAndView("login", modelMap);
     }
 
-    @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-    public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
-                                     @ModelAttribute("login") Login login) {
-        ModelAndView mav = null;
-
-//	     User user = userService.validateUser(login);
-
-//	    if (null != user) {
-        if (login.getUsername().equals("user")) {
-            mav = new ModelAndView("welcome");
-            mav.addObject("username", login.getUsername());
-        } else {
-            mav = new ModelAndView("login");
-            mav.addObject("message", "Username or Password is wrong!!");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView loginProcess(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap, HttpSession session) {
+        AppUserDto authUser = null;
+        try {
+            authUser = userService.authenticate(userDto);
+        } catch (IllegalArgumentException e) {
+            userDto.setPassword("");
+            modelMap.put("user", userDto);
+            modelMap.put("message", e.getMessage());
+            return new ModelAndView("login", modelMap);
         }
-        return mav;
+        if (authUser != null) {
+            session.setAttribute("username", authUser.getUsername());
+            session.setAttribute("userid", authUser.getId());
+        }
+        return new ModelAndView("redirect:/");
     }
-
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView showLogout(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("logout");
+    public ModelAndView showLogout(HttpServletRequest request, HttpSession session) {
+        ModelAndView mav = new ModelAndView("index");
+        session.invalidate();
+        mav.addObject("seriesList", seriesService.listSeries());
         return mav;
     }
-
 
     //  ======================
     //         sign up
     //  ======================
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView showRegister(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("register");
-        mav.addObject("user", new User());
-        return mav;
+    public ModelAndView showRegister(ModelMap modelMap) {
+        modelMap.put("user", new AppUserDto());
+        return new ModelAndView("register", modelMap);
     }
 
-    @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response,
-                                @ModelAttribute("user") User user) {
-        User newUser = userService.create(user);
-        if(newUser == null){
-            throw new RuntimeException("error when signup");
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ModelAndView addUser(@ModelAttribute("user") AppUserDto userDto, ModelMap modelMap) {
+        AppUserDto newUser = null;
+        try {
+            userDto.setRole(Role.STUDENT);
+            newUser = userService.create(userDto);
+        } catch (IllegalArgumentException e) {
+            modelMap.put("message", e.getMessage());
+            return new ModelAndView("register", modelMap);
         }
-        return new ModelAndView("welcome", "username", newUser.getUsername());
+        return new ModelAndView("login");
     }
 
 
@@ -90,46 +132,127 @@ public class AppController {
     //        search
     //  ======================
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView showSearch(ModelMap modelMap) {
+        modelMap.put("searchDto", new SearchDto());
+        return new ModelAndView("search_result", modelMap);
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView search(@ModelAttribute("search") SearchDto searchDto, ModelMap modelMap) {
+        List<CourseDto> courseList = courseService.searchCourses(searchDto.getKeyword());
+        modelMap.put("courseList", courseList);
+        modelMap.put("searchDto",searchDto);
+        return new ModelAndView("search_result", modelMap);
+    }
+
+
+    //  ======================
+    //      single series
+    //  ======================
+
+    @RequestMapping(value = "/singleSeries/{seriesId}", method = RequestMethod.GET)
+    public ModelAndView singleSeries(HttpServletRequest request, @PathVariable(value="seriesId") String seriesId) {
         ModelAndView mav = new ModelAndView("search_result");
-        List<Course> list = new ArrayList<>();
-        list.add(new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!"));
-        list.add(new Course(4543, "2019 Spring", "Java Spring", "good!"));
-        mav.addObject("courselist", list);
+        int id = Integer.valueOf(seriesId);
+        List<CourseDto> courseList = courseService.listCoursesBySeriesId(id);
+        SearchDto searchDto = new SearchDto("");
+        if(seriesService.getSeriesById(id) != null) {
+            searchDto.setKeyword(seriesService.getSeriesById(id).getTitle());
+        }
+        mav.addObject("courseList", courseList);
+        mav.addObject("searchDto",searchDto);
         return mav;
     }
 
 
     //  ======================
-    //        courses
+    //      single courses
+    //  ======================
+
+
+    @RequestMapping(value = "/courses/{id}", method = RequestMethod.GET)
+    public ModelAndView singleCourses(@PathVariable(value="id") String id, HttpSession session, ModelMap modelMap) {
+        int courseId = Integer.valueOf(id);
+        DiscussionDto discussionDto =  new DiscussionDto();
+
+        if (session != null && session.getAttribute("userid") != null) {
+            int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+            modelMap.put("enroll", userService.hasEnrolled(userid, courseId));
+            modelMap.put("complete", userService.hasCompleted(userid, courseId));
+            discussionDto.setUserId(userid);
+        }
+
+        CourseDto course = courseService.getCourseById(courseId);
+        List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(discussionList != null) {
+            for(DiscussionDto d : discussionList) {
+                AppUserDto user = userService.getUserById(d.getUserId());
+                nameMap.put(d.getUserId(), user.getUsername());
+            }
+        }
+
+        discussionDto.setCourseId(courseId);
+        modelMap.put("course", course);
+        modelMap.put("nameMap", nameMap);
+        modelMap.put("question", discussionDto);
+        modelMap.put("instructor", userService.getUserById(course.getInstructorId()).getUsername());
+        modelMap.put("discussionList", discussionList);
+        modelMap.put("average_rating", rateService.getAverageRatingByCourseId(courseId));
+        return new ModelAndView("single_course", modelMap);
+    }
+
+    //  ======================
+    //      all courses
     //  ======================
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public ModelAndView courses(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("single_course");
-        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        mav.addObject("course", c);
-        List<Question> list = new ArrayList<>();
-        list.add(new Question("Hi!", "HiHi", "2019-04-03"));
-        list.add(new Question("Yo!", "YoYo", "2019-03-03"));
-        mav.addObject("questionlist", list);
-        return mav;
+    public ModelAndView allCourses(ModelMap modelMap) {
+        List<CourseDto> courseList = courseService.listCourses();
+        List<CourseDto> mostPopList = courseService.listCoursesSortedByRating(false);
+
+        List<CourseDto> leastPopList = courseService.listCoursesSortedByRating(true);
+        modelMap.put("search", new SearchDto());
+        modelMap.put("courseList", courseList);
+        modelMap.put("mostPopList", getTop(mostPopList, 2));
+        modelMap.put("leastPopList", getTop(leastPopList, 2));
+        return new ModelAndView("courses", modelMap);
+    }
+
+    private List<CourseDto> getTop(List<CourseDto> list, int maxCount) {
+        if(list == null || list.size() <= maxCount){
+            return list;
+        }
+        List<CourseDto> top = new ArrayList<>();
+        for (int i = 0; i < maxCount; i++) {
+            top.add(list.get(i));
+        }
+        return top;
     }
 
     //  ======================
-    //        reviews
+    //        Ratings
     //  ======================
 
-    @RequestMapping(value = "/reviews", method = RequestMethod.GET)
-    public ModelAndView getreviews(HttpServletRequest request, HttpServletResponse response) {
+
+    @RequestMapping(value = "/courses/rating/{id}", method = RequestMethod.GET)
+    public ModelAndView getReviews(@PathVariable(value="id") String id) {
+        int courseId = Integer.valueOf(id);
         ModelAndView mav = new ModelAndView("course_review");
-        List<Rate> list = new ArrayList<>();
-        list.add(new Rate((int) Math.round(3.4 * 20), 3.4, "2019-04-03", "Tom"));
-        list.add(new Rate((int) Math.round(4.5 * 20), 4.5, "2019-03-03", "Mary"));
-        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        mav.addObject("reviewlist", list);
-        mav.addObject("course", c);
+        CourseDto course = courseService.getCourseById(courseId);
+        List<RatingDto> rateList = rateService.listRatingsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(rateList != null) {
+            for(RatingDto r : rateList) {
+                AppUserDto user = userService.getUserById(r.getStudentId());
+                nameMap.put(r.getStudentId(), user.getUsername());
+            }
+        }
+        mav.addObject("rateList", rateList);
+        mav.addObject("nameMap", nameMap);
+        mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
     }
 
@@ -137,15 +260,88 @@ public class AppController {
     //        homework
     //  ======================
 
-    @RequestMapping(value = "/homework", method = RequestMethod.GET)
-    public ModelAndView gethomework(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/courses/homework/{id}", method = RequestMethod.GET)
+    public ModelAndView getHomework(@PathVariable(value="id") String id) {
+        int courseId = Integer.valueOf(id);
         ModelAndView mav = new ModelAndView("course_homework");
-        List<Homework> list = new ArrayList<>();
-        list.add(new Homework("Project1", "2019-04-03"));
-        list.add(new Homework("Project2", "2019-03-03"));
-        Course c = new Course(1232, "2019 Fall", "HTML 5 for beginner", "good!");
-        mav.addObject("homeworklist", list);
-        mav.addObject("course", c);
+        CourseDto course = courseService.getCourseById(courseId);
+        List<HomeworkDto> homeworkList = homeworkService.listHomeworksByCourseId(courseId);
+        mav.addObject("homeworkList", homeworkList);
+        mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
         return mav;
+    }
+
+    //  ======================
+    //        Material
+    //  ======================
+
+    @RequestMapping(value = "/courses/material/{id}", method = RequestMethod.GET)
+    public ModelAndView getMaterial(@PathVariable(value="id") String id) {
+        int courseId = Integer.valueOf(id);
+        ModelAndView mav = new ModelAndView("course_material");
+        CourseDto course = courseService.getCourseById(courseId);
+        List<MaterialDto> materialList = materialService.listMaterialsByCourseId(courseId);
+        mav.addObject("materialList", materialList);
+        mav.addObject("course", course);
+        mav.addObject("instructor", userService.getUserById(course.getInstructorId()).getUsername());
+        return mav;
+    }
+
+    //  ======================
+    //       discusssion
+    //  ======================
+
+    @RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
+    public ModelAndView postDiscussion(HttpServletRequest request, @PathVariable(value="id") int id,
+                                       @ModelAttribute("question") DiscussionDto newDiscussion, ModelMap modelMap) {
+        System.out.println(newDiscussion.getCourseId());
+        System.out.println(newDiscussion.getUserId());
+        System.out.println(newDiscussion.getTitle());
+        System.out.println(newDiscussion.getContent());
+        CourseDto course = courseService.getCourseById(newDiscussion.getCourseId());
+        int courseId = course.getId();
+        int userId = newDiscussion.getCourseId();
+
+        discussionService.create(newDiscussion);
+        List<DiscussionDto> discussionList = discussionService.listDiscussionsByCourseId(courseId);
+        HashMap<Integer, String> nameMap = new HashMap<>();
+        if(discussionList != null) {
+            for(DiscussionDto d : discussionList) {
+                int userid = d.getUserId();
+                nameMap.put(userid, userService.getUserById(userid).getUsername());
+            }
+        }
+        newDiscussion.setTitle("");
+        newDiscussion.setContent("");
+        modelMap.put("enroll", userService.hasEnrolled(userId, courseId));
+        System.out.println("enroll:"+userService.hasEnrolled(userId, courseId));
+        System.out.println("complete:"+userService.hasCompleted(userId, courseId));
+        modelMap.put("complete", userService.hasCompleted(userId, courseId));
+        modelMap.put("course", course);
+        modelMap.put("nameMap", nameMap);
+        modelMap.put("question", newDiscussion);
+        modelMap.put("instructor", userService.getUserById(course.getInstructorId()).getUsername());
+        modelMap.put("discussionList", discussionList);
+        modelMap.put("average_rating", rateService.getAverageRatingByCourseId(courseId));
+        String targetUrl = "redirect:/courses/"+id;
+        return new ModelAndView(targetUrl, modelMap);
+    }
+
+    //  ======================
+    //      enroll courses
+    //  ======================
+
+    @RequestMapping(value = "/enrollCourse", method = RequestMethod.GET)
+    public void enrollCourse(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+        String userid = request.getParameter("euserid");
+        String courseid = request.getParameter("ecourseid");
+
+        int uid = Integer.valueOf(userid);
+        int cid = Integer.valueOf(courseid);
+        boolean status = userService.enrollCourse(uid, cid);
+        response.setContentType("text/plain");
+        response.getWriter().write(String.valueOf(status));
     }
 }

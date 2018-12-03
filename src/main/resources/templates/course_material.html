@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html>
 <div th:include="index :: head"></div>
-
 <body>
+<!-- Header section -->
 <div th:replace="index :: header">...</div>
 
 <section class="hero-section">
@@ -38,24 +37,24 @@
           </div>
           <div>
             <form th:action="@{/courseInteraction/gotoThisPage/{path}(path=${course.getId()})}" method="post">
-              <input type="submit" value="Manage Homework"/>
+              <input type="submit" value="Manage Material"/>
             </form>
           </div>
           <div class="course-meta">
-            <h5 align="center" style="color:#878787;"> Homework</h5>
+            <h5 align="center" style="color:#878787;"> Material</h5>
 
-            <div th:if="${homeworkList == null || homeworkList.isEmpty()}">
-              <h4 align="center" style="color:tomato">No Homework Available</h4>
+            <div th:if="${materialList == null || materialList.isEmpty()}">
+              <h4 align="center" style="color:tomato">No Material Available</h4>
             </div>
 
             <table>
               <tr>
                 <th>Title</th>
-                <th>Content</th>
+                <th>Url</th>
               </tr>
-              <tr th:each="h : ${homeworkList}">
-                <td><span th:text="${h.title}"> Course </span></td>
-                <td><span th:text="${h.content}"> Teacher </span></td>
+              <tr th:each="m : ${materialList}">
+                <td><span th:text="${m.title}"> Course </span></td>
+                <td><a th:href="@{${m.url}}" th:text="${m.url}"> Teacher </a></td>
               </tr>
             </table>
           </div>
