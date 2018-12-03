@@ -81,7 +81,9 @@ public class MyPageController {
                 mav.addObject("coursesByInstitute", coursesByInstitute);
                 mav.addObject("instructorsByInstitute", instructorsByInstitute);
 //              //add new series
-                mav.addObject("series", new SeriesDto());
+                SeriesDto newSeries = new SeriesDto();
+                newSeries.setInstituteId(userId);
+                mav.addObject("series", newSeries);
                 //add course to series
                 mav.addObject("newSeries", new SeriesDto());
                 List<SeriesDto> seriesByInstitute = seriesService.listSeriesByInstituteId(userId);
